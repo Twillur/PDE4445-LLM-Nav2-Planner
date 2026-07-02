@@ -1,0 +1,4 @@
+openai>=1.40
+anthropic>=0.34
+jsonschema>=4.21
+python-dotenv>=1.0

@@ -1,0 +1,36 @@
+{
+  "map_id": "warehouse_v0_mock",
+  "description": "Semantic map of the warehouse environment. v0 uses hand-placed coordinates matching the planned Gazebo warehouse world; it will be regenerated from the SLAM Toolbox map with the same location names once the simulation is up.",
+  "frame": "map",
+  "units": "meters",
+  "bounds": { "x_min": 0.0, "x_max": 20.0, "y_min": 0.0, "y_max": 20.0 },
+  "layout_notes": [
+    "North is +y, east is +x.",
+    "Three shelving aisles run south-to-north in the centre of the floor: aisle 1 (west-most), aisle 2 (centre), aisle 3 (east-most). There is no aisle 4 or higher.",
+    "Aisles are traversable between their south and north endpoints only; shelving blocks east-west crossing inside an aisle.",
+    "The perimeter route connects the four corners along the walls and is always available as an alternative to the aisles.",
+    "The charging dock (home/base) is in the southwest corner area. The loading dock is on the southeast side."
+  ],
+  "locations": {
+    "charging_dock":   { "x": 1.0,  "y": 1.0,  "desc": "Robot home base and charger (southwest area). 'Home', 'base', 'charge' refer here." },
+    "loading_dock":    { "x": 18.0, "y": 2.0,  "desc": "Goods-in/out bay on the southeast side. Deliveries and shipments arrive here." },
+    "packing_station": { "x": 15.0, "y": 10.0, "desc": "Order packing area, east-central floor." },
+    "storage_zone_a":  { "x": 4.0,  "y": 14.0, "desc": "Bulk storage zone A, northwest floor." },
+    "storage_zone_b":  { "x": 16.0, "y": 14.0, "desc": "Bulk storage zone B, northeast floor." },
+    "office_door":     { "x": 2.0,  "y": 6.0,  "desc": "Door to the warehouse office, west wall." },
+    "aisle_1_south":   { "x": 6.0,  "y": 4.0,  "desc": "South entrance of aisle 1." },
+    "aisle_1_north":   { "x": 6.0,  "y": 16.0, "desc": "North end of aisle 1." },
+    "aisle_2_south":   { "x": 9.0,  "y": 4.0,  "desc": "South entrance of aisle 2." },
+    "aisle_2_north":   { "x": 9.0,  "y": 16.0, "desc": "North end of aisle 2." },
+    "aisle_3_south":   { "x": 12.0, "y": 4.0,  "desc": "South entrance of aisle 3." },
+    "aisle_3_north":   { "x": 12.0, "y": 16.0, "desc": "North end of aisle 3." },
+    "corner_sw":       { "x": 1.0,  "y": 1.0,  "desc": "Southwest corner (perimeter waypoint)." },
+    "corner_nw":       { "x": 1.0,  "y": 19.0, "desc": "Northwest corner (perimeter waypoint)." },
+    "corner_ne":       { "x": 19.0, "y": 19.0, "desc": "Northeast corner (perimeter waypoint)." },
+    "corner_se":       { "x": 19.0, "y": 1.0,  "desc": "Southeast corner (perimeter waypoint)." },
+    "west_wall_mid":   { "x": 1.0,  "y": 10.0, "desc": "Midpoint of the west wall." },
+    "east_wall_mid":   { "x": 19.0, "y": 10.0, "desc": "Midpoint of the east wall." },
+    "north_wall_mid":  { "x": 10.0, "y": 19.0, "desc": "Midpoint of the north wall." },
+    "south_wall_mid":  { "x": 10.0, "y": 1.0,  "desc": "Midpoint of the south wall." }
+  }
+}

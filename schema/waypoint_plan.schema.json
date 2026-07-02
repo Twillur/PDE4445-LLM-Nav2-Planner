@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WaypointPlan",
+  "description": "Contract between the LLM planner and the Nav2 executor. v1 design decision: the LLM references named map locations only — never raw coordinates — so every waypoint is validated against the map before execution and coordinate hallucination is structurally impossible.",
+  "type": "object",
+  "required": ["understood", "plan"],
+  "additionalProperties": false,
+  "properties": {
+    "understood": {
+      "type": "boolean",
+      "description": "False if the command cannot be safely executed without clarification."
+    },
+    "clarification_question": {
+      "type": ["string", "null"],
+      "description": "Required (non-null) when understood is false: the single question to ask the operator."
+    },
+    "plan": {
+      "type": "array",
+      "description": "Ordered steps. Must be empty when understood is false.",
+      "items": {
+        "type": "object",
+        "required": ["action"],
+        "additionalProperties": false,
+        "properties": {
+          "action": { "enum": ["navigate", "wait"] },
+          "target": {
+            "type": ["string", "null"],
+            "description": "Named map location. Required for navigate; null for wait."
+          },
+          "duration_s": {
+            "type": ["number", "null"],
+            "description": "Wait duration in seconds (wait action only)."
+          },
+          "on_blocked": {
+            "type": ["string", "null"],
+            "enum": ["abort", "skip", "reroute_perimeter", null],
+            "description": "Contingency if this step's path is blocked. Default (null) = Nav2's own recovery behaviors."
+          },
+          "reason": {
+            "type": ["string", "null"],
+            "description": "One short sentence: why this step serves the command."
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": ["string", "null"],
+      "description": "Assumptions made, ambiguities resolved with safe defaults, or capability limits (e.g. robot cannot clean/grasp)."
+    }
+  }
+}

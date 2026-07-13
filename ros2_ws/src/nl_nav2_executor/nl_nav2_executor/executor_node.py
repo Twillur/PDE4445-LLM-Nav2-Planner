@@ -23,6 +23,7 @@ from pathlib import Path
 import rclpy
 from geometry_msgs.msg import PoseStamped
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
+from rclpy.parameter import Parameter
 
 from .plan_runner import run_plan
 from .semantic_map import Point, SemanticMap
@@ -93,6 +94,9 @@ def main(argv=None):
     start = smap.point(args.start) if smap.has(args.start) else Point(0.0, 0.0)
 
     navigator = BasicNavigator()
+    # The whole sim runs on /clock; the navigator node must too, or AMCL rejects
+    # the initial-pose stamp and never localises (never publishes /amcl_pose).
+    navigator.set_parameters([Parameter("use_sim_time", Parameter.Type.BOOL, True)])
 
     # Tell AMCL where we are, then wait for the full Nav2 stack to come up.
     init = PoseStamped()

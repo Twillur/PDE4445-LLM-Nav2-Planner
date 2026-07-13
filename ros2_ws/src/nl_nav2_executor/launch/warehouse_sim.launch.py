@@ -51,7 +51,8 @@ def generate_launch_description():
     )
     spawn = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(tb3, "launch", "spawn_turtlebot3.launch.py")),
-        launch_arguments={"x_pose": x_pose, "y_pose": y_pose}.items(),
+        launch_arguments={"x_pose": x_pose, "y_pose": y_pose,
+                          "use_sim_time": use_sim_time}.items(),
     )
     nav2_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(nav2, "launch", "bringup_launch.py")),
@@ -64,8 +65,9 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    for arg in ("use_sim_time", "gui", "x_pose", "y_pose"):
-        ld.add_action(DeclareLaunchArgument(arg))
+    for arg, default in (("use_sim_time", "true"), ("gui", "true"),
+                         ("x_pose", "1.0"), ("y_pose", "1.0")):
+        ld.add_action(DeclareLaunchArgument(arg, default_value=default))
     ld.add_action(gzserver)
     ld.add_action(gzclient)
     ld.add_action(robot_state_publisher)

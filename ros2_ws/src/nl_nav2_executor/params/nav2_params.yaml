@@ -38,6 +38,15 @@ amcl:
     z_rand: 0.5
     z_short: 0.05
     scan_topic: scan
+    # Robot starts at the charging dock (1,1); AMCL self-initialises here on
+    # activation so it publishes /amcl_pose and the map->odom TF without waiting
+    # on repeated external initialpose messages.
+    set_initial_pose: true
+    initial_pose:
+      x: 1.0
+      y: 1.0
+      z: 0.0
+      yaw: 0.0
 
 bt_navigator:
   ros__parameters:

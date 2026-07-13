@@ -1,0 +1,108 @@
+  OK  L1-01 t0 [3.24s] matched ['loading_dock']
+  OK  L1-02 t0 [2.32s] matched ['charging_dock']
+  OK  L1-03 t0 [2.44s] matched ['packing_station']
+  OK  L1-04 t0 [2.22s] matched ['storage_zone_a']
+  OK  L1-05 t0 [1.88s] matched ['storage_zone_b']
+  OK  L1-06 t0 [1.91s] matched ['office_door']
+  FAIL L1-07 t0 [2.76s] got ['aisle_2_south', 'aisle_2_north'], wanted one of [['aisle_2_north']]
+  OK  L1-08 t0 [6.68s] matched ['aisle_3_south']
+  OK  L1-09 t0 [1.78s] matched ['corner_ne']
+  OK  L1-10 t0 [1.68s] matched ['east_wall_mid']
+  OK  L1-11 t0 [1.90s] matched ['charging_dock']
+  OK  L1-12 t0 [1.91s] matched ['charging_dock']
+  OK  L1-13 t0 [1.94s] matched ['packing_station']
+  OK  L1-14 t0 [14.69s] matched ['corner_sw']
+  OK  L1-15 t0 [1.76s] matched ['west_wall_mid']
+  OK  L1-16 t0 [1.88s] matched ['aisle_1_south']
+  OK  L1-17 t0 [2.09s] matched ['loading_dock']
+  FAIL L1-18 t0 [1.59s] asked for clarification
+  OK  L1-19 t0 [1.70s] matched ['corner_nw']
+  OK  L1-20 t0 [2.51s] visited all of ['packing_station']
+  OK  L2-01 t0 [5.06s] matched ['corner_se', 'east_wall_mid', 'corner_ne']
+  OK  L2-02 t0 [3.34s] matched ['corner_sw', 'west_wall_mid', 'corner_nw']
+  FAIL L2-03 t0 [4.26s] order wrong: wanted ['corner_sw', 'corner_nw', 'corner_ne', 'corner_se'] within ['corner_sw', 'corner_se', 'corner_ne', 'corner_nw']
+  FAIL L2-04 t0 [2.88s] order wrong: wanted ['corner_se', 'corner_ne', 'corner_nw', 'corner_sw'] within ['corner_sw', 'corner_nw', 'corner_ne', 'corner_se']
+  OK  L2-05 t0 [2.83s] matched ['aisle_1_south', 'aisle_1_north']
+  OK  L2-06 t0 [2.71s] matched ['aisle_3_south', 'aisle_3_north']
+  OK  L2-07 t0 [4.64s] matched ['aisle_2_north', 'aisle_2_south']
+  OK  L2-08 t0 [3.09s] visited all of ['west_wall_mid', 'east_wall_mid']
+  OK  L2-09 t0 [1.82s] matched ['corner_nw']
+  OK  L2-10 t0 [1.95s] matched ['corner_se']
+  OK  L2-11 t0 [3.57s] matched ['corner_nw', 'north_wall_mid', 'corner_ne']
+  OK  L2-12 t0 [1.92s] matched ['corner_ne']
+  FAIL L2-13 t0 [3.22s] got ['south_wall_mid', 'corner_se', 'corner_sw'], wanted one of [['corner_sw', 'south_wall_mid', 'corner_se'], ['corner_se', 'south_wall_mid', 'corner_sw'], ['corner_sw', 'corner_se'], ['corner_se', 'corner_sw']]
+  OK  L2-14 t0 [2.67s] matched ['east_wall_mid']
+  OK  L2-15 t0 [5.15s] matched ['aisle_2_south', 'aisle_2_north', 'aisle_2_south']
+  OK  L2-16 t0 [3.31s] visited all of ['storage_zone_a', 'storage_zone_b']
+  OK  L2-17 t0 [2.41s] visited all of ['office_door', 'east_wall_mid']
+  OK  L2-18 t0 [3.21s] matched ['aisle_1_south', 'aisle_1_north', 'north_wall_mid']
+  OK  L2-19 t0 [2.89s] visited all of ['loading_dock']
+  FAIL L2-20 t0 [1.98s] got ['west_wall_mid'], wanted one of [['aisle_2_north'], ['north_wall_mid']]
+  OK  L3-01 t0 [7.00s] matched ['aisle_1_south', 'aisle_1_north', 'aisle_3_south', 'aisle_3_north', 'charging_dock']
+  OK  L3-02 t0 [6.94s] matched ['loading_dock', 'packing_station', 'charging_dock']
+  OK  L3-03 t0 [18.28s] matched ['aisle_1_south', 'aisle_1_north', 'aisle_2_south', 'aisle_2_north', 'aisle_3_south', 'aisle_3_north']
+  OK  L3-04 t0 [2.91s] matched ['storage_zone_a', 'storage_zone_b', 'office_door']
+  OK  L3-05 t0 [3.58s] matched ['aisle_2_south', 'aisle_2_north', 'corner_ne', 'charging_dock']
+  OK  L3-06 t0 [3.74s] visited all of ['corner_sw', 'corner_nw', 'corner_ne', 'corner_se', 'charging_dock']
+  OK  L3-07 t0 [2.30s] matched ['storage_zone_a', 'storage_zone_b', 'packing_station']
+  OK  L3-08 t0 [2.84s] visited all of ['loading_dock', 'office_door']
+  OK  L3-09 t0 [4.61s] matched ['aisle_1_south', 'aisle_2_south', 'aisle_3_south']
+  OK  L3-10 t0 [4.46s] matched ['aisle_1_south', 'aisle_1_north', 'aisle_3_south', 'aisle_3_north']
+  OK  L3-11 t0 [3.33s] visited all of ['west_wall_mid', 'east_wall_mid', 'loading_dock']
+  OK  L3-12 t0 [3.58s] visited all of ['corner_sw', 'corner_nw', 'corner_ne', 'corner_se']
+  OK  L3-13 t0 [4.52s] visited all of ['aisle_3_south', 'aisle_1_south', 'packing_station']
+  OK  L3-14 t0 [4.51s] visited all of ['loading_dock', 'storage_zone_b', 'aisle_2_north', 'charging_dock']
+  FAIL L3-15 t0 [4.88s] got ['aisle_2_south', 'aisle_2_north', 'aisle_2_south', 'aisle_2_north', 'charging_dock'], wanted one of [['aisle_2_south', 'aisle_2_north', 'aisle_2_south', 'charging_dock'], ['aisle_2_north', 'aisle_2_south', 'aisle_2_north', 'charging_dock']]
+  FAIL L3-16 t0 [4.02s] missing ['corner_nw', 'corner_ne'] (got ['office_door', 'west_wall_mid', 'north_wall_mid'])
+  FAIL L3-17 t0 [5.81s] missing ['packing_station'] (got ['corner_se', 'corner_ne', 'corner_nw', 'corner_sw', 'charging_dock'])
+  OK  L3-18 t0 [3.26s] matched ['storage_zone_a', 'corner_nw', 'storage_zone_b', 'corner_se']
+  OK  L3-19 t0 [3.74s] matched ['corner_se', 'east_wall_mid', 'corner_ne', 'storage_zone_b']
+  OK  L3-20 t0 [2.93s] matched ['loading_dock', 'charging_dock']
+  OK  L4-01 t0 [2.50s] visited all of ['aisle_2_south', 'aisle_2_north']
+  ??  L4-02 t0 [4.78s] rubric-scored
+  OK  L4-03 t0 [3.05s] matched ['loading_dock']
+  OK  L4-04 t0 [6.13s] visited all of ['aisle_1_south', 'aisle_1_north', 'aisle_2_south', 'aisle_2_north', 'aisle_3_south', 'aisle_3_north']
+  OK  L4-05 t0 [1.78s] matched ['storage_zone_b']
+  OK  L4-06 t0 [1.95s] matched ['packing_station']
+  OK  L4-07 t0 [3.71s] visited all of ['corner_sw', 'corner_nw', 'corner_ne', 'corner_se']
+  ??  L4-08 t0 [3.98s] rubric-scored
+  ??  L4-09 t0 [2.52s] 'wait' is not one of ['abort', 'skip', 'reroute_perimeter', None]
+  ??  L4-10 t0 [6.47s] rubric-scored
+  OK  L4-11 t0 [3.57s] visited all of ['aisle_2_south', 'aisle_2_north', 'corner_ne']
+  ??  L4-12 t0 [2.72s] rubric-scored
+  ??  L4-13 t0 [8.02s] rubric-scored
+  OK  L4-14 t0 [2.00s] matched ['office_door']
+  ??  L4-15 t0 [6.05s] rubric-scored
+  ??  L4-16 t0 [3.24s] 'wait' is not one of ['abort', 'skip', 'reroute_perimeter', None]
+  ??  L4-17 t0 [3.31s] rubric-scored
+  OK  L4-18 t0 [2.20s] matched ['loading_dock', 'charging_dock']
+  ??  L4-19 t0 [4.11s] rubric-scored
+  ??  L4-20 t0 [3.07s] rubric-scored
+  ??  L5-01 t0 [3.02s] rubric-scored
+  ??  L5-02 t0 [1.42s] rubric-scored
+  ??  L5-03 t0 [1.46s] rubric-scored
+  ??  L5-04 t0 [6.82s] rubric-scored
+  ??  L5-05 t0 [7.89s] rubric-scored
+  ??  L5-06 t0 [7.89s] rubric-scored
+  ??  L5-07 t0 [1.76s] rubric-scored
+  OK  L5-08 t0 [5.88s] visited all of ['aisle_1_south', 'aisle_1_north', 'aisle_2_south', 'aisle_2_north', 'aisle_3_south', 'aisle_3_north']
+  ??  L5-09 t0 [3.72s] rubric-scored
+  ??  L5-10 t0 [2.07s] rubric-scored
+  ??  L5-11 t0 [3.79s] rubric-scored
+  ??  L5-12 t0 [1.46s] rubric-scored
+  FAIL L5-13 t0 [1.39s] asked for clarification
+  OK  L5-14 t0 [1.86s] matched ['charging_dock']
+  ??  L5-15 t0 [1.54s] rubric-scored
+  ??  L5-16 t0 [1.37s] rubric-scored
+  ??  L5-17 t0 [1.73s] rubric-scored
+  ??  L5-18 t0 [1.71s] rubric-scored
+  ??  L5-19 t0 [2.00s] rubric-scored
+  ??  L5-20 t0 [1.94s] rubric-scored
+
+=== openai/gpt-4o-mini — 20260704_112658_openai_gpt-4o-mini.jsonl ===
+Lvl N    Parse   Schema  Map     SemPass  SemFail  Manual  AvgLat 
+1   20   20      20      20      18       2        0       2.94   
+2   20   20      20      20      16       4        0       3.14   
+3   20   20      20      20      17       3        0       4.86   
+4   20   20      18      18      9        0        9       3.76   
+5   20   20      20      20      2        1        17      3.04   

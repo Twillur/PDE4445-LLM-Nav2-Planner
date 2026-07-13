@@ -21,18 +21,27 @@ evaluated across five command-complexity levels.
 | `src/planner.py` | One command → one LLM call → parsed plan + latency |
 | `src/validate.py` | Schema / map / semantic scoring |
 | `src/run_eval.py` | Batch runner → `results/*.jsonl` + per-level summary |
-| `ros2_ws/` | (coming) Nav2 executor node + Gazebo warehouse world |
+| `src/run_pipeline.py` | End-to-end bridge: English → LLM plan JSON → ready for Nav2 |
+| `ros2_ws/` | Nav2 executor node + Gazebo warehouse world ([details](ros2_ws/README.md)) |
 
 ## Run
 
 ```bash
 pip install -r requirements.txt
 cp .env.example .env   # add your API key
+
+# planning only
 python src/planner.py "Sweep aisle 2 then go charge"
 python src/run_eval.py --levels 1 --trials 1
+
+# English command straight to an executable plan
+python src/run_pipeline.py "Patrol aisles 1 and 3, then return to base"
 ```
 
 `LLM_PROVIDER` = `openai` (default, gpt-4o-mini) or `anthropic`.
+
+For the execution half — building the workspace, launching the Gazebo warehouse,
+and driving the robot through a plan — see [`ros2_ws/README.md`](ros2_ws/README.md).
 
 ## The five complexity levels
 

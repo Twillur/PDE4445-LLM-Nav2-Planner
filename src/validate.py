@@ -46,6 +46,18 @@ def _is_ordered_subsequence(needles: list[str], haystack: list[str]) -> bool:
     return all(n in it for n in needles)
 
 
+def _is_cyclic_ordered(needles: list[str], haystack: list[str]) -> bool:
+    """True if any rotation of `needles` is an ordered subsequence of `haystack`.
+
+    For closed loops (a perimeter lap) the starting corner is free but the
+    direction of travel is fixed, so every rotation of the expected cycle — and
+    only those — counts as correct."""
+    return any(
+        _is_ordered_subsequence(needles[i:] + needles[:i], haystack)
+        for i in range(len(needles))
+    )
+
+
 def score_semantic(plan: dict, expected: dict) -> tuple[str, str]:
     """Returns (verdict, detail). Verdict: pass | fail | manual."""
     etype = expected.get("type")
@@ -68,8 +80,12 @@ def score_semantic(plan: dict, expected: dict) -> tuple[str, str]:
         missing = [l for l in expected["locations"] if l not in targets]
         if missing:
             return "fail", f"missing {missing} (got {targets})"
-        if expected.get("ordered") and not _is_ordered_subsequence(expected["locations"], targets):
-            return "fail", f"order wrong: wanted {expected['locations']} within {targets}"
+        if expected.get("ordered"):
+            ordered_ok = (_is_cyclic_ordered if expected.get("cyclic") else _is_ordered_subsequence)(
+                expected["locations"], targets)
+            if not ordered_ok:
+                kind = "cyclic order" if expected.get("cyclic") else "order"
+                return "fail", f"{kind} wrong: wanted {expected['locations']} within {targets}"
         avoided = expected.get("must_avoid", [])
         hit = [l for l in avoided if l in targets]
         if hit:

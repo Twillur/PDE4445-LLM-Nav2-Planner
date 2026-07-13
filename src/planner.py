@@ -9,7 +9,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MAP_PATH = ROOT / "map" / "warehouse_map.json"
-PROMPT_PATH = ROOT / "prompts" / "system_prompt_v1.md"
+PROMPT_VERSION = os.environ.get("PROMPT_VERSION", "v1")
+PROMPT_PATH = ROOT / "prompts" / f"system_prompt_{PROMPT_VERSION}.md"
 
 PROVIDER = os.environ.get("LLM_PROVIDER", "openai")
 MODEL = os.environ.get("LLM_MODEL", "gpt-4o-mini" if PROVIDER == "openai" else "claude-haiku-4-5-20251001")

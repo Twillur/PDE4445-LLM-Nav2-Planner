@@ -33,8 +33,8 @@
           },
           "on_blocked": {
             "type": ["string", "null"],
-            "enum": ["abort", "skip", "reroute_perimeter", null],
-            "description": "Contingency if this step's path is blocked. Default (null) = Nav2's own recovery behaviors."
+            "enum": ["abort", "skip", "reroute_perimeter", "wait_retry", null],
+            "description": "Contingency if this step's path is blocked: abort the plan, skip this step, reroute via the perimeter, wait_retry (pause then re-attempt the same step), or null = Nav2's own recovery behaviors. wait_retry added in v2 to express 'wait a bit and try again'."
           },
           "reason": {
             "type": ["string", "null"],

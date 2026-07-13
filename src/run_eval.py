@@ -17,7 +17,7 @@ import time
 from collections import defaultdict
 from pathlib import Path
 
-from planner import MODEL, PROVIDER, build_system_prompt, plan_command
+from planner import MODEL, PROMPT_VERSION, PROVIDER, build_system_prompt, plan_command
 from validate import check_map, check_on_blocked, check_schema, score_semantic
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -31,7 +31,7 @@ def run(args):
     out_dir = ROOT / "results"
     out_dir.mkdir(exist_ok=True)
     stamp = time.strftime("%Y%m%d_%H%M%S")
-    out_path = out_dir / f"{stamp}_{PROVIDER}_{MODEL.replace('/', '-')}.jsonl"
+    out_path = out_dir / f"{stamp}_{PROVIDER}_{MODEL.replace('/', '-')}_{PROMPT_VERSION}.jsonl"
 
     system_prompt = build_system_prompt()
     tally = defaultdict(lambda: defaultdict(int))
@@ -43,6 +43,7 @@ def run(args):
                 rec = {
                     "id": item["id"], "level": item["level"], "trial": trial,
                     "command": item["command"], "provider": PROVIDER, "model": MODEL,
+                    "prompt_version": PROMPT_VERSION,
                     "latency_s": r["latency_s"], "raw": r["raw"],
                     "parse_ok": r["plan"] is not None, "parse_error": r["parse_error"],
                     "schema_error": None, "map_error": None,

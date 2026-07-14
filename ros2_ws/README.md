@@ -43,6 +43,19 @@ python ../src/run_pipeline.py "Patrol aisles 1 and 3, then return to base"
 ros2 run nl_nav2_executor execute_plan --plan ../results/last_plan.json
 ```
 
+Verified end-to-end (headless): the plan *aisle 1 south → north → packing
+station → home* reaches **4/4** goals, driving up the aisle between the shelves.
+
+**Localization modes** (`localization:=`):
+- `ground_truth` (default) — the Gazebo odom frame coincides with the map origin,
+  so `map->odom` is a static identity transform and Nav2 uses Gazebo's exact
+  odometry. Robust for a sim demo where localization is not the contribution.
+- `amcl` — the full AMCL stack, for when a real SLAM map replaces the mock.
+
+The Nav2 stack runs **composed** into one container; this matters on this host,
+where the un-composed launch's many processes cause bt↔controller action
+handshakes to time out under the loopback-pinned CycloneDDS config.
+
 ## Test without Gazebo
 
 ```bash

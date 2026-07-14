@@ -86,6 +86,9 @@ def main(argv=None):
     parser.add_argument("--map", default=DEFAULT_MAP, help="Path to warehouse_map.json.")
     parser.add_argument("--start", default="charging_dock",
                         help="Named location the robot starts at (sets initial pose).")
+    parser.add_argument("--localization", default="ground_truth",
+                        choices=["ground_truth", "amcl"],
+                        help="Match the sim's localization mode; controls the Nav2 readiness wait.")
     args, ros_args = parser.parse_known_args(argv if argv is not None else sys.argv[1:])
 
     rclpy.init(args=ros_args)
@@ -94,20 +97,25 @@ def main(argv=None):
     start = smap.point(args.start) if smap.has(args.start) else Point(0.0, 0.0)
 
     navigator = BasicNavigator()
-    # The whole sim runs on /clock; the navigator node must too, or AMCL rejects
-    # the initial-pose stamp and never localises (never publishes /amcl_pose).
+    # The whole sim runs on /clock; the navigator node must too, or stamps mismatch.
     navigator.set_parameters([Parameter("use_sim_time", Parameter.Type.BOOL, True)])
 
-    # Tell AMCL where we are, then wait for the full Nav2 stack to come up.
-    init = PoseStamped()
-    init.header.frame_id = "map"
-    init.header.stamp = navigator.get_clock().now().to_msg()
-    init.pose.position.x = start.x
-    init.pose.position.y = start.y
-    init.pose.orientation.w = 1.0
-    navigator.setInitialPose(init)
-    navigator.get_logger().info("Waiting for Nav2 to become active...")
-    navigator.waitUntilNav2Active()
+    if args.localization == "amcl":
+        # Tell AMCL where we are, then wait for it to localise.
+        init = PoseStamped()
+        init.header.frame_id = "map"
+        init.header.stamp = navigator.get_clock().now().to_msg()
+        init.pose.position.x = start.x
+        init.pose.position.y = start.y
+        init.pose.orientation.w = 1.0
+        navigator.setInitialPose(init)
+        navigator.get_logger().info("Waiting for Nav2 (amcl) to become active...")
+        navigator.waitUntilNav2Active()
+    else:
+        # ground_truth: map->odom is a static identity tf; there is no amcl to
+        # wait on, so key readiness off map_server instead of /amcl_pose.
+        navigator.get_logger().info("Waiting for Nav2 (ground_truth) to become active...")
+        navigator.waitUntilNav2Active(localizer="map_server")
 
     result = run_plan(plan, smap, Nav2Navigator(navigator, start))
 

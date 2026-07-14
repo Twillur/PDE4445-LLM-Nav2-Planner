@@ -19,9 +19,13 @@ from pathlib import Path
 W = H = 20.0                     # floor is 20 x 20 m
 WALL_T = 0.20                    # wall / shelf half-drawn thickness in the grid
 RES = 0.05                       # map resolution m/px  -> 400 x 400 px
+import os as _os
+_SHELVES_ENABLED = _os.environ.get("WAREHOUSE_SHELVES", "1") == "1"
 SHELVES = [                      # (x_min, x_max, y_min, y_max)
-    (x0, x0 + 1.0, 4.0, 13.0) for x0 in (4.0, 7.0, 10.0, 13.0)
-]
+    # Thin shelf rows centred between the aisles (x = 6, 9, 12), leaving ~2.5 m
+    # traversable corridors so Nav2 threads them comfortably.
+    (c - 0.25, c + 0.25, 4.0, 13.0) for c in (4.5, 7.5, 10.5, 13.5)
+] if _SHELVES_ENABLED else []
 
 HERE = Path(__file__).resolve().parent
 MAPS = HERE.parent / "maps"
@@ -109,7 +113,9 @@ def write_world(path):
     <include><uri>model://sun</uri></include>
     <include><uri>model://ground_plane</uri></include>
     <scene><ambient>0.5 0.5 0.5 1</ambient><background>0.7 0.7 0.7 1</background></scene>
-    <physics type='ode'><real_time_update_rate>1000</real_time_update_rate><max_step_size>0.001</max_step_size></physics>
+    <!-- Lighter physics (4x fewer steps) so the sim keeps up with Nav2 on a
+         CPU-capped host and the /clock advances smoothly. -->
+    <physics type='ode'><real_time_update_rate>250</real_time_update_rate><max_step_size>0.004</max_step_size></physics>
 {models}
   </world>
 </sdf>

@@ -4,7 +4,9 @@
     <include><uri>model://sun</uri></include>
     <include><uri>model://ground_plane</uri></include>
     <scene><ambient>0.5 0.5 0.5 1</ambient><background>0.7 0.7 0.7 1</background></scene>
-    <physics type='ode'><real_time_update_rate>1000</real_time_update_rate><max_step_size>0.001</max_step_size></physics>
+    <!-- Lighter physics (4x fewer steps) so the sim keeps up with Nav2 on a
+         CPU-capped host and the /clock advances smoothly. -->
+    <physics type='ode'><real_time_update_rate>250</real_time_update_rate><max_step_size>0.004</max_step_size></physics>
 
     <model name='wall_s'>
       <static>true</static>
@@ -50,8 +52,8 @@
       <static>true</static>
       <pose>4.500 8.500 0.600 0 0 0</pose>
       <link name='link'>
-        <collision name='c'><geometry><box><size>1.000 9.000 1.200</size></box></geometry></collision>
-        <visual name='v'><geometry><box><size>1.000 9.000 1.200</size></box></geometry>
+        <collision name='c'><geometry><box><size>0.500 9.000 1.200</size></box></geometry></collision>
+        <visual name='v'><geometry><box><size>0.500 9.000 1.200</size></box></geometry>
           <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material>
         </visual>
       </link>
@@ -60,8 +62,8 @@
       <static>true</static>
       <pose>7.500 8.500 0.600 0 0 0</pose>
       <link name='link'>
-        <collision name='c'><geometry><box><size>1.000 9.000 1.200</size></box></geometry></collision>
-        <visual name='v'><geometry><box><size>1.000 9.000 1.200</size></box></geometry>
+        <collision name='c'><geometry><box><size>0.500 9.000 1.200</size></box></geometry></collision>
+        <visual name='v'><geometry><box><size>0.500 9.000 1.200</size></box></geometry>
           <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material>
         </visual>
       </link>
@@ -70,8 +72,8 @@
       <static>true</static>
       <pose>10.500 8.500 0.600 0 0 0</pose>
       <link name='link'>
-        <collision name='c'><geometry><box><size>1.000 9.000 1.200</size></box></geometry></collision>
-        <visual name='v'><geometry><box><size>1.000 9.000 1.200</size></box></geometry>
+        <collision name='c'><geometry><box><size>0.500 9.000 1.200</size></box></geometry></collision>
+        <visual name='v'><geometry><box><size>0.500 9.000 1.200</size></box></geometry>
           <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material>
         </visual>
       </link>
@@ -80,8 +82,8 @@
       <static>true</static>
       <pose>13.500 8.500 0.600 0 0 0</pose>
       <link name='link'>
-        <collision name='c'><geometry><box><size>1.000 9.000 1.200</size></box></geometry></collision>
-        <visual name='v'><geometry><box><size>1.000 9.000 1.200</size></box></geometry>
+        <collision name='c'><geometry><box><size>0.500 9.000 1.200</size></box></geometry></collision>
+        <visual name='v'><geometry><box><size>0.500 9.000 1.200</size></box></geometry>
           <material><ambient>0.4 0.4 0.45 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material>
         </visual>
       </link>

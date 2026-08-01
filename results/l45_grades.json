@@ -1,0 +1,218 @@
+[
+  {
+    "id": "L4-02",
+    "level": 4,
+    "version": "v2",
+    "command": "Patrol aisle 1; if you can't get through, skip it and patrol aisle 3 instead",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L4-09",
+    "level": 4,
+    "version": "v2",
+    "command": "Go stand at the loading dock; if it's occupied, wait a bit and then try again",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L4-10",
+    "level": 4,
+    "version": "v2",
+    "command": "Check aisle 1 and aisle 2; if both turn out to be blocked, just go home",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L4-12",
+    "level": 4,
+    "version": "v2",
+    "command": "Inspect storage zone A; if it's unreachable, inspect storage zone B instead",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L4-13",
+    "level": 4,
+    "version": "v2",
+    "command": "Do a perimeter lap; if the north wall section is obstructed, cut through aisle 2 instead",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L4-15",
+    "level": 4,
+    "version": "v2",
+    "command": "Patrol the aisles in order 1, 2, 3 — and abort everything if two of them are blocked",
+    "score": "fail",
+    "note": ""
+  },
+  {
+    "id": "L4-16",
+    "level": 4,
+    "version": "v2",
+    "command": "Go to the packing station; if blocked, wait 30 seconds where you are and try once more; if it's still blocked, give up",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L4-17",
+    "level": 4,
+    "version": "v2",
+    "command": "Check the south wall; if you can't reach it, check the north wall instead",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L4-19",
+    "level": 4,
+    "version": "v2",
+    "command": "Try the north end of aisle 2; if it's blocked, try the north end of aisle 1; if that's blocked too, abort",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L4-20",
+    "level": 4,
+    "version": "v2",
+    "command": "Sweep aisle 3; if the south entrance is blocked, enter from the north end instead",
+    "score": "fail",
+    "note": ""
+  },
+  {
+    "id": "L5-01",
+    "level": 5,
+    "version": "v2",
+    "command": "Have a look around the storage area",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-02",
+    "level": 5,
+    "version": "v2",
+    "command": "Go somewhere useful",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-03",
+    "level": 5,
+    "version": "v2",
+    "command": "Check on things",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-04",
+    "level": 5,
+    "version": "v2",
+    "command": "Do a quick round",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L5-05",
+    "level": 5,
+    "version": "v2",
+    "command": "Make sure everything's okay in the back",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-06",
+    "level": 5,
+    "version": "v2",
+    "command": "Patrol",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-07",
+    "level": 5,
+    "version": "v2",
+    "command": "Go check that thing near the door",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-09",
+    "level": 5,
+    "version": "v2",
+    "command": "Go wait somewhere out of the way",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-10",
+    "level": 5,
+    "version": "v2",
+    "command": "Check where the noise came from",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-11",
+    "level": 5,
+    "version": "v2",
+    "command": "Inspect the east side",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L5-12",
+    "level": 5,
+    "version": "v2",
+    "command": "Wander around a bit",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-15",
+    "level": 5,
+    "version": "v2",
+    "command": "Someone said there's a spill somewhere in the middle of the floor",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-16",
+    "level": 5,
+    "version": "v2",
+    "command": "Keep an eye on the entrance",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-17",
+    "level": 5,
+    "version": "v2",
+    "command": "Check the far end",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-18",
+    "level": 5,
+    "version": "v2",
+    "command": "Go to aisle 5",
+    "score": "pass",
+    "note": ""
+  },
+  {
+    "id": "L5-19",
+    "level": 5,
+    "version": "v2",
+    "command": "Hurry to the dock",
+    "score": "partial",
+    "note": ""
+  },
+  {
+    "id": "L5-20",
+    "level": 5,
+    "version": "v2",
+    "command": "Clean up aisle 2",
+    "score": "pass",
+    "note": ""
+  }
+]

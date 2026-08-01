@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="380" viewBox="0 0 560 380" role="img" aria-label="Prompt architecture v1 versus v2">
+<rect width="560" height="380" fill="#fcfcfb"/>
+<text x="60" y="26" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#0b0b0b" text-anchor="start" font-weight="600">Prompt architecture v1 vs v2</text>
+<text x="60" y="44" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#898781" text-anchor="start" font-weight="400">automatically scorable levels; mean of 3 trials</text>
+<line x1="60" y1="308.0" x2="536" y2="308.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="50" y="312.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="end" font-weight="400">0</text>
+<line x1="60" y1="245.0" x2="536" y2="245.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="50" y="249.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="end" font-weight="400">5</text>
+<line x1="60" y1="182.0" x2="536" y2="182.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="50" y="186.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="end" font-weight="400">10</text>
+<line x1="60" y1="119.0" x2="536" y2="119.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="50" y="123.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="end" font-weight="400">15</text>
+<line x1="60" y1="56.0" x2="536" y2="56.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="50" y="60.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="end" font-weight="400">20</text>
+<line x1="60" y1="308" x2="536" y2="308" stroke="#c3c2b7" stroke-width="1"/>
+<path d="M77.0,308 L77.0,85.19999999999999 Q77.0,81.19999999999999 81.0,81.19999999999999 L117.33333333333333,81.19999999999999 Q121.33333333333333,81.19999999999999 121.33333333333333,85.19999999999999 L121.33333333333333,308 Z" fill="#eb6834"/>
+<text x="99.16666666666666" y="73.19999999999999" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">18.0</text>
+<path d="M123.33333333333333,308 L123.33333333333333,68.4 Q123.33333333333333,64.4 127.33333333333333,64.4 L163.66666666666666,64.4 Q167.66666666666666,64.4 167.66666666666666,68.4 L167.66666666666666,308 Z" fill="#2a78d6"/>
+<text x="145.5" y="56.400000000000006" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">19.3</text>
+<text x="139.33333333333331" y="330" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">L1</text>
+<text x="139.33333333333331" y="345" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#898781" text-anchor="middle" font-weight="400">Direct</text>
+<path d="M235.66666666666666,308 L235.66666666666666,110.4 Q235.66666666666666,106.4 239.66666666666666,106.4 L276.0,106.4 Q280.0,106.4 280.0,110.4 L280.0,308 Z" fill="#eb6834"/>
+<text x="257.8333333333333" y="98.4" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">16.0</text>
+<path d="M282.0,308 L282.0,72.6 Q282.0,68.6 286.0,68.6 L322.3333333333333,68.6 Q326.3333333333333,68.6 326.3333333333333,72.6 L326.3333333333333,308 Z" fill="#2a78d6"/>
+<text x="304.1666666666667" y="60.599999999999994" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">19.0</text>
+<text x="298.0" y="330" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">L2</text>
+<text x="298.0" y="345" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#898781" text-anchor="middle" font-weight="400">Spatial</text>
+<path d="M394.3333333333333,308 L394.3333333333333,97.80000000000001 Q394.3333333333333,93.80000000000001 398.3333333333333,93.80000000000001 L434.66666666666663,93.80000000000001 Q438.66666666666663,93.80000000000001 438.66666666666663,97.80000000000001 L438.66666666666663,308 Z" fill="#eb6834"/>
+<text x="416.5" y="85.80000000000001" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">17.0</text>
+<path d="M440.66666666666663,308 L440.66666666666663,72.6 Q440.66666666666663,68.6 444.66666666666663,68.6 L480.99999999999994,68.6 Q484.99999999999994,68.6 484.99999999999994,72.6 L484.99999999999994,308 Z" fill="#2a78d6"/>
+<text x="462.8333333333333" y="60.599999999999994" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">19.0</text>
+<text x="456.66666666666663" y="330" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#0b0b0b" text-anchor="middle" font-weight="600">L3</text>
+<text x="456.66666666666663" y="345" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#898781" text-anchor="middle" font-weight="400">Multi-step</text>
+<text transform="rotate(-90 16 182.0)" x="16" y="182.0" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">commands solved (of 20)</text>
+<rect x="60" y="360" width="10" height="10" rx="2" fill="#eb6834"/>
+<text x="76" y="368" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#52514e" text-anchor="start" font-weight="400">v1 baseline</text>
+<rect x="152.6" y="360" width="10" height="10" rx="2" fill="#2a78d6"/>
+<text x="168.6" y="368" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#52514e" text-anchor="start" font-weight="400">v2</text>
+</svg>

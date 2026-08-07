@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- WSL2 mirrored-networking fix: pin CycloneDDS to loopback with
+     unicast peer discovery (multicast/unicast on eth0 is unreliable). -->
+<CycloneDDS xmlns="https://cdds.io/config">
+    <Domain Id="any">
+        <General>
+            <Interfaces>
+                <NetworkInterface name="lo"/>
+            </Interfaces>
+            <AllowMulticast>false</AllowMulticast>
+        </General>
+        <Discovery>
+            <ParticipantIndex>auto</ParticipantIndex>
+            <MaxAutoParticipantIndex>100</MaxAutoParticipantIndex>
+            <Peers>
+                <Peer address="127.0.0.1"/>
+            </Peers>
+        </Discovery>
+    </Domain>
+</CycloneDDS>

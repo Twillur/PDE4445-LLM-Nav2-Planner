@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- WSL2 mirrored-networking fix:
+     1. SHM transport is unreliable under WSL2 -> UDPv4 only.
+     2. Unicast to the mirrored LAN IP is dropped -> whitelist loopback
+        and discover peers via 127.0.0.1 unicast. -->
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+    <transport_descriptors>
+        <transport_descriptor>
+            <transport_id>udp_loopback</transport_id>
+            <type>UDPv4</type>
+            <maxInitialPeersRange>32</maxInitialPeersRange>
+            <interfaceWhiteList>
+                <address>127.0.0.1</address>
+            </interfaceWhiteList>
+        </transport_descriptor>
+    </transport_descriptors>
+    <participant profile_name="wsl_loopback" is_default_profile="true">
+        <rtps>
+            <userTransports>
+                <transport_id>udp_loopback</transport_id>
+            </userTransports>
+            <useBuiltinTransports>false</useBuiltinTransports>
+            <builtin>
+                <initialPeersList>
+                    <locator>
+                        <udpv4>
+                            <address>127.0.0.1</address>
+                        </udpv4>
+                    </locator>
+                </initialPeersList>
+            </builtin>
+        </rtps>
+    </participant>
+</profiles>

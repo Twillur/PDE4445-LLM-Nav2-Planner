@@ -348,7 +348,7 @@ All five figures exist and Tables I–V are populated from real data.
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
 **Still to do** (figures and references are DONE — this list has reverted twice, check it against the mapping table above before trusting it):
-- 🔴 **LENGTH is the only real gap left.** 3,149 words vs 5,660 target ≈ 4.5 pages of prose against 8. See the expansion table below.
+- 🔴 **LENGTH is the only gap left.** 3,834 words vs 5,660 target ≈ 5.5 pages against 8. Every factual claim has been verified; nothing is wrong, it is only short. See the expansion table below.
 - ✅ ~~Reconcile the abstract with §V-F~~ — done
 - ✅ ~~Verify [17]~~ — Crossref confirms Pallottino, single author. **All 17 references verified against primary sources.**
 - 🟡 Write the AI-use declaration
@@ -363,15 +363,15 @@ Every section is drafted and fact-checked. What is left is depth, and the materi
 
 | Section | Now | Short by | Where the words already are |
 |---|---|---|---|
-| §III | 619 | **−681** | Walk through Fig. 1. Justify the metric split by naming the failure it prevents. Why 20 items per level, why these five |
-| §V | 861 | **−539** | Make the L4 taxonomy a table. Expand the determinism check and v3's measured boundary |
-| §II | 418 | **−482** | Refs [11]–[17] are a list dump — integrate them into the four clusters. **Tam et al. [11] deserves its own paragraph** distinguishing this work; it is also the hardest viva question |
-| §I | 267 | **−433** | Motivation gets two sentences; the contributions list can be prose |
-| §VI | 161 | −319 | Each future-work item deserves a sentence of justification, not a clause |
-| §IV | 659 | −41 | ✅ done — expanded from the blog |
-| Abstract | 164 | −16 | ✅ effectively done |
+| §V | 912 | **−488** | Make the L4 taxonomy a table. Expand the v3 measured boundary and the L5-18 hallucination result |
+| §III | 890 | **−410** | Expand the schema walkthrough: the `action` enum, `duration_s`, what each `on_blocked` option maps to in Nav2 |
+| §I | 305 | **−395** | Motivation is two sentences. The contributions list can be prose. Name the warehouse scenario concretely |
+| §VI | 205 | −275 | Each future-work item deserves a sentence of justification, not a clause |
+| §II | 699 | −201 | Nearly there — the four cluster paragraphs could each take one more sentence of critique |
+| §IV | 659 | −41 | ✅ done |
+| Abstract | 164 | −16 | ✅ done |
 
-**§III is now the biggest gap.** §IV proved the method: open the source material, move it across, adjust register.
+**§V is now the biggest gap**, then §III. Tonight closed 1,139 words — §II went 418→699 and §IV 222→659, so a sitting is worth roughly 300–450 words.
 
 **Original writing order** (all sections now drafted, kept for reference):
 

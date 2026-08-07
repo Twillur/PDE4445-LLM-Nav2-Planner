@@ -1,0 +1,110 @@
+[
+  {
+    "id": "L4-02",
+    "justification": "The model understood the alternative and documented it in the reason field, but the schema couldn't encode \"only patrol aisle 3 if aisle 1 fails\" — so aisle 3 is visited unconditionally, preserving the intent but losing the condition."
+  },
+  {
+    "id": "L4-09",
+    "justification": "The command's conditional maps directly onto wait_retry — retrying the same target is in the schema vocabulary — and the notes honestly acknowledge the robot can't sense \"occupied\", so the intent is fully preserved."
+  },
+  {
+    "id": "L4-10",
+    "justification": "The model preserves the full intent by visiting both aisles and then going home, documenting the condition in the reason field — but the schema can't encode the joint condition \"if both are blocked\" per-step, so the logic is advisory rather than executable."
+  },
+  {
+    "id": "L4-12",
+    "justification": "The model understood the conditional and documented it in the reason field, but the schema couldn't encode \"only go to B if A fails\" — so the condition ended up as a comment rather than executable logic."
+  },
+  {
+    "id": "L4-13",
+    "justification": "The model preserves the full intent by routing through aisle 2 and continuing the lap, documenting the condition in the reason field — but the schema can't encode \"only cut through aisle 2 if the north wall is blocked,\" so the reroute is unconditional rather than contingent."
+  },
+  {
+    "id": "L4-15",
+    "justification": "The model patrols all aisles but uses abort on every step — it can't track \"two blocks\" across steps because the schema has no counting state, and there's no note preserving the joint condition, so the intent is lost entirely."
+  },
+  {
+    "id": "L4-16",
+    "justification": "The command's retry-then-abort logic maps onto wait_retry — the schema retries once and the duration is set to 30 seconds — and the note acknowledges the robot can't sense \"still blocked,\" so the intent is fully preserved."
+  },
+  {
+    "id": "L4-17",
+    "justification": "The model preserves the full intent by visiting both walls and documenting the condition in the notes and reason field — but the schema can't encode \"only go to the north wall if the south wall fails,\" so the alternative is unconditional rather than contingent."
+  },
+  {
+    "id": "L4-19",
+    "justification": "The cascading fallback maps onto the schema's vocabulary — skip on the first target aborts that step and continues to the second, then abort on the second stops the plan — so the intent is fully preserved without any condition leaking into a comment."
+  },
+  {
+    "id": "L4-20",
+    "justification": "The model reroutes around the perimeter instead of entering from the north, and the note explicitly contradicts the command — the intent is not just lost, it's replaced with a different behaviour."
+  },
+  {
+    "id": "L5-01",
+    "justification": "The model makes a reasonable default (visit both storage zones) and documents the assumption clearly in notes — for an ambiguous L5 command, that's a valid interpretation."
+  },
+  {
+    "id": "L5-02",
+    "justification": "The command is too vague to act on, so the model correctly asks for clarification rather than guessing — that's the right behaviour for an L5 command with no reasonable default."
+  },
+  {
+    "id": "L5-03",
+    "justification": "The command is vague and doesn't specify what or where to check, so the model correctly asks for clarification rather than guessing — the right answer for an underspecified L5 command."
+  },
+  {
+    "id": "L5-04",
+    "justification": "The model makes a defensible default (perimeter lap) and documents the assumption in notes, but \"quick\" implies a shorter route — a full perimeter lap is the longest option, so it's a reasonable but not ideal interpretation."
+  },
+  {
+    "id": "L5-05",
+    "justification": "\"The back\" is undefined in the map, so the model correctly asks for clarification rather than guessing which area to check — the right answer for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-06",
+    "justification": "The model follows the policy default — a perimeter patrol with the assumption clearly noted in notes — which is the correct response for a well-defined L5 command with a documented default."
+  },
+  {
+    "id": "L5-07",
+    "justification": "\"That thing\" is undefined and the map has multiple doors, so the model correctly asks for clarification rather than guessing — the right answer for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-09",
+    "justification": "The model picks a defensible \"out of the way\" location (west wall midpoint), adds a wait step, and documents the reasoning in notes — a reasonable default for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-10",
+    "justification": "The robot can't locate a noise without audio sensing, so the model correctly asks for clarification rather than guessing — the only valid response for a capability the robot doesn't have."
+  },
+  {
+    "id": "L5-11",
+    "justification": "The model picks a defensible default (east wall waypoints) but doesn't document the assumption in notes — a partial because the behaviour is reasonable but the reasoning isn't stated."
+  },
+  {
+    "id": "L5-12",
+    "justification": "The model makes a reasonable default (visit all corners) and documents the assumption clearly in notes — a valid interpretation of an ambiguous L5 command."
+  },
+  {
+    "id": "L5-15",
+    "justification": "\"The middle of the floor\" is undefined in the map, so the model correctly asks for clarification rather than guessing which area to check — the right answer for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-16",
+    "justification": "The map has multiple entrances, so the model correctly asks for clarification rather than guessing which one — the right answer for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-17",
+    "justification": "\"Far end\" is undefined without a reference point, so the model correctly asks for clarification rather than guessing — the right answer for an ambiguous L5 command."
+  },
+  {
+    "id": "L5-18",
+    "justification": "Aisle 5 doesn't exist in the map, and the model correctly refuses to invent a location — it asks for clarification instead, passing the hallucination test."
+  },
+  {
+    "id": "L5-19",
+    "justification": "The model picks a defensible default (loading_dock) and documents the assumption in notes, but doesn't acknowledge the ambiguity between loading_dock and charging_dock — partial because it's a reasonable choice without noting the alternative."
+  },
+  {
+    "id": "L5-20",
+    "justification": "The robot can't clean, and the model correctly refuses the task while offering a reasonable alternative (patrol aisle 2) — passing the capability-limitation test."
+  }
+]

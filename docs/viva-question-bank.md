@@ -23,14 +23,14 @@ finding, not the chronology.
 
 **Q. Why is Level 5 easier than Level 4? That seems backwards.**
 The central question of your whole project — expect it early.
-Evidence: L5 85.0% vs L4 60.0%; L5 has zero outright failures (17/3/0); 11 of
+Evidence: L5 85.0% vs L4 55.0%; L5 has zero outright failures (17/3/0); 11 of
 20 L5 commands returned `understood: false` with a clarification question.
 
 **Q. Isn't the L4 dip just an artefact of how you wrote the L4 commands?**
 The sharpest attack available, and a fair one. If your L4 items happen to be
 badly worded, the dip means nothing.
 Evidence: the taxonomy. Grades track *conditional type*, not sentence
-difficulty — retry-type passes, alternative-destination is 5/5 partial,
+difficulty — retry-type passes, alternative-destination is 6/6 partial,
 aggregate and geometry fail. That pattern is about structure, not phrasing.
 ⚠️ Don't get defensive. Concede the levels were designed by you, then point at
 the taxonomy as the independent signal.
@@ -38,7 +38,7 @@ the taxonomy as the independent signal.
 **Q. Could the dip be noise?**
 Evidence: 3 trials at temperature 0; v1 gave identical output on 99/100
 commands, v2 on 97/100. The failures are systematic and repeatable, not
-sampling variance. A 35-point drop is also far outside any plausible noise band.
+sampling variance. A 40-point drop is also far outside any plausible noise band.
 
 **Q. What's the single strongest piece of evidence you have?**
 Have this ready — it's an invitation, not a trap. All three out-of-vocabulary
@@ -131,7 +131,7 @@ Schema adherence 55/60 → 60/60; every out-of-vocabulary emission disappears,
 including `try_aisle_1_north`. Branch encoding 0/9 → 7/9 trials on
 single-alternative-destination commands.
 
-**Q. So v3 fixes the 60%?**
+**Q. So v3 fixes the 55%?**
 🔴 **No, and do not say yes.** The v3 L4 rubric items are ungraded — 33 of 60
 records are still `manual`. There is **no v3 semantic pass rate**. You can claim
 schema adherence and structural encoding. Nothing more.
@@ -217,7 +217,7 @@ If you only prepare five, these:
 
 1. **Why is L5 easier than L4?** — the whole project in 60 seconds
 2. **Did you execute all 100 commands?** — the honesty trap
-3. **Does v3 fix the 60%?** — the overclaim trap
+3. **Does v3 fix the 55%?** — the overclaim trap
 4. **Nav2 behaviour trees already do branching. Why didn't you?** — the deep one
 5. **How is this different from Tam et al.?** — the literature one
 

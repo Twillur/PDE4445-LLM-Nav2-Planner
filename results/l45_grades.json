@@ -68,8 +68,8 @@
     "level": 4,
     "version": "v2",
     "command": "Try the north end of aisle 2; if it's blocked, try the north end of aisle 1; if that's blocked too, abort",
-    "score": "pass",
-    "note": ""
+    "score": "partial",
+    "note": "Regraded pass -> partial 2026-08-07. The plan is aisle_2_north (on_blocked=skip) then aisle_1_north (on_blocked=abort). On the blocked path this matches the command, but plan_runner treats a successful step as continuing to the next, so when aisle 2 north IS reachable the robot goes on to aisle 1 north as well - a trip the command never asked for. Same unconditional-flattening flaw as L4-02 and L4-12, so it takes the same grade."
   },
   {
     "id": "L4-20",

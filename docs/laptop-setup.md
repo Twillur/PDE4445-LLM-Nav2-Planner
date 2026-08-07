@@ -14,7 +14,7 @@ travel to Dubai. Follow top to bottom on a clean machine.
 | ROS2/WSL2 setup scripts + Cyclone DDS config | `setup/` in this repo | ✅ now versioned |
 | Python deps | `requirements.txt` | ✅ recreate the venv |
 | **`OPENAI_API_KEY`** | `.env`, **gitignored** | ❌ **carry separately — never commit** |
-| Claude memory + `CLAUDE.md` | local only | ⚠️ see §4 |
+| Claude memory + `CLAUDE.md` | GitHub `claude-context` (**private**) | ✅ see §4 |
 | WSL2 + ROS2 + Gazebo install | the PC | ❌ does not transfer, see §5 |
 
 ---

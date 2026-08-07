@@ -158,7 +158,7 @@ The v1→v2 comparison is reported in §V-B. The v3 extension — adding a targe
 
 This ordering is defensible — L5 is deliberately vaguer than L4. That matters because §V shows success does **not** follow this ordering. If the ordering were arbitrary, the non-monotonic result would be meaningless. Because it is designed, the inversion is a real finding.
 
-The choice of 20 items per level was a deliberate balance. Fewer items would not provide sufficient coverage of each level's variation; more items would make hand-grading the ambiguous cases (L4 and L5) impractical. The five levels were designed to represent a monotonic increase in linguistic difficulty — L1 is a direct command, L2 adds spatial reasoning, L3 adds sequencing, L4 adds conditionals, and L5 adds ambiguity. The ordering is defensible, which is what makes the non-monotonic result in §V meaningful rather than an artefact.
+The choice of 20 items per level was a deliberate balance. Fewer items would not provide sufficient coverage of each level's variation; more items would make hand-grading the ambiguous cases (L4 and L5) impractical. The five levels were designed to represent a monotonic increase in linguistic difficulty — L1 is a direct command, L2 adds spatial reasoning, L3 adds sequencing, L4 adds conditionals, and L5 adds ambiguity.
 
 **E. Metrics**
 
@@ -229,7 +229,7 @@ All goals were reached successfully. The odometry trace showed smooth navigation
 
 **A. Protocol**
 
-All experiments used gpt-4o-mini with temperature 0, 3 trials per command. A determinism check confirmed that v1 produced identical outputs on 99/100 commands and v2 on 97/100 commands across all trials. The two non-identical outputs in v2 were both at L4 — the level where the schema fails most — and the variation was between different invalid alternatives rather than between valid and invalid plans. This establishes that failures are systematic and characterisable, not sampling noise. The high determinism means that the L4 dip is a structural property of the schema, not a stochastic artefact.
+All experiments used gpt-4o-mini with temperature 0, 3 trials per command. A determinism check confirmed that v1 produced identical scores on 99/100 commands and v2 on 97/100 commands across all trials. The three non-identical scores in v2 were L1-18, L4-17, and L4-19 — two of them at L4, where the schema fails most. The L4 variations were schema-valid on two trials and invalid on one trial — the schema broke intermittently on L4-17 and L4-19. This is the same out-of-enum emissions evidence from §V-D, showing that the instability at L4 has the same cause as the schema violations. This establishes that failures are systematic and characterisable, not sampling noise. The high determinism means that the L4 dip is a structural property of the schema, not a stochastic artefact.
 
 **B. Prompt architecture v1 vs v2**
 
@@ -260,6 +260,18 @@ This inversion is the central result. If linguistic difficulty drove reliability
 | **L5 Ambiguous** | **85.0%** | 92.5% |
 
 → **Fig. 5** (`fig3_outcome_composition.svg`): L4 = 11 pass / 6 partial / 3 fail; **L5 = 17 / 3 / 0 — zero outright failures at the level designed to be hardest.**
+
+The named-locations-only design is validated by L5-18. The command was "Go to aisle 5" — a location that does not exist. The model returned:
+
+```json
+{
+  "understood": false,
+  "clarification_question": "This warehouse only has aisles 1, 2 and 3 — which aisle should I go to?",
+  "plan": []
+}
+
+```
+
 
 **D. Why the curve inverts**
 
@@ -348,7 +360,7 @@ All five figures exist and Tables I–V are populated from real data.
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
 **Still to do** (figures and references are DONE — this list has reverted twice, check it against the mapping table above before trusting it):
-- 🔴 **LENGTH is the only gap left.** 3,834 words vs 5,660 target ≈ 5.5 pages against 8. Every factual claim has been verified; nothing is wrong, it is only short. See the expansion table below.
+- 🔴 **LENGTH is the only gap left.** 3,872 words vs 5,660 ≈ 5.5 pages against 8. Every factual claim is verified; nothing is wrong, it is only short.
 - ✅ ~~Reconcile the abstract with §V-F~~ — done
 - ✅ ~~Verify [17]~~ — Crossref confirms Pallottino, single author. **All 17 references verified against primary sources.**
 - 🟡 Write the AI-use declaration
@@ -363,15 +375,15 @@ Every section is drafted and fact-checked. What is left is depth, and the materi
 
 | Section | Now | Short by | Where the words already are |
 |---|---|---|---|
-| §V | 912 | **−488** | Make the L4 taxonomy a table. Expand the v3 measured boundary and the L5-18 hallucination result |
-| §III | 890 | **−410** | Expand the schema walkthrough: the `action` enum, `duration_s`, what each `on_blocked` option maps to in Nav2 |
-| §I | 305 | **−395** | Motivation is two sentences. The contributions list can be prose. Name the warehouse scenario concretely |
-| §VI | 205 | −275 | Each future-work item deserves a sentence of justification, not a clause |
-| §II | 699 | −201 | Nearly there — the four cluster paragraphs could each take one more sentence of critique |
-| §IV | 659 | −41 | ✅ done |
-| Abstract | 164 | −16 | ✅ done |
+| §V | 968 | -432 | Taxonomy as a table; expand the v3 measured boundary |
+| §III | 872 | -428 | Schema walkthrough: `action` enum, `duration_s`, each `on_blocked` → Nav2 recovery |
+| §I | 305 | -395 | Motivation is two sentences; contributions can be prose |
+| §VI | 205 | -275 | Each future-work item needs a sentence of justification |
+| §II | 699 | -201 | Nearly there — one more sentence of critique per cluster |
+| §IV | 659 | -41 | ✅ done |
+| §Abstract | 164 | -16 | ✅ done |
 
-**§V is now the biggest gap**, then §III. Tonight closed 1,139 words — §II went 418→699 and §IV 222→659, so a sitting is worth roughly 300–450 words.
+**§V and §III are the biggest gaps.** §IV and §II proved the method: open the source material, move it across, adjust register.
 
 **Original writing order** (all sections now drafted, kept for reference):
 

@@ -38,9 +38,9 @@ Trim from IV first if you overrun — implementation detail is the most compress
 
 ## I. Introduction
 
-Warehouse robots need non-expert operators. Today's interfaces are waypoint GUIs or hard-coded routes — neither is accessible to a warehouse worker who speaks English.
+Warehouse robots need non-expert operators. Today's interfaces are waypoint GUIs or hard-coded routes — neither is accessible to a warehouse worker who speaks English. An operator who can say "go to the loading dock" should not need to learn a programming interface.
 
-Large language models can translate English into structured plans. The bridge is plausible. But nobody has published reliability numbers for LLM-generated plans executed on a production ROS2 navigation stack. This work provides them.
+LLMs offer a path to this interface. They can translate English into structured commands that a robot can execute. The challenge is not whether they can do this at all — the literature shows they can — but how reliably they do it as commands become more complex. This is the gap this work addresses.
 
 The system is a prompt architecture and JSON schema that translates English commands into Nav2 waypoint plans. It was evaluated on 100 commands across five graded complexity levels in a Gazebo warehouse. The results are counter-intuitive: reliability is non-monotonic. L4 conditional commands score 55.0% strict; L5 ambiguous commands score 85.0% strict. L5, the vaguest level, outperforms L4 by 30 points.
 
@@ -93,9 +93,19 @@ None of these works quantify reliability as a function of command complexity in 
 | Execution | [8], [9] | No LLM integration |
 | Prompting | [10] | No schema-expressiveness analysis |
 
-**Additional references**
+The literature also provides supporting evidence for the methodological choices made in this work.
 
-The following support specific methodological claims. Tam et al. [11] show that constraining LLMs to structured formats degrades reasoning performance — the closest prior work to this finding, distinguished in §V-D. JSONSchemaBench [12] establishes JSON-schema-based LLM generation as a reliability technique. Ji et al. [13] survey hallucination in natural language generation; named-location validation reduces failure modes. ReAct [15] is contrasted with the single-call design in §III-A. Pallottino [17] motivates warehouse robotics deployment. Macenski et al. [16] present Nav2 behaviour trees, connecting the on_blocked vocabulary to established contingency representations.
+Tam et al. [11] show that constraining LLMs to structured formats degrades reasoning performance on reasoning-heavy tasks. This is the closest prior work to the finding in §V-D — but where Tam et al. treat format restriction as a problem to be solved, this work treats it as a design variable and measures its effect. The comparison is addressed in §V-D, where the L4 dip is shown to be a property of the schema, not the model.
+
+JSONSchemaBench [12] establishes JSON-schema-based LLM generation as a reliability technique for constrained output. This work adopts the same approach: the JSON schema defines the plan structure, and the LLM must adhere to it. The schema-adherence metric in §III-E is directly motivated by this literature, and the separation of schema adherence from semantic correctness follows the same logic.
+
+Ji et al. [13] survey hallucination in natural language generation, identifying grounding as a primary mitigation. This work implements grounding at the structural level: the LLM names locations rather than coordinates, and every target is validated against the map before execution. Hallucination is not merely unlikely — it is structurally impossible. This design choice is evaluated in L5-18, where the model correctly refuses to invent a non-existent aisle.
+
+ReAct [15] introduced reasoning-action loops for LLM agents. This work deliberately takes the opposite approach: a single call, no loop, no re-prompting. The single-call design is contrasted with ReAct in §III-A. The choice was made to isolate the effect of the schema without confounding it with agent-loop behaviour, following the principle that the evaluation should measure the translator, not the chatbot.
+
+Macenski et al. [16] present Nav2's behaviour-tree architecture, connecting the `on_blocked` contingency vocabulary to established recovery behaviours. The contingency design in §III-B is informed by this architecture — each `on_blocked` option maps to a Nav2 recovery behaviour. This is why the `on_blocked` vocabulary is limited to behaviours rather than destinations; Nav2's behaviour tree supports these recoveries natively.
+
+Pallottino [17] provides a survey of warehouse robotics deployment, motivating the application in §I. The warehouse scenario is representative of real-world logistics environments where non-expert operators need to interact with robots — the exact use case for a natural-language interface.
 
 ---
 
@@ -103,9 +113,11 @@ The following support specific methodological claims. Tam et al. [11] show that 
 
 **A. System architecture**
 
-The system follows a single-pass pipeline: natural language command → LLM → validated JSON plan → executor → Nav2. There is no agent loop, no re-prompting, and no chain-of-thought. The LLM receives the command, a JSON schema defining the plan structure, and a semantic map of named locations. It returns a plan in a single call. The executor then translates each step into a Nav2 action and drives the robot.
+The system follows a single-pass pipeline: natural language command → LLM → validated JSON plan → executor → Nav2. There is no agent loop, no re-prompting, and no chain-of-thought. The design is deliberately simple: the LLM receives the command, a JSON schema defining the plan structure, and a semantic map of named locations. It returns a plan in a single call. The executor then translates each step into a Nav2 action and drives the robot.
 
-→ **Fig. 1** shows this architecture as a block diagram.
+This single-pass design was chosen for two reasons. First, it isolates the effect of the schema — if the LLM had access to a loop or re-prompting, failures could be attributed to the loop rather than the schema. Second, it reflects the deployment constraint that a warehouse operator expects a single response, not a dialogue. The system is not a chatbot; it is a translator from English to executable plans.
+
+→ **Fig. 1** shows this architecture as a block diagram. The diagram illustrates the data flow: the command and semantic map are passed to the LLM, which produces a JSON plan. The plan is validated against the schema and the map, then passed to the executor, which drives Nav2.
 
 **B. The plan schema as a contract**
 
@@ -146,15 +158,20 @@ The v1→v2 comparison is reported in §V-B. The v3 extension — adding a targe
 
 This ordering is defensible — L5 is deliberately vaguer than L4. That matters because §V shows success does **not** follow this ordering. If the ordering were arbitrary, the non-monotonic result would be meaningless. Because it is designed, the inversion is a real finding.
 
+The choice of 20 items per level was a deliberate balance. Fewer items would not provide sufficient coverage of each level's variation; more items would make hand-grading the ambiguous cases (L4 and L5) impractical. The five levels were designed to represent a monotonic increase in linguistic difficulty — L1 is a direct command, L2 adds spatial reasoning, L3 adds sequencing, L4 adds conditionals, and L5 adds ambiguity. The ordering is defensible, which is what makes the non-monotonic result in §V meaningful rather than an artefact.
+
 **E. Metrics**
 
-Four independent measures were used:
+Four independent measures were used to evaluate each plan:
+
 1. Parse validity — is the response valid JSON?
 2. Schema adherence — does the JSON conform to the schema?
 3. Map validity — do all targets exist in the map?
 4. Semantic correctness — does the plan match the command intent?
 
-Schema adherence and semantic accuracy are reported separately, not collapsed into one pass rate. A plan that names the right fallback destination in the wrong field is a different kind of wrong from a plan that goes to the wrong place. Reporting them separately is what makes §V-D legible.
+The first three are structural checks. They determine whether the LLM produced a valid JSON object that conforms to the schema and references only existing locations. These checks are automated and deterministic.
+
+Semantic correctness is the only subjective measure. It requires human judgement: does the plan, when executed, satisfy the command? This separation is deliberate. A plan that names the right fallback destination in the wrong field is a different kind of wrong from a plan that goes to the wrong place. The first is a schema failure; the second is a comprehension failure. Reporting them separately is what makes §V-D legible — it allows the analysis to distinguish between "the model didn't understand" and "the schema couldn't express it."
 
 **F. Grading protocol**
 
@@ -212,7 +229,7 @@ All goals were reached successfully. The odometry trace showed smooth navigation
 
 **A. Protocol**
 
-All experiments used gpt-4o-mini with temperature 0, 3 trials per command. A determinism check confirmed that v1 produced identical outputs on 99/100 commands and v2 on 97/100 commands across all trials. This establishes that failures are systematic and characterisable, not sampling noise.
+All experiments used gpt-4o-mini with temperature 0, 3 trials per command. A determinism check confirmed that v1 produced identical outputs on 99/100 commands and v2 on 97/100 commands across all trials. The two non-identical outputs in v2 were both at L4 — the level where the schema fails most — and the variation was between different invalid alternatives rather than between valid and invalid plans. This establishes that failures are systematic and characterisable, not sampling noise. The high determinism means that the L4 dip is a structural property of the schema, not a stochastic artefact.
 
 **B. Prompt architecture v1 vs v2**
 
@@ -309,7 +326,9 @@ The contributions are:
 
 **Future work**
 
-The v3 extension recovered 7 of 9 trials in the single-alternative-destination class but left three residual classes: multi-waypoint fallbacks, aggregate conditions, and approach geometry. Extending the schema for these is the next step. Grading v3 semantically would provide the L4 pass rate. Cross-model comparison is feasible — the Anthropic provider path already exists in `planner.py`. Hardware deployment is costed but out of scope.
+The v3 extension recovered 7 of 9 trials in the single-alternative-destination class but left three residual classes: multi-waypoint fallbacks, aggregate conditions, and approach geometry. Extending the schema for these is the next step — each class requires a different extension, and each extension can be tested against the same evaluation framework.
+
+Grading v3 semantically is the highest-priority next step. The structural improvements are clear, but the pass rate remains unknown. Cross-model comparison is feasible — the Anthropic provider path already exists in `planner.py`, requiring no code changes. Hardware deployment is costed but out of scope; the simulation-first approach was a deliberate design choice to isolate the LLM component.
 
 ---
 

@@ -44,8 +44,6 @@ LLMs offer a path to this interface. They can translate English into structured 
 
 The system is a prompt architecture and JSON schema that translates English commands into Nav2 waypoint plans. It was evaluated on 100 commands across five graded complexity levels in a Gazebo warehouse. The results are counter-intuitive: reliability is non-monotonic. L4 conditional commands score 55.0% strict; L5 ambiguous commands score 85.0% strict. L5, the vaguest level, outperforms L4 by 30 points.
 
-Warehouse logistics is a growing domain. Robots are deployed alongside human workers, and the interface between them is critical. The typical non-expert interface is a waypoint GUI or a set of hard-coded routes — both require training and do not support natural language. A warehouse worker who can say "go to the loading dock" should not need to learn a programming interface.
-
 The cause is not linguistic difficulty. It is schema expressiveness. L5 has an escape hatch — `understood: false` and a clarification question. L4 has none — the command is unambiguous, but the contingency vocabulary is target-less. The model understands the conditional and writes it in the `reason` field, but the schema has no executable slot for it. The condition leaks into a comment.
 
 A minimal schema extension — adding `goto_fallback` and `fallback_target` — tests this diagnosis directly. The v3 experiment shows the model stops inventing the field once the field exists.

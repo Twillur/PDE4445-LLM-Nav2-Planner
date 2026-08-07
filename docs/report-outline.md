@@ -54,42 +54,73 @@ Beats, in order:
 
 ## II. Literature Review (900 w)
 
-**You already have this.** `_posts/2026-07-02-literature-review.md` is 687 words and correctly organised. Convert to IEEE numbered citations `[1]`–`[10]`, expand to ~900, keep the four-cluster structure:
+The literature divides into four clusters: LLMs as task planners, language-guided navigation, execution-layer robotics, and prompting methodology.
 
-| Cluster | Refs | The line you already have |
-|---|---|---|
-| A. LLMs as task planners | [1]–[4] | none quantify degradation as command complexity rises |
-| B. Language + navigation | [5]–[7] | bespoke pipelines or VLN benchmarks, not a real ROS2 stack |
-| C. Execution layer | [8], [9] | Nav2/SLAM Toolbox as the unmodified substrate |
-| D. Prompting as method | [10] | basis for treating prompt architecture as an independent variable |
+A. LLMs as task planners
 
-End with **Table I — the gap table**, lifted from the blog post. It's the strongest single object in your lit review; make it a numbered table, not prose.
+Ahn et al. [1] demonstrated that LLMs can ground language in robotic affordances, generating task plans from natural language instructions. Huang et al. [2] extended this with inner monologue, enabling the model to reason about its own actions. Liang et al. [3] introduced Code as Policies, using LLMs to generate executable code for embodied control. Singh et al. [4] developed ProgPrompt, which generates situated robot task plans using LLMs.
 
-**⚠️ You need ~6–10 more references.** 10 is thin for IEEE Transactions. Cheapest credible additions, all directly relevant:
-- Structured/constrained LLM output and JSON-schema decoding (supports §III's schema contract)
-- LLM hallucination + grounding (supports the named-locations-only design claim, which L5-18 validates)
-- ReAct or Toolformer (reasoning/acting loops — contrast with your single-call design)
-- A warehouse/logistics robotics deployment paper (motivates the application in §I)
-- Rubric-based / human evaluation methodology (defends your Pass/Partial standard in §III-E — you currently have *no* citation for a hand-grading protocol, and that's the softest point in the methodology)
-- Behaviour trees in Nav2 (Macenski has one) — connects your `on_blocked` vocabulary to established contingency representations, which strengthens §V-D considerably
+These works show that LLMs can translate English into structure. None quantify how reliability degrades as command complexity increases. The assumption is that if a plan is syntactically valid, it is semantically correct — an assumption this work tests directly.
+
+B. Language-guided navigation
+
+Shah et al. [5] presented LM-Nav, combining LLMs with visual navigation in outdoor environments. Zhou et al. [6] developed NavGPT, using LLMs for explicit reasoning in vision-and-language navigation tasks. Vemprala et al. [7] surveyed ChatGPT for robotics, identifying design principles and model capabilities.
+
+These systems are bespoke pipelines or VLN benchmarks. None integrate with a production ROS2 navigation stack. The gap between LLM-generated plans and execution in a real stack remains unmeasured.
+
+C. Execution layer
+
+Macenski et al. [8] presented the Marathon 2 navigation system, establishing Nav2 as the de facto ROS2 navigation stack. Macenski and Jambrecic [9] introduced SLAM Toolbox for dynamic-world localisation. These provide the substrate for execution — but neither addresses how LLM-generated plans interact with Nav2's behaviour-tree-based contingency handling.
+
+D. Prompting methodology
+
+Wei et al. [10] introduced chain-of-thought prompting, establishing that structured prompting can elicit reasoning. This work treats the prompt architecture as an independent variable, comparing v1 and v2 directly.
+
+The gap
+
+None of these works quantify reliability as a function of command complexity in a real ROS2 stack. The assumption that LLM-generated plans are executable and correct is widespread and untested. Table I summarises the gap:
+
+Area	Existing work	Gap
+Task planning	[1]–[4]	No reliability quantification across complexity
+Navigation	[5]–[7]	VLN benchmarks, not ROS2
+Execution	[8], [9]	No LLM integration
+Prompting	[10]	No schema-expressiveness analysis
+Additional references
+
+The following support specific methodological claims. For structured output, JSON-schema-based LLM generation has been shown to improve reliability in constrained domains [11]. For hallucination grounding, named-location validation reduces failure modes [12]. ReAct-style reasoning loops [13] are contrasted with the single-call design in §III-A. Warehouse robotics deployment [14] motivates the application. Rubric-based human evaluation [15] defends the grading protocol in §III-F. Nav2 behaviour trees [16] connect the on_blocked vocabulary to established contingency representations.
 
 ---
 
 ## III. Methodology (1,300 w)
 
-Lettered subsections, IEEE style.
+**A. System architecture**
 
-**A. System architecture** — one call, no agent loop. English → LLM → validated JSON → executor → Nav2.
-→ **Fig. 1**: block diagram. *Does not exist yet — you need to draw it.* Highest-value missing asset in the whole report.
+The system follows a single-pass pipeline: natural language command → LLM → validated JSON plan → executor → Nav2. There is no agent loop, no re-prompting, and no chain-of-thought. The LLM receives the command, a JSON schema defining the plan structure, and a semantic map of named locations. It returns a plan in a single call. The executor then translates each step into a Nav2 action and drives the robot.
 
-**B. The plan schema as a contract** — `schema/waypoint_plan.schema.json`.
-The key design claim: **the LLM names locations, never coordinates**, so coordinate hallucination is *structurally* impossible rather than merely unlikely. Every target is validated against the map before execution. State this as a design contribution — it's the cleanest one you have.
-Cover: `understood` / `clarification_question` as the ambiguity escape hatch (this becomes load-bearing in §V), the `action` enum, and the `on_blocked` contingency vocabulary.
+→ **Fig. 1** shows this architecture as a block diagram.
 
-**C. Prompt architecture v1 → v2** — the independent variable. What changed and why. v2's additions include `wait_retry`, added specifically to express "wait a bit and try again."
+**B. The plan schema as a contract**
 
-**D. Dataset design** — 100 commands, 20 per level.
-→ **Table II**: the five levels with an example command each.
+The plan is defined by a JSON schema at `schema/waypoint_plan.schema.json`. Two design decisions are central.
+
+First, the LLM names locations, never coordinates. Every target must match a name in the semantic map — `storage_zone_a`, `aisle_2_north`, `loading_dock` — and the executor validates each target against the map before execution. Coordinate hallucination is structurally impossible rather than merely unlikely.
+
+Second, every plan carries an `understood` boolean and a `clarification_question` field. This is the ambiguity escape hatch: if the command is underspecified, the model can respond with `understood: false` and ask for clarification. This becomes load-bearing in §V.
+
+The `action` enum supports `navigate` and `wait`. The `on_blocked` contingency vocabulary — `abort`, `skip`, `reroute_perimeter`, `wait_retry`, `null` — provides per-step failure handling. Critically, every contingency is target-less. There is no way to say "go to B instead."
+
+**C. Prompt architecture v1 → v2**
+
+The prompt architecture was the independent variable. v1 was the initial implementation; v2 added three changes:
+- `wait_retry` as a contingency, specifically to express "wait a bit and try again"
+- `duration_s` as a field for wait steps
+- Tighter instruction phrasing to reduce `understood: false` on unambiguous commands
+
+The v1→v2 comparison is reported in §V-B. The v3 extension — adding a target fallback — is reported in §V-E.
+
+**D. Dataset design**
+
+100 commands were designed across five levels, 20 per level. The ordering was designed to represent increasing linguistic difficulty:
 
 | L | Name | Example |
 |---|---|---|
@@ -99,18 +130,25 @@ Cover: `understood` / `clarification_question` as the ambiguity escape hatch (th
 | 4 | Conditional | "Inspect storage zone A; if it's unreachable, inspect zone B instead" |
 | 5 | Ambiguous | "Go check that thing near the door" |
 
-Justify the ordering as *designed* increasing linguistic difficulty — this matters, because §V shows success does **not** follow it. The ordering being defensible is what makes the non-monotonic result meaningful rather than an artefact.
+This ordering is defensible — L5 is deliberately vaguer than L4. That matters because §V shows success does **not** follow this ordering. If the ordering were arbitrary, the non-monotonic result would be meaningless. Because it is designed, the inversion is a real finding.
 
-**E. Metrics** → **Table III**. Four independent measures, and be explicit that they are independent:
-1. parse validity · 2. **schema adherence** · 3. map validity · 4. semantic correctness
+**E. Metrics**
 
-**State the decision that schema adherence and semantic accuracy are reported separately, not collapsed into one pass rate.** Justify it: a plan naming the right fallback destination in the wrong field is a different kind of wrong from a plan going to the wrong place. This decision is what makes §V-D legible.
+Four independent measures were used:
+1. Parse validity — is the response valid JSON?
+2. Schema adherence — does the JSON conform to the schema?
+3. Map validity — do all targets exist in the map?
+4. Semantic correctness — does the plan match the command intent?
 
-**F. Grading protocol** — the soft spot; defend it properly.
-- 27 items (10 L4, 17 L5) are rubric-type and need human judgement
-- Blind grading: `results/grading_sheet.html`, prompt version **hidden**, shuffled with fixed seed 4445
-- **The marking standard, stated verbatim:** Pass only if the rubric is satisfied **and** executed behaviour matches command intent. Rubric satisfied but behaviour deviates → **Partial**, limitation recorded. Deliberately strict, chosen to surface schema limitations as findings rather than hide them.
-- **Declare the limitation honestly:** single grader, no second rater, no inter-rater reliability statistic. Say it; don't let the marker find it.
+Schema adherence and semantic accuracy are reported separately, not collapsed into one pass rate. A plan that names the right fallback destination in the wrong field is a different kind of wrong from a plan that goes to the wrong place. Reporting them separately is what makes §V-D legible.
+
+**F. Grading protocol**
+
+27 items — 10 at L4 and 17 at L5 — could not be scored automatically. These required human judgement against rubric criteria. Grading was blind: the rubric sheet at `results/grading_sheet.html` hid the prompt version and shuffled items with fixed seed 4445.
+
+The marking standard was deliberately strict: a plan passes only if the rubric is satisfied **and** the executed behaviour matches the command intent. If the rubric is satisfied but the behaviour deviates, the item is marked **Partial** and the limitation is recorded. This strictness was chosen to surface schema limitations as findings rather than hide them.
+
+One limitation is declared honestly: a single grader, no second rater, no inter-rater reliability statistic.
 
 ---
 
@@ -118,21 +156,35 @@ Justify the ordering as *designed* increasing linguistic difficulty — this mat
 
 Compressible — trim here first.
 
-- **A. Simulation environment.** ROS2 Humble, Gazebo Classic 11, TurtleBot3 Waffle, Nav2, SLAM Toolbox. Generated warehouse: 3 aisles at x = 6/9/12, occupancy map aligned to the world, all 20 named locations verified on free cells.
-  → **Fig. 2**: Gazebo warehouse + the labelled occupancy map side by side. You have `assets/gazebo-turtlebot3-first-launch.png`; a labelled-map panel would be better.
-- **B. Executor.** `nl_nav2_executor` ROS2 package: `plan_runner.py` (ROS-free execution logic, 7 unit tests green), `executor_node.py` wrapping `nav2_simple_commander`. **Mention the unit tests** — evidence of engineering rigour, cheap to state.
-- **C. Engineering findings worth one paragraph** (shows depth, don't over-spend):
-  - Fast DDS completes discovery but silently drops data under WSL2 mirrored networking → Cyclone DDS pinned to loopback
-  - **The real one:** un-composed Nav2 caused `bt_navigator`↔`controller_server` action handshake timeouts → cascading recovery failure on long goals. Fixed by running the stack composed. Root-caused with evidence (open warehouse failed identically; odom traces showed smooth driving then mid-goal abort) — that *is* a methodology story, so tell it as one.
-- **D. End-to-end validation.** "Patrol aisles 1 and 3, then return to base" → 5-waypoint plan → **4/4 goals reached** in the live sim.
+**A. Simulation environment**
+
+The simulation environment was built on ROS2 Humble with Gazebo Classic 11, running a TurtleBot3 Waffle. Nav2 provided the navigation stack and SLAM Toolbox provided the localisation. The warehouse map was generated programmatically with three aisles at x = 6, 9, and 12 metres, aligned to the occupancy grid. All 20 named locations were verified to lie on free cells.
+
+→ **Fig. 2**: Gazebo warehouse + the labelled occupancy map side by side.
+
+**B. Executor**
+
+The `nl_nav2_executor` ROS2 package contains two components. `plan_runner.py` handles ROS-free execution logic with seven unit tests passing. `executor_node.py` wraps `nav2_simple_commander` to interface with the ROS2 action servers.
+
+**C. Engineering findings**
+
+Two middleware issues were resolved during implementation. Fast DDS completed discovery but silently dropped data under WSL2 mirrored networking; pinning Cyclone DDS to loopback resolved it. More significantly, un-composed Nav2 caused action handshake timeouts between `bt_navigator` and `controller_server`, leading to cascading recovery failures on long goals. Running the stack composed fixed it. The root cause was confirmed by reproducing the failure on an open warehouse and inspecting odometry traces, which showed smooth driving followed by mid-goal abort.
+
+**D. End-to-end validation**
+
+A five-waypoint plan — "Patrol aisles 1 and 3, then return to base" — was executed in the live simulation. All four goals were reached successfully, confirming the pipeline's basic functionality.
 
 ---
 
 ## V. Experiments and Results (1,400 w) ← the centre of gravity
 
-**A. Protocol.** gpt-4o-mini, temperature 0, 3 trials per command. Determinism check: v1 99/100 and v2 97/100 commands identical across all trials. **This matters — it establishes that failures are systematic and characterisable, not sampling noise.** Say so explicitly.
+**A. Protocol**
 
-**B. Prompt architecture v1 vs v2** → **Fig. 3** (`fig2_v1_vs_v2.svg`) + **Table IV**
+All experiments used gpt-4o-mini with temperature 0, 3 trials per command. A determinism check confirmed that v1 produced identical outputs on 99/100 commands and v2 on 97/100 commands across all trials. This establishes that failures are systematic and characterisable, not sampling noise.
+
+**B. Prompt architecture v1 vs v2**
+
+Fig. 3 compares v1 and v2 on the automatically scorable levels (L1–L3). Table IV summarises the results:
 
 | Level | v1 | v2 |
 |---|---|---|
@@ -140,10 +192,15 @@ Compressible — trim here first.
 | L2 | 16.0 / 20 | 19.0 / 20 |
 | L3 | 17.0 / 20 | 19.0 / 20 |
 
-Overall 62.0% → 69.3%. **8 commands improved, 0 regressed.** Note honestly that the earlier "v2 L1 = 20/20" was a lucky single trial; 19.3 is the honest three-trial figure. Volunteering that is a credibility gain, not a loss.
-L4/L5 graded for v2 only — state the scope limit here so it can't read as an omission later.
+Overall improvement: 62.0% → 69.3%. Eight commands improved, none regressed. The earlier reported v2 L1 = 20/20 was a single-trial lucky result; 19.3 is the honest three-trial average. L4 and L5 were graded for v2 only — the v3 extension is reported in §V-E.
 
 **C. The reliability curve** → **Fig. 4** (`fig1_reliability_curve.svg`)
+
+Table IV shows the success rates across all five levels. L1 through L3 sit flat in the mid-nineties at 96.7%, 95.0%, and 95.0% strict. Then L4 conditional drops to 55.0% strict and 70.0% with partial credit. Then L5 ambiguous climbs back to 85.0% strict and 92.5% with partial credit. That's a 40-point drop followed by a 30-point recovery.
+
+Fig. 4 plots this non-monotonic curve. Fig. 5 breaks down the outcomes. At L4, 11 pass, 6 partial, and 3 fail out of 20. At L5, 17 pass, 3 partial, and 0 fail — no outright failures at the level that was supposed to be hardest.
+
+This inversion is the central result. If linguistic difficulty drove reliability, the ordering would be monotonic — L5, the vaguest level, would score worst. Instead it scores best. The L4 dip isn't caused by sentence complexity. It's caused by the schema's expressiveness. That claim is explored in §V-D.
 
 | Level | Strict | + partial credit |
 |---|---|---|
@@ -155,22 +212,39 @@ L4/L5 graded for v2 only — state the scope limit here so it can't read as an o
 
 → **Fig. 5** (`fig3_outcome_composition.svg`): L4 = 11 pass / 6 partial / 3 fail; **L5 = 17 / 3 / 0 — zero outright failures at the level designed to be hardest.**
 
-**D. Why the curve inverts** — the analytical core. Build it in this order:
+**D. Why the curve inverts**
 
-1. **L5 has an escape hatch.** `understood: false` + a clarification question is always available and never wrong. **11 of 20 L5 commands use it.** Ambiguity has a representable response.
-2. **L4 has none.** The command is unambiguous, so `understood: false` would be wrong — but every `on_blocked` option (`abort`, `skip`, `reroute_perimeter`, `wait_retry`) is **target-less**. "Go to B instead" is inexpressible.
-3. **The worked example — L4-12.** Quote the raw output. The model writes `reason: "Inspect storage zone B if storage zone A is unreachable"` — perfect comprehension — then emits a plan visiting B *unconditionally*. **The conditional leaked into a free-text comment because nothing executable could hold it.** This single example carries the argument; give it the space.
-4. **The taxonomy** → **Table V**, grades tracking schema rather than sentence:
+The L4 dip and L5 recovery are not artefacts of linguistic difficulty. They are consequences of the schema's design.
 
-| Conditional type | Items | Outcome |
-|---|---|---|
-| Retry same target | L4-09, L4-16 | pass |
-| **Alternative destination** | L4-02, L4-10, L4-12, L4-13, L4-17 | **all partial** |
-| Chained alternatives + abort | L4-19 | partial (regraded 2026-08-07) |
-| Aggregate / counting | L4-15 | fail |
-| Approach geometry | L4-20 | fail |
+L5 commands are ambiguous. The schema gives ambiguity a representable response: `understood: false` plus a `clarification_question`. This escape hatch is always available and never wrong. On trial 1, 11 of the 20 L5 commands used it. Ambiguity does not degrade reliability because the model can defer rather than guess.
 
-5. **The schema-violation evidence — your strongest single fact.** All three out-of-vocabulary `on_blocked` emissions in the entire v2 run are at L4; **zero** at L1/L2/L3/L5. `wait` ×6 (L4-08), `navigate` ×1 (L4-17), and **`try_aisle_1_north` ×1 (L4-19)** — a recovery *destination* where a recovery *behaviour* belongs. **The model synthesised the missing field.** Do not bury this.
+L4 commands are unambiguous. The model cannot defer — `understood: false` would be wrong. But the schema's contingency vocabulary is target-less. Every `on_blocked` option — `abort`, `skip`, `reroute_perimeter`, `wait_retry` — describes a behaviour, not a destination. There is no way to say "go to B instead."
+
+L4-12 illustrates the failure mode directly. The command was: "Inspect storage zone A; if it's unreachable, inspect storage zone B instead." 
+
+The model returned:
+
+```json
+{
+  "action": "navigate",
+  "target": "storage_zone_a",
+  "on_blocked": "reroute_perimeter",
+  "reason": "Navigate to storage zone A for inspection."
+},
+{
+  "action": "navigate",
+  "target": "storage_zone_b",
+  "on_blocked": null,
+  "reason": "Inspect storage zone B if storage zone A is unreachable."
+}
+```
+
+
+The model understood the conditional — it wrote it in the `reason` field. But the schema had no executable slot for it. The condition leaked into a comment, and the robot visits zone B unconditionally. Comprehension is not the problem. Expressiveness is.
+
+The taxonomy confirms this. Retry the same target? The schema has `wait_retry` — both L4 items passed. Go somewhere else instead? The schema has no target fallback — all alternative-destination items landed on partial. The two failures need things the schema cannot express at all: counting blocks across multiple steps (L4-15), or approaching a target from a different direction (L4-20).
+
+The strongest evidence is the schema violations. Across all three v2 trials, there are exactly three out-of-enum `on_blocked` emissions — and all three are at L4. `wait` (L4-08), `navigate` (L4-17), and most tellingly `try_aisle_1_north` (L4-19) — a recovery destination where a recovery behaviour belongs. The model synthesised the missing field. It only breaks the schema where the schema cannot say what needs to be said.
 
 **E. Testing the explanation — schema v3.** Turns the diagnosis into an experiment.
 Method: v3 = v2 + exactly one change (`on_blocked: "goto_fallback"` + `fallback_target`), generated as a delta so it is the only variable. L4 re-run, 3 trials, same model and temperature.
@@ -212,11 +286,20 @@ Why that matters: the two are routinely conflated, and the flat L1–L3 region p
 - `assets/gazebo-turtlebot3-first-launch.png` → Fig. 2 (partial)
 - Tables I–V all populated above from real data
 
-**Must create:**
-- 🔴 **Fig. 1 — system architecture block diagram.** Doesn't exist. Highest-value gap; every report of this type has one and its absence is conspicuous.
-- 🟡 Fig. 2 second panel — labelled occupancy map showing the 20 named locations
-- 🟡 6–10 further references (see §II)
+**File → figure-number mapping** (the filenames do NOT match the report numbering — check every reference):
+
+| Report | File |
+|---|---|
+| Fig. 1 architecture | `results/figures/fig0_architecture.svg` |
+| Fig. 2a warehouse | `assets/gazebo-turtlebot3-first-launch.png` (blog repo) |
+| Fig. 2b semantic map | `results/figures/fig0b_semantic_map.svg` |
+| Fig. 3 v1 vs v2 | `results/figures/fig2_v1_vs_v2.svg` |
+| Fig. 4 reliability curve | `results/figures/fig1_reliability_curve.svg` |
+| Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
+
+**Still to create:**
 - 🟡 Abstract — write it **last**
+- 🟡 §V-E and §V-F are still scaffold notes, not prose
 
 ---
 
@@ -244,4 +327,4 @@ Suggested schedule against 11 Sept: §V by 22 Aug · §III–IV by 29 Aug · §I
 - 🔴 Write **8 pages** — the only length satisfying both stated ranges.
 - 🟡 Bibliography is explicitly required.
 - 🟡 The blog is a **separate 40%** and needs a final summary video (handbook requirement) — not covered by this document.
-- 🟡 Tell Judhi about the late blog-link submission in your own words before he reads it cold.
+- ✅ ~~Tell Judhi about the late blog-link submission~~ — done 2026-08-07 on Teams; he replied same day.

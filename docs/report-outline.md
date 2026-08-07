@@ -41,7 +41,7 @@ Beats, in order:
 1. Warehouse robots need non-expert operators; today's interface is waypoint GUIs or hard-coded routes.
 2. LLMs can translate English → structure, so the bridge is plausible — but nobody has published reliability *numbers* for it into a production nav stack.
 3. What this work is: a prompt architecture + JSON schema translating English into Nav2 waypoint plans, evaluated over 100 commands across 5 graded complexity levels in a Gazebo warehouse.
-4. **Lead with the counter-intuitive result** — reliability is *non-monotonic*. Put "L5 85% vs L4 60%" in the introduction. It's your hook; don't make the marker wait until §V.
+4. **Lead with the counter-intuitive result** — reliability is *non-monotonic*. Put "L5 85% vs L4 55%" in the introduction. It's your hook; don't make the marker wait until §V.
 5. Scope exclusions, stated up front: navigation and observation only, no manipulation. Simulation-based (TRL 4–6, which the module expects).
 
 **Contributions — state as an explicit numbered list.** Markers look for this:
@@ -150,10 +150,10 @@ L4/L5 graded for v2 only — state the scope limit here so it can't read as an o
 | L1 Direct | 96.7% | 96.7% |
 | L2 Spatial | 95.0% | 95.0% |
 | L3 Multi-step | 95.0% | 95.0% |
-| **L4 Conditional** | **60.0%** | 72.5% |
+| **L4 Conditional** | **55.0%** | 70.0% |
 | **L5 Ambiguous** | **85.0%** | 92.5% |
 
-→ **Fig. 5** (`fig3_outcome_composition.svg`): L4 = 12 pass / 5 partial / 3 fail; **L5 = 17 / 3 / 0 — zero outright failures at the level designed to be hardest.**
+→ **Fig. 5** (`fig3_outcome_composition.svg`): L4 = 11 pass / 6 partial / 3 fail; **L5 = 17 / 3 / 0 — zero outright failures at the level designed to be hardest.**
 
 **D. Why the curve inverts** — the analytical core. Build it in this order:
 
@@ -166,7 +166,7 @@ L4/L5 graded for v2 only — state the scope limit here so it can't read as an o
 |---|---|---|
 | Retry same target | L4-09, L4-16 | pass |
 | **Alternative destination** | L4-02, L4-10, L4-12, L4-13, L4-17 | **all partial** |
-| Chained alternatives + abort | L4-19 | pass |
+| Chained alternatives + abort | L4-19 | partial (regraded 2026-08-07) |
 | Aggregate / counting | L4-15 | fail |
 | Approach geometry | L4-20 | fail |
 
@@ -178,7 +178,7 @@ Method: v3 = v2 + exactly one change (`on_blocked: "goto_fallback"` + `fallback_
 - **Branch encoding 0/9 → 7/9 trials** on single-alternative-destination commands (v2 scores 0 *by construction*). L4-12 and L4-13 stable 3/3; L4-17 names the fallback every time but redundantly re-visits it on 2 of 3.
 - **Residual failures fall exactly outside the fix's designed scope** — multi-waypoint alternatives (L4-02), aggregate conditions (L4-10, L4-15), approach geometry (L4-20). A fix that repaired everything would be suspicious; one with a measured boundary is a result.
 
-🔴 **HARD LIMIT — do not overstate.** The v3 L4 rubric items are **ungraded** (33 of 60 records are `manual`). There is **no v3 semantic pass rate**. You may claim schema adherence and structural encoding. You may **not** write that v3 "fixes the 60%." Either grade those 33 records or scope the claim precisely.
+🔴 **HARD LIMIT — do not overstate.** The v3 L4 rubric items are **ungraded** (33 of 60 records are `manual`). There is **no v3 semantic pass rate**. You may claim schema adherence and structural encoding. You may **not** write that v3 "fixes the 55%." Either grade those 33 records or scope the claim precisely.
 
 **F. Threats to validity.** One honest paragraph — markers reward it:
 one model, one temperature, one map, 20 items/level; single grader, no inter-rater statistic; simulation only, no hardware validation; v3 structurally but not semantically evaluated.

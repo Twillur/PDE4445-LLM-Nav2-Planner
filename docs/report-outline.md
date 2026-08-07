@@ -311,7 +311,7 @@ All five figures exist and Tables I–V are populated from real data.
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
 **Still to do** (figures and references are DONE — this list has reverted twice, check it against the mapping table above before trusting it):
-- 🔴 Reconcile the abstract with §V-F — the abstract says 100 commands were "executed"; §V-F says plans were graded rather than all executed
+- 🔴 **LENGTH — every section is roughly half-budget.** Full draft = 2,695 words vs 5,660 target, ≈3.9 pages of prose against an 8-page requirement. Shortfalls: §I −433 · §II −482 · §III −681 · §IV −478 · §V −539 · §VI −324. Expand with material that already exists (see below), not filler.
 - 🟡 Confirm co-authors for [17] (publisher blocks automated fetch); [11]–[16] are verified in `docs/references.md`
 - 🟡 Write the AI-use declaration
 - 🟡 Format in IEEE two-column
@@ -319,9 +319,21 @@ All five figures exist and Tables I–V are populated from real data.
 
 ---
 
-## Writing order (not section order)
+## Expansion targets (first draft is complete; this is now a *lengthening* job)
 
-Draft in dependency order, not front to back. You have the most material for the middle, and the Introduction is far easier once the results section is fixed.
+Every section is drafted and factually checked. The remaining work is depth, and there is
+real material for all of it — none of this requires new research or padding.
+
+| Section | Short by | Where the words already exist |
+|---|---|---|
+| §II | −482 | The six additional references are currently a list dump in one paragraph. Integrate [11]–[17] into the four clusters. **Tam et al. [11] deserves its own paragraph** distinguishing this work — it's the closest prior art and the hardest viva question |
+| §III | −681 | Walk through Fig. 1 properly. Justify the metric separation with the failure it prevents. Expand the dataset-design rationale — why 20 per level, why these five. Grading protocol deserves the blind-shuffle mechanics in full |
+| §IV | −478 | The blog has far more than 222 words on this: the Fast DDS diagnosis, the composed-stack root-cause hunt with odometry evidence, map generation and free-cell verification, the seven unit tests |
+| §V | −539 | Make the L4 taxonomy an actual table. Expand the determinism check. More on v3's measured boundary |
+| §I | −433 | The contributions list can be prose-expanded; the motivation currently gets two sentences |
+| §VI | −324 | Future work items each deserve a sentence of justification, not a clause |
+
+**Original writing order** (all now drafted, kept for reference):
 
 | # | Section | Why here |
 |---|---|---|

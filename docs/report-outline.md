@@ -6,7 +6,7 @@ Delete this file before submission if you'd rather it not sit in the assessed re
 ---
 **Abstract**
 
-LLMs can translate natural language into structured plans for robots. But how reliable are these plans when executed on a production navigation stack? This paper presents an evaluation of 100 commands across five complexity levels, executed on ROS2 Nav2 in a Gazebo warehouse. Reliability is non-monotonic: L4 conditional commands score 55.0% strict, while L5 ambiguous commands score 85.0% strict. The cause is not linguistic difficulty — it is schema expressiveness. L5 commands can defer via clarification; L4 commands are unambiguous but the contingency vocabulary is target-less. The model understands the condition and writes it in the `reason` field, but the schema has no executable slot for it. A minimal schema extension confirms the diagnosis. The finding is that reliability is bounded by plan representation, not by language complexity.
+LLMs can translate natural language into structured plans for robots. But how reliable are these plans when executed on a production navigation stack? This paper presents an evaluation of 100 commands across five complexity levels, with plans generated and validated against a ROS2 Nav2 pipeline in a Gazebo warehouse, and execution demonstrated on representative plans. Reliability is non-monotonic: L4 conditional commands score 55.0% strict, while L5 ambiguous commands score 85.0% strict. The cause is not linguistic difficulty — it is schema expressiveness. L5 commands can defer via clarification; L4 commands are unambiguous but the contingency vocabulary is target-less. The model understands the condition and writes it in the `reason` field, but the schema has no executable slot for it. A minimal schema extension confirms the diagnosis. The finding is that reliability is bounded by plan representation, not by language complexity.
 
 ## Constraints
 
@@ -172,21 +172,39 @@ Compressible — trim here first.
 
 **A. Simulation environment**
 
-The simulation environment was built on ROS2 Humble with Gazebo Classic 11, running a TurtleBot3 Waffle. Nav2 provided the navigation stack and SLAM Toolbox provided the localisation. The warehouse map was generated programmatically with three aisles at x = 6, 9, and 12 metres, aligned to the occupancy grid. All 20 named locations were verified to lie on free cells.
+The simulation environment was built on ROS2 Humble with Gazebo Classic 11, running a TurtleBot3 Waffle. Nav2 provided the navigation stack and SLAM Toolbox provided the localisation. 
+
+The warehouse map was generated programmatically rather than manually authored. Three aisles were placed at x = 6, 9, and 12 metres, aligned to the occupancy grid. Each aisle has north and south endpoints, and wall midpoints were placed at the centre of each wall segment. The map was validated by checking that all 20 named locations lie on free cells — no location was placed in an obstacle or outside the navigable area.
+
+The semantic map was defined as a JSON file mapping location names to (x, y) coordinates in the occupancy grid frame. This map is loaded by the executor at startup and used for two purposes: validating LLM-generated targets before navigation, and providing the LLM with a human-readable list of available locations in the prompt.
 
 → **Fig. 2**: Gazebo warehouse + the labelled occupancy map side by side.
 
 **B. Executor**
 
-The `nl_nav2_executor` ROS2 package contains two components. `plan_runner.py` handles ROS-free execution logic with seven unit tests passing. `executor_node.py` wraps `nav2_simple_commander` to interface with the ROS2 action servers.
+The `nl_nav2_executor` ROS2 package contains two components. `plan_runner.py` handles ROS-free execution logic with seven unit tests passing. It parses the JSON plan, validates each target against the semantic map, and translates each step into a sequence of Nav2 actions. The unit tests cover schema validation, target lookup, contingency handling, and edge cases like empty plans and invalid targets.
+
+`executor_node.py` wraps `nav2_simple_commander` to interface with the ROS2 action servers. It subscribes to the plan topic, executes each step in sequence, and publishes status updates. The executor handles the translation from the plan's `on_blocked` contingencies to Nav2's behaviour-tree recovery behaviours.
+
+The separation between `plan_runner.py` and `executor_node.py` was deliberate: it allows the plan logic to be tested without a running ROS2 environment, and it keeps the ROS2-specific code minimal and isolated.
 
 **C. Engineering findings**
 
-Two middleware issues were resolved during implementation. Fast DDS completed discovery but silently dropped data under WSL2 mirrored networking; pinning Cyclone DDS to loopback resolved it. More significantly, un-composed Nav2 caused action handshake timeouts between `bt_navigator` and `controller_server`, leading to cascading recovery failures on long goals. Running the stack composed fixed it. The root cause was confirmed by reproducing the failure on an open warehouse and inspecting odometry traces, which showed smooth driving followed by mid-goal abort.
+Two middleware issues were resolved during implementation.
+
+First, Fast DDS completed discovery but silently dropped data under WSL2 mirrored networking. The symptom was intermittent goal acceptance — the executor would send a goal, the action server would acknowledge it, but the robot would never move. Pinning Cyclone DDS to loopback resolved it. The issue was traced to WSL2's mirrored networking mode interfering with Fast DDS's multicast discovery; Cyclone DDS with loopback bypassed the problem entirely.
+
+Second, and more significantly, un-composed Nav2 caused action handshake timeouts between `bt_navigator` and `controller_server`. The symptom was cascading recovery failures on long goals: the robot would start driving, then abort mid-goal, then enter an infinite recovery loop. The root cause was traced to the action handshake timing out when the two nodes were running in separate processes. Running the stack composed — all Nav2 nodes in a single process — fixed it.
+
+The root cause was confirmed by reproducing the failure on an open warehouse (no obstacles) and inspecting odometry traces. The traces showed smooth driving followed by a mid-goal abort with no obstacle in the path. This eliminated navigation failure as the cause and pointed to a middleware-level issue. The composed-stack fix was then verified on the warehouse map and the long-goal test passed.
+
+These findings are not directly about the LLM pipeline, but they matter. Without them, the system would not have been reliable enough to evaluate. The Fast DDS issue would have caused intermittent failures indistinguishable from LLM errors, and the Nav2 handshake issue would have made long goals unusable.
 
 **D. End-to-end validation**
 
-A plan — "Patrol aisles 1 and 3, then return to base" — was executed in the live simulation. All goals were reached successfully, confirming the pipeline's basic functionality.
+A plan — "Patrol aisles 1 and 3, then return to base" — was executed in the live simulation. The plan contained five waypoints: aisle_1_south → aisle_1_north → aisle_3_south → aisle_3_north → charging_dock. The LLM generated the plan, the executor parsed and validated it, and Nav2 drove the robot through all five waypoints.
+
+All goals were reached successfully. The odometry trace showed smooth navigation, and the robot correctly handled the transitions between waypoints without entering recovery loops. This confirmed the pipeline's basic functionality and validated the end-to-end integration of the LLM, the executor, and Nav2.
 
 ---
 
@@ -291,7 +309,7 @@ The contributions are:
 
 **Future work**
 
-The v3 extension repaired the alternative-destination class but left three residual classes: multi-waypoint fallbacks, aggregate conditions, and approach geometry. Extending the schema for these is the next step. Grading v3 semantically would provide the L4 pass rate. Cross-model comparison is feasible — the Anthropic provider path already exists in `planner.py`. Hardware deployment is costed but out of scope.
+The v3 extension recovered 7 of 9 trials in the single-alternative-destination class but left three residual classes: multi-waypoint fallbacks, aggregate conditions, and approach geometry. Extending the schema for these is the next step. Grading v3 semantically would provide the L4 pass rate. Cross-model comparison is feasible — the Anthropic provider path already exists in `planner.py`. Hardware deployment is costed but out of scope.
 
 ---
 
@@ -311,29 +329,32 @@ All five figures exist and Tables I–V are populated from real data.
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
 **Still to do** (figures and references are DONE — this list has reverted twice, check it against the mapping table above before trusting it):
-- 🔴 **LENGTH — every section is roughly half-budget.** Full draft = 2,695 words vs 5,660 target, ≈3.9 pages of prose against an 8-page requirement. Shortfalls: §I −433 · §II −482 · §III −681 · §IV −478 · §V −539 · §VI −324. Expand with material that already exists (see below), not filler.
-- 🟡 Confirm co-authors for [17] (publisher blocks automated fetch); [11]–[16] are verified in `docs/references.md`
+- 🔴 **LENGTH is the only real gap left.** 3,149 words vs 5,660 target ≈ 4.5 pages of prose against 8. See the expansion table below.
+- ✅ ~~Reconcile the abstract with §V-F~~ — done
+- ✅ ~~Verify [17]~~ — Crossref confirms Pallottino, single author. **All 17 references verified against primary sources.**
 - 🟡 Write the AI-use declaration
 - 🟡 Format in IEEE two-column
 - 🟡 Summary video (blog requirement, separate 40%)
 
 ---
 
-## Expansion targets (first draft is complete; this is now a *lengthening* job)
+## Expansion targets — the whole remaining job
 
-Every section is drafted and factually checked. The remaining work is depth, and there is
-real material for all of it — none of this requires new research or padding.
+Every section is drafted and fact-checked. What is left is depth, and the material exists.
 
-| Section | Short by | Where the words already exist |
-|---|---|---|
-| §II | −482 | The six additional references are currently a list dump in one paragraph. Integrate [11]–[17] into the four clusters. **Tam et al. [11] deserves its own paragraph** distinguishing this work — it's the closest prior art and the hardest viva question |
-| §III | −681 | Walk through Fig. 1 properly. Justify the metric separation with the failure it prevents. Expand the dataset-design rationale — why 20 per level, why these five. Grading protocol deserves the blind-shuffle mechanics in full |
-| §IV | −478 | The blog has far more than 222 words on this: the Fast DDS diagnosis, the composed-stack root-cause hunt with odometry evidence, map generation and free-cell verification, the seven unit tests |
-| §V | −539 | Make the L4 taxonomy an actual table. Expand the determinism check. More on v3's measured boundary |
-| §I | −433 | The contributions list can be prose-expanded; the motivation currently gets two sentences |
-| §VI | −324 | Future work items each deserve a sentence of justification, not a clause |
+| Section | Now | Short by | Where the words already are |
+|---|---|---|---|
+| §III | 619 | **−681** | Walk through Fig. 1. Justify the metric split by naming the failure it prevents. Why 20 items per level, why these five |
+| §V | 861 | **−539** | Make the L4 taxonomy a table. Expand the determinism check and v3's measured boundary |
+| §II | 418 | **−482** | Refs [11]–[17] are a list dump — integrate them into the four clusters. **Tam et al. [11] deserves its own paragraph** distinguishing this work; it is also the hardest viva question |
+| §I | 267 | **−433** | Motivation gets two sentences; the contributions list can be prose |
+| §VI | 161 | −319 | Each future-work item deserves a sentence of justification, not a clause |
+| §IV | 659 | −41 | ✅ done — expanded from the blog |
+| Abstract | 164 | −16 | ✅ effectively done |
 
-**Original writing order** (all now drafted, kept for reference):
+**§III is now the biggest gap.** §IV proved the method: open the source material, move it across, adjust register.
+
+**Original writing order** (all sections now drafted, kept for reference):
 
 | # | Section | Why here |
 |---|---|---|

@@ -33,7 +33,7 @@
   },
   {
     "id": "L4-19",
-    "justification": "The cascading fallback maps onto the schema's vocabulary — skip on the first target aborts that step and continues to the second, then abort on the second stops the plan — so the intent is fully preserved without any condition leaking into a comment."
+    "justification": "The cascading fallback maps onto the schema's vocabulary on the failure path (skip → abort), but the robot visits aisle 1 unconditionally even when aisle 2 is reachable — the same flaw as L4-02 and L4-12, so it's partial rather than full pass."
   },
   {
     "id": "L4-20",

@@ -240,6 +240,32 @@ v2 returns two steps and visits zone B every time. v3 returns one step with
 `goto_fallback`. Same model, same command, only the schema differs — your entire
 finding in thirty seconds, live.
 
+### Captured evidence — `assets/demo/`
+
+Terminal captures of both runs, in case the live demo fails or there's no
+network in the room. **Have these open in a tab as a fallback.**
+
+Both captures show `$env:PROMPT_VERSION` being set in the same frame as the
+output, so each image proves which prompt version produced it — worth insisting
+on, because `planner.py` silently defaults to `v1` when that variable is unset.
+
+| File | Shows |
+|---|---|
+| `v2-two-steps-always-goes-to-B.png` | `PROMPT_VERSION = "v2"`; **two** steps — `storage_zone_a` with `on_blocked: "reroute_perimeter"`, then `storage_zone_b` unconditionally, the conditional stranded in the `reason` string |
+| `v3-one-step-fallback-only-if-A-fails.png` | `PROMPT_VERSION = "v3"`; **one** step — `on_blocked: "goto_fallback"`, `fallback_target: "storage_zone_b"` |
+
+The v2 capture reproduces the recorded evaluation exactly: `reroute_perimeter`
+plus the `reason` string *"Inspect storage zone B if storage zone A is
+unreachable"*, matching all three trials in
+`results/20260801_151047_openai_gpt-4o-mini_v2.jsonl`. If asked whether the demo
+is cherry-picked, that's the answer — it's the same output the graded run
+produced, not a lucky sample.
+
+⚠️ **Check terminal captures for secrets before committing.** Both images show
+the command that *reads* `OPENAI_API_KEY` from `.env`; the key value itself is
+never printed, so these are safe. Confirm the same for any future capture —
+`.env` is gitignored precisely to keep the key out of the repo.
+
 Better still if you have an evening: run both plans in Gazebo with zone A
 reachable. The v2 robot drives to A and then pointlessly continues to B. The v3
 robot drives to A and stops. Showing the failure beats describing it.

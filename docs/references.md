@@ -11,22 +11,26 @@ citation neither of us has checked.
 
 ## Existing — from the literature review post
 
-These are the ten already framed in `_posts/2026-07-02-literature-review.md`.
-Titles and arXiv IDs are as you recorded them; ⚠️ **author initials still need
-pulling from each arXiv page** — IEEE style wants `M. Ahn`, not `Ahn`.
+The ten already framed in `_posts/2026-07-02-literature-review.md`.
+✅ **All author lists verified via the arXiv API.** IEEE convention applied:
+every author named where there are six or fewer, `et al.` beyond that (author
+count in the right column so you can check the rule was applied correctly).
 
-| # | Citation | Cluster |
+| # | Citation | Authors |
 |---|---|---|
-| [1] | Ahn *et al.*, "Do as I can, not as I say: Grounding language in robotic affordances," arXiv:2204.01691, 2022. | A. Task planners |
-| [2] | Huang *et al.*, "Inner monologue: Embodied reasoning through planning with language models," arXiv:2207.05608, 2022. | A |
-| [3] | Liang *et al.*, "Code as policies: Language model programs for embodied control," arXiv:2209.07753, 2022. | A |
-| [4] | Singh *et al.*, "ProgPrompt: Generating situated robot task plans using large language models," arXiv:2209.11302, 2022. | A |
-| [5] | Shah *et al.*, "LM-Nav: Robotic navigation with large pre-trained models of language, vision, and action," arXiv:2207.04429, 2022. | B. Language + nav |
-| [6] | Zhou *et al.*, "NavGPT: Explicit reasoning in vision-and-language navigation with large language models," arXiv:2305.16986, 2023. | B |
-| [7] | Vemprala *et al.*, "ChatGPT for robotics: Design principles and model abilities," arXiv:2306.17582, 2023. | B |
-| [8] | S. Macenski, F. Martín, R. White, and J. Ginés Clavero, "The Marathon 2: A navigation system," in *Proc. IEEE/RSJ IROS*, 2020. arXiv:2003.00368. ⚠️ confirm author list | C. Execution |
-| [9] | S. Macenski and I. Jambrecic, "SLAM Toolbox: SLAM for the dynamic world," *J. Open Source Softw.*, vol. 6, no. 61, p. 2783, 2021. | C |
-| [10] | Wei *et al.*, "Chain-of-thought prompting elicits reasoning in large language models," arXiv:2201.11903, 2022. | D. Prompting |
+| [1] | M. Ahn *et al.*, "Do as I can, not as I say: Grounding language in robotic affordances," arXiv:2204.01691, 2022. | 46 |
+| [2] | W. Huang *et al.*, "Inner monologue: Embodied reasoning through planning with language models," arXiv:2207.05608, 2022. | 16 |
+| [3] | J. Liang *et al.*, "Code as policies: Language model programs for embodied control," arXiv:2209.07753, 2022. | 8 |
+| [4] | I. Singh *et al.*, "ProgPrompt: Generating situated robot task plans using large language models," arXiv:2209.11302, 2022. | 9 |
+| [5] | D. Shah, B. Osinski, B. Ichter, and S. Levine, "LM-Nav: Robotic navigation with large pre-trained models of language, vision, and action," arXiv:2207.04429, 2022. | 4 |
+| [6] | G. Zhou, Y. Hong, and Q. Wu, "NavGPT: Explicit reasoning in vision-and-language navigation with large language models," arXiv:2305.16986, 2023. | 3 |
+| [7] | S. Vemprala, R. Bonatti, A. Bucker, and A. Kapoor, "ChatGPT for robotics: Design principles and model abilities," arXiv:2306.17582, 2023. | 4 |
+| [8] | S. Macenski, F. Martín, R. White, and J. Ginés Clavero, "The Marathon 2: A navigation system," in *Proc. IEEE/RSJ IROS*, 2020. arXiv:2003.00368. | 4 ✅ |
+| [9] | S. Macenski and I. Jambrecic, "SLAM Toolbox: SLAM for the dynamic world," *J. Open Source Softw.*, vol. 6, no. 61, p. 2783, 2021. | 2 |
+| [10] | J. Wei *et al.*, "Chain-of-thought prompting elicits reasoning in large language models," arXiv:2201.11903, 2022. | 9 |
+
+Cluster mapping for §II: A. task planners [1]–[4] · B. language+nav [5]–[7] ·
+C. execution [8], [9] · D. prompting [10].
 
 ---
 
@@ -135,11 +139,15 @@ Worth a sentence in §VI.
 
 ### [17] Application motivation
 
-> "Robotics for warehouses and logistics: Technologies, challenges, and future
-> directions," *Annu. Rev. Control Robot. Auton. Syst.*
-> DOI: 10.1146/annurev-control-032724-020213.
+> L. Pallottino, "Robotics for warehouses and logistics: Technologies,
+> challenges, and future directions," *Annu. Rev. Control Robot. Auton. Syst.*,
+> vol. 9, pp. 377–401, 2026. DOI: 10.1146/annurev-control-032724-020213.
 
-⚠️ **Author list and year still need pulling from the DOI page** before use.
+✅ Verified: title, journal, vol. 9, pp. 377–401, 2026, DOI.
+⚠️ **Confirm whether there are co-authors.** The publisher page returns 403 to
+automated fetching, so this came from secondary sources, which surfaced only
+Pallottino. Annual Review articles are frequently multi-author — open the DOI in
+a browser and check before submitting.
 
 **Use in §I** to support the opening claim that warehouse navigation is a real
 application with non-expert operators. One citation is enough; don't spend
@@ -166,9 +174,12 @@ evaluation methodology and structured-output constraint — now have the stronge
 entries in the list.
 
 **Remaining bibliography tasks:**
-1. Pull author initials for [1]–[7] and [10] off their arXiv pages
-2. Confirm the [8] author list
-3. Pull authors and year for [17] from the DOI
-4. Update the gap table (Table I) — [11] partially occupies the "format
+1. ~~Author initials for [1]–[7], [10]~~ — ✅ done, verified via arXiv API
+2. ~~Confirm the [8] author list~~ — ✅ done, confirmed
+3. **[17] — check for co-authors in a browser** (publisher blocks automated fetch)
+4. **Update the gap table (Table I)** — [11] partially occupies the "format
    restriction" cell, so the claim there needs narrowing to the embodied,
    named-primitive result rather than the general phenomenon
+
+Only item 3 needs a source check; item 4 is a writing decision. Every other
+citation in this file has been verified against a primary source.

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="400" viewBox="0 0 940 400" role="img" aria-label="System architecture: natural language command through prompt assembly, a single LLM call, three validation gates and the executor into Nav2">
+<rect width="940" height="400" fill="#fcfcfb"/>
+<defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#c3c2b7"/></marker></defs>
+<text x="23" y="34" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="14" fill="#0b0b0b" text-anchor="start" font-weight="600">System architecture</text>
+<text x="23" y="52" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" fill="#898781" text-anchor="start" font-weight="400">one LLM call per command; no agent loop, no re-prompting except a single bounded retry on invalid JSON</text>
+<rect x="23" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.2"/>
+<text x="85.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">Operator</text>
+<text x="85.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">natural-language</text>
+<text x="85.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">command</text>
+<rect x="177" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.2"/>
+<text x="239.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">System prompt</text>
+<text x="239.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">schema +</text>
+<text x="239.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">20 named locations</text>
+<line x1="151" y1="138.0" x2="171" y2="138.0" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<rect x="331" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#2a78d6" stroke-width="1.8"/>
+<text x="393.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">LLM</text>
+<text x="393.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">one call</text>
+<text x="393.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">gpt-4o-mini, T=0</text>
+<line x1="305" y1="138.0" x2="325" y2="138.0" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<rect x="485" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#2a78d6" stroke-width="1.8"/>
+<text x="547.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">Validation</text>
+<text x="547.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">three gates</text>
+<text x="547.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">(below)</text>
+<line x1="459" y1="138.0" x2="479" y2="138.0" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<rect x="639" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.2"/>
+<text x="701.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">Executor</text>
+<text x="701.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">plan_runner</text>
+<text x="701.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">+ on_blocked</text>
+<line x1="613" y1="138.0" x2="633" y2="138.0" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<rect x="793" y="96" width="124" height="84" rx="6" fill="#fcfcfb" stroke="#52514e" stroke-width="1.2"/>
+<text x="855.0" y="122" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5" fill="#0b0b0b" text-anchor="middle" font-weight="600">Nav2 + Gazebo</text>
+<text x="855.0" y="142" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">TurtleBot3</text>
+<text x="855.0" y="157" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="middle" font-weight="400">Waffle</text>
+<line x1="767" y1="138.0" x2="787" y2="138.0" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<text x="239.0" y="86" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#eb6834" text-anchor="middle" font-weight="600">named locations only — coordinates never generated</text>
+<line x1="547.0" y1="184" x2="547.0" y2="230" stroke="#c3c2b7" stroke-width="1.5" marker-end="url(#head)"/>
+<rect x="331" y="238" width="280" height="30" rx="6" fill="#fcfcfb" stroke="#184f95" stroke-width="1.2"/>
+<rect x="331" y="238" width="5" height="30" rx="2" fill="#184f95"/>
+<text x="347" y="257" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" fill="#0b0b0b" text-anchor="start" font-weight="600">1. parse</text>
+<text x="417" y="257" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="start" font-weight="400">valid JSON returned</text>
+<rect x="331" y="278" width="280" height="30" rx="6" fill="#fcfcfb" stroke="#3987e5" stroke-width="1.2"/>
+<rect x="331" y="278" width="5" height="30" rx="2" fill="#3987e5"/>
+<text x="347" y="297" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" fill="#0b0b0b" text-anchor="start" font-weight="600">2. schema</text>
+<text x="417" y="297" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="start" font-weight="400">conforms to WaypointPlan</text>
+<rect x="331" y="318" width="280" height="30" rx="6" fill="#fcfcfb" stroke="#86b6ef" stroke-width="1.2"/>
+<rect x="331" y="318" width="5" height="30" rx="2" fill="#86b6ef"/>
+<text x="347" y="337" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" fill="#0b0b0b" text-anchor="start" font-weight="600">3. map</text>
+<text x="417" y="337" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="start" font-weight="400">every target is a real location</text>
+<text x="331" y="374" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#898781" text-anchor="start" font-weight="400" font-style="italic">any gate failing is recorded as a typed failure, not silently retried</text>
+<path d="M505,184 L505,206 L85.0,206 L85.0,188" fill="none" stroke="#eb6834" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#head)"/>
+<text x="95.0" y="199" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11" fill="#eb6834" text-anchor="start" font-weight="600">understood: false  →  clarification_question returned to the operator</text>
+<rect x="633" y="250" width="160" height="74" rx="6" fill="#fcfcfb" stroke="#e1e0d9" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="645" y="270" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" fill="#0b0b0b" text-anchor="start" font-weight="600">on_blocked</text>
+<text x="645" y="286" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" fill="#898781" text-anchor="start" font-weight="400">abort · skip</text>
+<text x="645" y="299" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" fill="#898781" text-anchor="start" font-weight="400">reroute_perimeter</text>
+<text x="645" y="312" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" fill="#898781" text-anchor="start" font-weight="400">wait_retry</text>
+<text x="645" y="325" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5" fill="#2a78d6" text-anchor="start" font-weight="400">goto_fallback (v3)</text>
+<line x1="701.0" y1="184" x2="701.0" y2="244" stroke="#e1e0d9" stroke-width="1"/>
+</svg>

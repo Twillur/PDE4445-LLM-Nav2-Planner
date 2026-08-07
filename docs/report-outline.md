@@ -44,6 +44,8 @@ LLMs offer a path to this interface. They can translate English into structured 
 
 The system is a prompt architecture and JSON schema that translates English commands into Nav2 waypoint plans. It was evaluated on 100 commands across five graded complexity levels in a Gazebo warehouse. The results are counter-intuitive: reliability is non-monotonic. L4 conditional commands score 55.0% strict; L5 ambiguous commands score 85.0% strict. L5, the vaguest level, outperforms L4 by 30 points.
 
+Warehouse logistics is a growing domain. Robots are deployed alongside human workers, and the interface between them is critical. The typical non-expert interface is a waypoint GUI or a set of hard-coded routes — both require training and do not support natural language. A warehouse worker who can say "go to the loading dock" should not need to learn a programming interface.
+
 The cause is not linguistic difficulty. It is schema expressiveness. L5 has an escape hatch — `understood: false` and a clarification question. L4 has none — the command is unambiguous, but the contingency vocabulary is target-less. The model understands the conditional and writes it in the `reason` field, but the schema has no executable slot for it. The condition leaks into a comment.
 
 A minimal schema extension — adding `goto_fallback` and `fallback_target` — tests this diagnosis directly. The v3 experiment shows the model stops inventing the field once the field exists.
@@ -128,6 +130,7 @@ First, the LLM names locations, never coordinates. Every target must match a nam
 Second, every plan carries an `understood` boolean and a `clarification_question` field. This is the ambiguity escape hatch: if the command is underspecified, the model can respond with `understood: false` and ask for clarification. This becomes load-bearing in §V.
 
 The `action` enum supports `navigate` and `wait`. The `on_blocked` contingency vocabulary — `abort`, `skip`, `reroute_perimeter`, `wait_retry`, `null` — provides per-step failure handling. Critically, every contingency is target-less. There is no way to say "go to B instead."
+The `action` enum supports two values: `navigate` and `wait`. `navigate` drives the robot to a named location; `wait` pauses the robot for a specified duration, set in `duration_s`. The `on_blocked` contingency vocabulary maps directly to Nav2's behaviour-tree recovery behaviours. `abort` stops the entire plan; `skip` aborts the current step and continues to the next; `reroute_perimeter` triggers a perimeter reroute; `wait_retry` waits and retries the same target; `null` does nothing. This mapping is deliberate — each contingency is a behaviour, not a destination. The limitation that made L4 fail is structural, not accidental.
 
 **C. Prompt architecture v1 → v2**
 
@@ -305,6 +308,13 @@ The model understood the conditional — it wrote it in the `reason` field. But 
 
 The taxonomy confirms this. Retry the same target? The schema has `wait_retry` — both L4 items passed. Go somewhere else instead? The schema has no target fallback — all alternative-destination items landed on partial. The two failures need things the schema cannot express at all: counting blocks across multiple steps (L4-15), or approaching a target from a different direction (L4-20).
 
+| Conditional type | Items | Outcome |
+|---|---|---|
+| Retry same target | L4-09, L4-16 | pass, pass |
+| Alternative target | L4-02, L4-10, L4-12, L4-13, L4-17, L4-19 | all partial |
+| Aggregate condition | L4-15 | fail |
+| Approach geometry | L4-20 | fail |
+
 The strongest evidence is the schema violations. Across all three v2 trials, there are exactly three out-of-enum `on_blocked` emissions — and all three are at L4. `wait` (L4-08), `navigate` (L4-17), and most tellingly `try_aisle_1_north` (L4-19) — a recovery destination where a recovery behaviour belongs. The model synthesised the missing field. It only breaks the schema where the schema cannot say what needs to be said.
 
 **E. Testing the explanation — schema v3**
@@ -314,9 +324,12 @@ The diagnosis predicts that adding a target fallback to the schema should recove
 Method: v3 = v2 plus exactly one change — `on_blocked: "goto_fallback"` + `fallback_target` — generated as a delta so it is the only variable. L4 re-run, 3 trials, same model and temperature.
 
 Results:
-- Schema adherence: 55/60 → 60/60. Every out-of-vocabulary emission disappears, including `try_aisle_1_north`. The model stops inventing the field once the field exists — this is the causal confirmation.
-- Branch encoding: 0/9 → 7/9 trials on single-alternative-destination commands. L4-12 and L4-13 stable 3/3; L4-17 names the fallback every time but redundantly re-visits it on 2 of 3 trials.
-- Residual failures fall exactly outside the fix's designed scope — multi-waypoint alternatives (L4-02), aggregate conditions (L4-10, L4-15), approach geometry (L4-20). A fix that repaired everything would be suspicious; one with a measured boundary is a result.
+
+Schema adherence improved from 55/60 to 60/60. Every out-of-vocabulary emission disappeared, including `try_aisle_1_north`. The model stopped inventing the field once the field existed — this is the causal confirmation that the diagnosis was correct.
+
+Branch encoding on single-alternative-destination commands went from 0/9 to 7/9 trials. L4-12 and L4-13 were stable at 3/3; L4-17 named the fallback every time but redundantly re-visited it on 2 of 3 trials.
+
+The residual failures — multi-waypoint alternatives (L4-02), aggregate conditions (L4-10, L4-15), and approach geometry (L4-20) — fell exactly outside the fix's designed scope. A fix that repaired everything would be suspicious; one with a measured boundary is a result. The v3 experiment confirmed the diagnosis and defined its limits.
 
 The v3 L4 rubric items are ungraded — 33 of 60 records are `manual`. There is no v3 semantic pass rate. Schema adherence and structural encoding only.
 

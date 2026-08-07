@@ -105,7 +105,7 @@ Ji et al. [13] survey hallucination in natural language generation, identifying 
 
 ReAct [15] introduced reasoning-action loops for LLM agents. This work deliberately takes the opposite approach: a single call, no loop, no re-prompting. The single-call design is contrasted with ReAct in §III-A. The choice was made to isolate the effect of the schema without confounding it with agent-loop behaviour, following the principle that the evaluation should measure the translator, not the chatbot.
 
-Macenski et al. [16] present Nav2's behaviour-tree architecture, connecting the `on_blocked` contingency vocabulary to established recovery behaviours. The contingency design in §III-B is informed by this architecture — each `on_blocked` option maps to a Nav2 recovery behaviour. This is why the `on_blocked` vocabulary is limited to behaviours rather than destinations; Nav2's behaviour tree supports these recoveries natively.
+Macenski et al. [16] present Nav2's behaviour-tree architecture, which informed the design of the `on_blocked` contingency vocabulary. The vocabulary is not a direct mapping to Nav2 recoveries — the contingencies are implemented at the executor level — but the structure of target-less behaviours is drawn from the BT pattern. This is why the vocabulary is limited to behaviours rather than destinations.
 
 Pallottino [17] provides a survey of warehouse robotics deployment, motivating the application in §I. The warehouse scenario is representative of real-world logistics environments where non-expert operators need to interact with robots — the exact use case for a natural-language interface.
 
@@ -129,8 +129,7 @@ First, the LLM names locations, never coordinates. Every target must match a nam
 
 Second, every plan carries an `understood` boolean and a `clarification_question` field. This is the ambiguity escape hatch: if the command is underspecified, the model can respond with `understood: false` and ask for clarification. This becomes load-bearing in §V.
 
-The `action` enum supports `navigate` and `wait`. The `on_blocked` contingency vocabulary — `abort`, `skip`, `reroute_perimeter`, `wait_retry`, `null` — provides per-step failure handling. Critically, every contingency is target-less. There is no way to say "go to B instead."
-The `action` enum supports two values: `navigate` and `wait`. `navigate` drives the robot to a named location; `wait` pauses the robot for a specified duration, set in `duration_s`. The `on_blocked` contingency vocabulary maps directly to Nav2's behaviour-tree recovery behaviours. `abort` stops the entire plan; `skip` aborts the current step and continues to the next; `reroute_perimeter` triggers a perimeter reroute; `wait_retry` waits and retries the same target; `null` does nothing. This mapping is deliberate — each contingency is a behaviour, not a destination. The limitation that made L4 fail is structural, not accidental.
+The `action` enum supports `navigate` and `wait`. `navigate` drives the robot to a named location; `wait` pauses the robot for a specified duration, set in `duration_s`. The `on_blocked` contingency vocabulary — `abort`, `skip`, `reroute_perimeter`, `wait_retry`, `null` — provides per-step failure handling. These are implemented at the executor level, not as Nav2 behaviour-tree recoveries. `abort` stops the entire plan; `skip` aborts the current step and continues to the next; `reroute_perimeter` triggers a perimeter reroute; `wait_retry` waits and retries the same target; `null` means Nav2's own recovery already ran and the step is marked failed. Critically, every contingency is target-less. There is no way to say "go to B instead." The limitation that made L4 fail is structural, not accidental.
 
 **C. Prompt architecture v1 → v2**
 
@@ -204,7 +203,7 @@ The semantic map was defined as a JSON file mapping location names to (x, y) coo
 
 The `nl_nav2_executor` ROS2 package contains two components. `plan_runner.py` handles ROS-free execution logic with seven unit tests passing. It parses the JSON plan, validates each target against the semantic map, and translates each step into a sequence of Nav2 actions. The unit tests cover schema validation, target lookup, contingency handling, and edge cases like empty plans and invalid targets.
 
-`executor_node.py` wraps `nav2_simple_commander` to interface with the ROS2 action servers. It subscribes to the plan topic, executes each step in sequence, and publishes status updates. The executor handles the translation from the plan's `on_blocked` contingencies to Nav2's behaviour-tree recovery behaviours.
+`executor_node.py` wraps `nav2_simple_commander` to interface with the ROS2 action servers. It subscribes to the plan topic, executes each step in sequence, and publishes status updates. The executor implements the plan's `on_blocked` contingencies directly, as described in §III-B.
 
 The separation between `plan_runner.py` and `executor_node.py` was deliberate: it allows the plan logic to be tested without a running ROS2 environment, and it keeps the ROS2-specific code minimal and isolated.
 

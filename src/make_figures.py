@@ -21,7 +21,7 @@ OUT = RESULTS / "figures"
 
 V1 = RESULTS / "20260801_145855_openai_gpt-4o-mini_v1.jsonl"
 V2 = RESULTS / "20260801_151047_openai_gpt-4o-mini_v2.jsonl"
-GRADES = pathlib.Path.home() / "Downloads" / "l45_grades.json"
+GRADES = RESULTS / "l45_grades.json"
 
 LEVEL_NAMES = {1: "L1\nDirect", 2: "L2\nSpatial", 3: "L3\nMulti-step",
                4: "L4\nConditional", 5: "L5\nAmbiguous"}

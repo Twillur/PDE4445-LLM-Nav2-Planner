@@ -10,3 +10,6 @@ ros2_ws/log/
 
 # transient pipeline output
 results/last_plan.json
+
+# demo footage (video does not belong in the repo)
+results/demo-footage/

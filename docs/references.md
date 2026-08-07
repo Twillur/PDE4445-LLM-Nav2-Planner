@@ -143,11 +143,10 @@ Worth a sentence in §VI.
 > challenges, and future directions," *Annu. Rev. Control Robot. Auton. Syst.*,
 > vol. 9, pp. 377–401, 2026. DOI: 10.1146/annurev-control-032724-020213.
 
-✅ Verified: title, journal, vol. 9, pp. 377–401, 2026, DOI.
-⚠️ **Confirm whether there are co-authors.** The publisher page returns 403 to
-automated fetching, so this came from secondary sources, which surfaced only
-Pallottino. Annual Review articles are frequently multi-author — open the DOI in
-a browser and check before submitting.
+✅ **Fully verified via the Crossref API** (`api.crossref.org/works/10.1146/annurev-control-032724-020213`):
+title, **single author — Lucia Pallottino**, journal, vol. 9, pp. 377–401, 2026.
+No co-authors. The publisher page 403s automated fetching; Crossref is the
+authoritative record and does not.
 
 **Use in §I** to support the opening claim that warehouse navigation is a real
 application with non-expert operators. One citation is enough; don't spend

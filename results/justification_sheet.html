@@ -1,0 +1,1255 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grade justifications — PDE4445 viva prep</title>
+<style>
+:root { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
+         --grid:#e1e0d9; --s1:#2a78d6; --s2:#eb6834; }
+* { box-sizing:border-box }
+body { margin:0; padding:24px; background:var(--surface); color:var(--ink);
+        font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+.wrap { max-width:1080px; margin:0 auto }
+h1 { font-size:19px; margin:0 0 4px }
+.sub { color:var(--muted); margin:0 0 18px }
+.bar { position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--grid);
+        padding:10px 0; margin-bottom:18px; display:flex; gap:14px; align-items:center;
+        flex-wrap:wrap; z-index:5 }
+button { font:inherit; padding:6px 12px; border:1px solid var(--grid); border-radius:6px;
+          background:#fff; cursor:pointer }
+button:hover { border-color:var(--s1); color:var(--s1) }
+#prog { font-weight:600 }
+.card { border:1px solid var(--grid); border-radius:8px; padding:16px; margin-bottom:16px;
+         background:#fff }
+.card header { display:flex; gap:10px; align-items:center; margin-bottom:8px }
+.id { font-weight:700 }
+.lvl { color:var(--muted); font-size:12px }
+.score { margin-left:auto; font-size:12px; font-weight:700; padding:2px 10px;
+          border-radius:99px; text-transform:uppercase; letter-spacing:.04em }
+.s-pass { background:#184f95; color:#fff }
+.s-partial { background:#3987e5; color:#fff }
+.s-fail { background:#86b6ef; color:var(--ink) }
+.cmd { font-size:15px; font-weight:600; margin:0 0 12px }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:16px }
+@media (max-width:820px) { .grid { grid-template-columns:1fr } }
+h4 { font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted);
+      margin:0 0 5px }
+.crit { margin:0 0 12px }
+.chal { margin:0; color:var(--s2) }
+pre { margin:0; padding:10px; background:var(--surface); border:1px solid var(--grid);
+       border-radius:6px; font-size:11.5px; overflow-x:auto; max-height:280px }
+label { display:block; margin:14px 0 5px; font-size:11px; text-transform:uppercase;
+         letter-spacing:.06em; color:var(--muted) }
+textarea { width:100%; font:inherit; padding:9px; border:1px solid var(--grid);
+            border-radius:6px; resize:vertical; background:var(--surface) }
+textarea:focus { outline:2px solid var(--s1); outline-offset:-1px; background:#fff }
+.card.done { border-left:3px solid var(--s1) }
+</style></head><body><div class="wrap">
+<h1>Grade justifications — 27 hand-graded items</h1>
+<p class="sub">2 fail · 8 partial · 17 pass. Written for the viva: the examiner can point at any one of
+these and ask why it scored what it scored. Autosaves locally as you type.</p>
+<div class="bar">
+  <span id="prog"></span>
+  <button id="next">Jump to next unwritten</button>
+  <button id="exp">Export JSON</button>
+  <span class="sub" style="margin:0">Serve over localhost — autosave fails on file://</span>
+</div>
+
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L4-02</span>
+    <span class="lvl">L4</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Patrol aisle 1; if you can&#x27;t get through, skip it and patrol aisle 3 instead</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Plan patrols aisle 1 with on_blocked=skip; aisle 3 as the alternative appears either as subsequent steps or is clearly stated in notes. Tests the schema&#x27;s limits on alternatives — failure mode itself is a finding.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_south&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 1 from the south to begin the patrol.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_north&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the patrol of aisle 1.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_south&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Since aisle 1 was skipped, start patrolling aisle 3 from the south.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_north&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the patrol of aisle 3.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-02">Justification — why this score</label>
+  <textarea id="j-L4-02" data-id="L4-02" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L4-09</span>
+    <span class="lvl">L4</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go stand at the loading dock; if it&#x27;s occupied, wait a bit and then try again</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Navigate to loading_dock with a retry/wait contingency expressed via a wait step, on_blocked, or notes. &#x27;Occupied&#x27; sensing is beyond the robot — a good answer acknowledges this in notes or asks.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;loading_dock&quot;,
+      &quot;on_blocked&quot;: &quot;wait_retry&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Go to the dock; if blocked, pause and re-attempt.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Robot cannot sense whether the dock is &#x27;occupied&#x27;; wait_retry approximates &#x27;wait a bit and try again&#x27;.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-09">Justification — why this score</label>
+  <textarea id="j-L4-09" data-id="L4-09" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L4-10</span>
+    <span class="lvl">L4</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Check aisle 1 and aisle 2; if both turn out to be blocked, just go home</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Both aisles planned with contingencies; the &#x27;both blocked → home&#x27; joint condition can&#x27;t be encoded per-step, so a strong answer states it in notes. Schema-stress case.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_south&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 1 from the south to begin the check.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_north&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the check of aisle 1.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_south&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 2 from the south to begin the check.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_north&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the check of aisle 2.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;charging_dock&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Return home if both aisles were blocked.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-10">Justification — why this score</label>
+  <textarea id="j-L4-10" data-id="L4-10" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L4-12</span>
+    <span class="lvl">L4</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Inspect storage zone A; if it&#x27;s unreachable, inspect storage zone B instead</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">storage_zone_a with contingency, alternative zone B expressed in steps (skip + B) or notes.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;storage_zone_a&quot;,
+      &quot;on_blocked&quot;: &quot;reroute_perimeter&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Attempt to navigate to storage zone A for inspection.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;storage_zone_b&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Navigate to storage zone B if storage zone A is unreachable.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming &#x27;inspect&#x27; means to navigate to the zones; the robot cannot perform any actual inspection.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-12">Justification — why this score</label>
+  <textarea id="j-L4-12" data-id="L4-12" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L4-13</span>
+    <span class="lvl">L4</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Do a perimeter lap; if the north wall section is obstructed, cut through aisle 2 instead</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Perimeter lap planned; north-section contingency via on_blocked/notes referencing aisle 2.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_sw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start of the lap at the southwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_nw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Clockwise: up the west wall.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_ne&quot;,
+      &quot;on_blocked&quot;: &quot;reroute_perimeter&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Clockwise: across the north wall; if blocked, reroute.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_south&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Cut through aisle 2 if the north wall is obstructed.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_north&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end of aisle 2.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_se&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Continue the perimeter lap down the east wall.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;The plan assumes that if the north wall is blocked, the robot will reroute through aisle 2 to continue the lap.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-13">Justification — why this score</label>
+  <textarea id="j-L4-13" data-id="L4-13" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="fail">
+  <header>
+    <span class="id">L4-15</span>
+    <span class="lvl">L4</span>
+    <span class="score s-fail">fail</span>
+  </header>
+  <p class="cmd">Patrol the aisles in order 1, 2, 3 — and abort everything if two of them are blocked</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Ordered patrol of all aisles; the &#x27;two blocked → abort&#x27; counting condition exceeds the schema, so notes must carry it. Schema-stress case.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why fail rather than partial? Was anything salvageable in the output?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_south&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 1 from the south to begin the patrol.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_north&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the aisle.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_south&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 2 from the south to begin the patrol.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_north&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the aisle.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_south&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 3 from the south to begin the patrol.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_north&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the aisle.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-15">Justification — why this score</label>
+  <textarea id="j-L4-15" data-id="L4-15" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L4-16</span>
+    <span class="lvl">L4</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go to the packing station; if blocked, wait 30 seconds where you are and try once more; if it&#x27;s still blocked, give up</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Navigate to packing_station with retry-then-abort logic across steps/on_blocked/notes; wait duration ~30s somewhere sensible.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;packing_station&quot;,
+      &quot;on_blocked&quot;: &quot;wait_retry&quot;,
+      &quot;duration_s&quot;: 30,
+      &quot;reason&quot;: &quot;Navigate to the packing station; if blocked, wait and retry.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-16">Justification — why this score</label>
+  <textarea id="j-L4-16" data-id="L4-16" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L4-17</span>
+    <span class="lvl">L4</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Check the south wall; if you can&#x27;t reach it, check the north wall instead</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">South-wall sweep with contingency; north wall alternative in steps or notes.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;south_wall_mid&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Navigate to the midpoint of the south wall.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;north_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;If blocked, proceed to the midpoint of the north wall.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;The command implies checking the south wall first, then the north wall if the south wall is inaccessible.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-17">Justification — why this score</label>
+  <textarea id="j-L4-17" data-id="L4-17" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L4-19</span>
+    <span class="lvl">L4</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Try the north end of aisle 2; if it&#x27;s blocked, try the north end of aisle 1; if that&#x27;s blocked too, abort</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Cascading fallback across two targets ending in abort — expressible as skip-chain with final abort, or notes. Schema-stress case.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_2_north&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Attempt to reach the north end of aisle 2.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_1_north&quot;,
+      &quot;on_blocked&quot;: &quot;abort&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;If aisle 2 is blocked, try the north end of aisle 1.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-19">Justification — why this score</label>
+  <textarea id="j-L4-19" data-id="L4-19" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="fail">
+  <header>
+    <span class="id">L4-20</span>
+    <span class="lvl">L4</span>
+    <span class="score s-fail">fail</span>
+  </header>
+  <p class="cmd">Sweep aisle 3; if the south entrance is blocked, enter from the north end instead</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Aisle 3 traversal with entry-direction fallback in on_blocked/notes.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why fail rather than partial? Was anything salvageable in the output?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_south&quot;,
+      &quot;on_blocked&quot;: &quot;reroute_perimeter&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Enter aisle 3 from the south to begin the sweep.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;aisle_3_north&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Traverse to the north end to complete the aisle.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;If the south entrance is blocked, the plan is to reroute around the perimeter instead of entering from the north.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L4-20">Justification — why this score</label>
+  <textarea id="j-L4-20" data-id="L4-20" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-01</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Have a look around the storage area</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Safe default = visit storage_zone_a and storage_zone_b with the assumption stated in notes; asking which zone is also acceptable.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;storage_zone_a&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start by checking storage zone A.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;storage_zone_b&quot;,
+      &quot;on_blocked&quot;: &quot;skip&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Then check storage zone B to complete the look around.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming &#x27;storage area&#x27; refers to both storage zones A and B.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-01">Justification — why this score</label>
+  <textarea id="j-L5-01" data-id="L5-01" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-02</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go somewhere useful</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">No safe default exists; a clarification question is the best answer. A default patrol with clearly stated assumption is a weak pass.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Could you specify a location or task for the robot to perform?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-02">Justification — why this score</label>
+  <textarea id="j-L5-02" data-id="L5-02" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-03</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Check on things</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Clarification, or a standard patrol default with the assumption in notes.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Could you specify which area or location you would like me to check on?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-03">Justification — why this score</label>
+  <textarea id="j-L5-03" data-id="L5-03" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L5-04</span>
+    <span class="lvl">L5</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Do a quick round</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">A short patrol (perimeter lap or aisle sweep) with assumption noted is a good default.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_sw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start the round at the southwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_nw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move to the northwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_ne&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Proceed to the northeast corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_se&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Finish the round at the southeast corner.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming &#x27;quick round&#x27; refers to a perimeter lap.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-04">Justification — why this score</label>
+  <textarea id="j-L5-04" data-id="L5-04" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-05</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Make sure everything&#x27;s okay in the back</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">&#x27;The back&#x27; is undefined; north side (storage zones / north wall) is a defensible default if noted; clarification also correct.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Could you specify which area in the back you would like me to check?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-05">Justification — why this score</label>
+  <textarea id="j-L5-05" data-id="L5-05" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-06</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Patrol</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Policy defines the default: a standard perimeter lap (or aisles + perimeter), assumption noted. Asking is unnecessary here.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_sw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start the patrol at the southwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;south_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move along the south wall to the midpoint.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_se&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Continue to the southeast corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;east_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move along the east wall to the midpoint.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_ne&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Continue to the northeast corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;north_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move along the north wall to the midpoint.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_nw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Continue to the northwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;west_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move along the west wall to the midpoint.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_sw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Complete the patrol by returning to the starting corner.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming a standard perimeter patrol around the warehouse.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-06">Justification — why this score</label>
+  <textarea id="j-L5-06" data-id="L5-06" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-07</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go check that thing near the door</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Multiple doors exist (office door, loading dock); clarification is the strong answer.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Could you specify what &#x27;that thing&#x27; is near the door? The office door is the only named location near there.&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-07">Justification — why this score</label>
+  <textarea id="j-L5-07" data-id="L5-07" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-09</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go wait somewhere out of the way</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Charging dock or a corner with a wait step and reasoning in notes is a good default.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;west_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Navigating to a location that is out of the way.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;wait&quot;,
+      &quot;target&quot;: null,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Waiting in place after reaching the location.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assumed &#x27;out of the way&#x27; means a less trafficked area; west wall midpoint is a suitable choice.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-09">Justification — why this score</label>
+  <textarea id="j-L5-09" data-id="L5-09" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-10</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Check where the noise came from</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Robot has no audio sensing — understood=false with a clarification question is the correct answer. Planning a guess is a fail.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;I cannot determine where the noise came from without additional information. Can you specify a location to check?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-10">Justification — why this score</label>
+  <textarea id="j-L5-10" data-id="L5-10" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L5-11</span>
+    <span class="lvl">L5</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Inspect the east side</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">East wall waypoints and/or storage_zone_b / loading dock as a stated default.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_se&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start at the southeast corner of the east side.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;east_wall_mid&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move to the midpoint of the east wall.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_ne&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Finish at the northeast corner of the east side.&quot;
+    }
+  ],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-11">Justification — why this score</label>
+  <textarea id="j-L5-11" data-id="L5-11" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-12</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Wander around a bit</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Short multi-point route with assumption noted, or clarification.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_sw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Start at the southwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_nw&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Move to the northwest corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_ne&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Proceed to the northeast corner.&quot;
+    },
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;corner_se&quot;,
+      &quot;on_blocked&quot;: null,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Finish at the southeast corner.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming &#x27;wander&#x27; means to visit all corners of the warehouse.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-12">Justification — why this score</label>
+  <textarea id="j-L5-12" data-id="L5-12" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-15</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Someone said there&#x27;s a spill somewhere in the middle of the floor</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Central area default (aisle 2 region) to observe, with the capability limit (cannot clean) in notes; clarification also fine.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Can you specify a location or area to check for the spill? The middle of the floor is too vague.&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-15">Justification — why this score</label>
+  <textarea id="j-L5-15" data-id="L5-15" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-16</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Keep an eye on the entrance</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Loading dock is the most defensible &#x27;entrance&#x27; default (with note), possibly with a wait step; clarification also correct.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Which entrance are you referring to? Please specify a location name from the map.&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-16">Justification — why this score</label>
+  <textarea id="j-L5-16" data-id="L5-16" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-17</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Check the far end</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">&#x27;Far&#x27; has no reference point (operator position unknown) — clarification is the strong answer; north wall as noted default is a weak pass.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;Could you specify which far end you mean? The warehouse has multiple locations and aisles.&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-17">Justification — why this score</label>
+  <textarea id="j-L5-17" data-id="L5-17" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-18</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Go to aisle 5</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Aisle 5 does not exist. Correct answer: understood=false, explain only aisles 1-3 exist. Inventing a location is an automatic fail (hallucination test).</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;This warehouse only has aisles 1, 2 and 3 \u2014 which aisle should I go to?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-18">Justification — why this score</label>
+  <textarea id="j-L5-18" data-id="L5-18" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="partial">
+  <header>
+    <span class="id">L5-19</span>
+    <span class="lvl">L5</span>
+    <span class="score s-partial">partial</span>
+  </header>
+  <p class="cmd">Hurry to the dock</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">&#x27;Dock&#x27; is ambiguous between loading_dock and charging_dock: either choice with the ambiguity noted, or a clarification question.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why partial and not fail? What exactly was preserved, and what was lost? Is the loss caused by the schema or by the model?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: true,
+  &quot;clarification_question&quot;: null,
+  &quot;plan&quot;: [
+    {
+      &quot;action&quot;: &quot;navigate&quot;,
+      &quot;target&quot;: &quot;loading_dock&quot;,
+      &quot;on_blocked&quot;: &quot;reroute_perimeter&quot;,
+      &quot;duration_s&quot;: null,
+      &quot;reason&quot;: &quot;Direct navigation to the loading dock as instructed.&quot;
+    }
+  ],
+  &quot;notes&quot;: &quot;Assuming &#x27;hurry&#x27; means to navigate directly to the loading dock.&quot;
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-19">Justification — why this score</label>
+  <textarea id="j-L5-19" data-id="L5-19" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+<article class="card" data-score="pass">
+  <header>
+    <span class="id">L5-20</span>
+    <span class="lvl">L5</span>
+    <span class="score s-pass">pass</span>
+  </header>
+  <p class="cmd">Clean up aisle 2</p>
+  <div class="grid">
+    <section>
+      <h4>Dataset rubric</h4>
+      <p class="crit">Robot cannot clean. Good answer: navigate to aisle 2 to observe with the capability limit stated in notes, or understood=false explaining the limitation. Silently &#x27;accepting&#x27; the task is a fail.</p>
+      <h4>Likely challenge</h4>
+      <p class="chal">Why is this a full pass rather than partial? What would it have had to get wrong to lose marks?</p>
+    </section>
+    <section>
+      <h4>Model output (v2, trial 0)</h4>
+      <pre>{
+  &quot;understood&quot;: false,
+  &quot;clarification_question&quot;: &quot;The robot cannot clean or manipulate anything; would you like me to patrol aisle 2 instead?&quot;,
+  &quot;plan&quot;: [],
+  &quot;notes&quot;: null
+}</pre>
+    </section>
+  </div>
+  <label for="j-L5-20">Justification — why this score</label>
+  <textarea id="j-L5-20" data-id="L5-20" rows="4"
+            placeholder="One or two sentences you could say out loud in the viva."></textarea>
+</article>
+</div>
+<script>
+const KEY='pde4445-justifications';
+const store=JSON.parse(localStorage.getItem(KEY)||'{}');
+const tas=[...document.querySelectorAll('textarea')];
+function paint(){
+  let done=0;
+  tas.forEach(t=>{
+    const filled=t.value.trim().length>0;
+    if(filled) done++;
+    t.closest('.card').classList.toggle('done',filled);
+  });
+  document.getElementById('prog').textContent=`${done} / ${tas.length} written`;
+}
+tas.forEach(t=>{
+  if(store[t.dataset.id]) t.value=store[t.dataset.id];
+  t.addEventListener('input',()=>{
+    store[t.dataset.id]=t.value;
+    localStorage.setItem(KEY,JSON.stringify(store));
+    paint();
+  });
+});
+document.getElementById('next').onclick=()=>{
+  const t=tas.find(t=>!t.value.trim());
+  if(t){ t.scrollIntoView({block:'center',behavior:'smooth'}); t.focus(); }
+};
+document.getElementById('exp').onclick=()=>{
+  const out=tas.map(t=>({id:t.dataset.id,justification:t.value.trim()}));
+  const b=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b); a.download='l45_justifications.json'; a.click();
+};
+paint();
+</script></body></html>

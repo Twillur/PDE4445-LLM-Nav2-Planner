@@ -80,12 +80,14 @@ The gap
 
 None of these works quantify reliability as a function of command complexity in a real ROS2 stack. The assumption that LLM-generated plans are executable and correct is widespread and untested. Table I summarises the gap:
 
-Area	Existing work	Gap
-Task planning	[1]–[4]	No reliability quantification across complexity
-Navigation	[5]–[7]	VLN benchmarks, not ROS2
-Execution	[8], [9]	No LLM integration
-Prompting	[10]	No schema-expressiveness analysis
-Additional references
+| Area | Existing work | Gap |
+|---|---|---|
+| Task planning | [1]–[4] | No reliability quantification across complexity |
+| Navigation | [5]–[7] | VLN benchmarks, not ROS2 |
+| Execution | [8], [9] | No LLM integration |
+| Prompting | [10] | No schema-expressiveness analysis |
+
+**Additional references**
 
 The following support specific methodological claims. Tam et al. [11] show that constraining LLMs to structured formats degrades reasoning performance — the closest prior work to this finding, distinguished in §V-D. JSONSchemaBench [12] establishes JSON-schema-based LLM generation as a reliability technique. Ji et al. [13] survey hallucination in natural language generation; named-location validation reduces failure modes. ReAct [15] is contrasted with the single-call design in §III-A. Pallottino [17] motivates warehouse robotics deployment. Macenski et al. [16] present Nav2 behaviour trees, connecting the on_blocked vocabulary to established contingency representations.
 

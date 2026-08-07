@@ -8,12 +8,16 @@ Three independent checks, mirroring the dissertation's metrics:
 """
 
 import json
+import os
 from pathlib import Path
 
 import jsonschema
 
 ROOT = Path(__file__).resolve().parent.parent
-SCHEMA = json.loads((ROOT / "schema" / "waypoint_plan.schema.json").read_text(encoding="utf-8"))
+# SCHEMA_VERSION unset -> the v1/v2 contract, so existing runs are unaffected.
+_SV = os.environ.get("SCHEMA_VERSION", "")
+SCHEMA_PATH = ROOT / "schema" / (f"waypoint_plan_{_SV}.schema.json" if _SV else "waypoint_plan.schema.json")
+SCHEMA = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
 MAP = json.loads((ROOT / "map" / "warehouse_map.json").read_text(encoding="utf-8"))
 KNOWN_LOCATIONS = set(MAP["locations"].keys())
 

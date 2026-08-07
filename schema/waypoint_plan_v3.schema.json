@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WaypointPlan v3",
+  "description": "Contract between the LLM planner and the Nav2 executor. v1 design decision: the LLM references named map locations only \u2014 never raw coordinates \u2014 so every waypoint is validated against the map before execution and coordinate hallucination is structurally impossible. v3 adds on_blocked='goto_fallback' plus a fallback_target field, so an alternative-destination conditional ('if A is unreachable, go to B instead') is representable instead of being flattened into an unconditional sequence.",
+  "type": "object",
+  "required": [
+    "understood",
+    "plan"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "understood": {
+      "type": "boolean",
+      "description": "False if the command cannot be safely executed without clarification."
+    },
+    "clarification_question": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Required (non-null) when understood is false: the single question to ask the operator."
+    },
+    "plan": {
+      "type": "array",
+      "description": "Ordered steps. Must be empty when understood is false.",
+      "items": {
+        "type": "object",
+        "required": [
+          "action"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "navigate",
+              "wait"
+            ]
+          },
+          "target": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Named map location. Required for navigate; null for wait."
+          },
+          "duration_s": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Wait duration in seconds (wait action only)."
+          },
+          "on_blocked": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "abort",
+              "skip",
+              "reroute_perimeter",
+              "wait_retry",
+              "goto_fallback",
+              null
+            ],
+            "description": "Contingency if this step's path is blocked: abort the plan, skip this step, reroute via the perimeter, wait_retry (pause then re-attempt the same step), or null = Nav2's own recovery behaviors. wait_retry added in v2 to express 'wait a bit and try again'. goto_fallback (v3) = if this step is blocked, abandon it and navigate to fallback_target instead."
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "One short sentence: why this step serves the command."
+          },
+          "fallback_target": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Named map location to divert to when on_blocked is 'goto_fallback'. Required in that case, null otherwise.",
+            "default": null
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "on_blocked": {
+                  "const": "goto_fallback"
+                }
+              },
+              "required": [
+                "on_blocked"
+              ]
+            },
+            "then": {
+              "required": [
+                "fallback_target"
+              ],
+              "properties": {
+                "fallback_target": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Assumptions made, ambiguities resolved with safe defaults, or capability limits (e.g. robot cannot clean/grasp)."
+    }
+  }
+}

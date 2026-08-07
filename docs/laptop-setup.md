@@ -68,19 +68,26 @@ These are **not** in either repo and would be lost with the PC:
 - `C:\Users\willi\CLAUDE.md` — project instructions
 
 They contain personal material (job applications, interviews, hardware notes), so they
-must **not** go in this public repo. Put them in a **private** repo instead:
+must **not** go in this public repo. They live in a **private** repo instead:
+
+**`https://github.com/Twillur/claude-context`** — private, created 2026-08-07.
+
+Restore on the laptop:
 
 ```bash
-gh auth login                                    # once, interactive
-mkdir claude-context && cd claude-context
-cp -r "C:/Users/willi/.claude/projects/C--Users-willi/memory" .
-cp "C:/Users/willi/CLAUDE.md" .
-git init && git add -A && git commit -m "Claude context snapshot"
-gh repo create claude-context --private --source=. --push
+git clone https://github.com/Twillur/claude-context.git
+mkdir -p "$HOME/.claude/projects/C--Users-willi"
+cp -r claude-context/memory "$HOME/.claude/projects/C--Users-willi/"
+cp claude-context/CLAUDE.md "$HOME/CLAUDE.md"
 ```
 
-On the laptop, clone it and copy the two paths back into place. Re-push whenever the
-context changes materially — it is a snapshot, not a live sync.
+Re-push whenever the context changes materially — it is a snapshot, not a live sync:
+
+```bash
+cd claude-context
+cp -r "<path>/.claude/projects/C--Users-willi/memory" . && cp "<path>/CLAUDE.md" .
+git add -A && git commit -m "Context snapshot" && git push
+```
 
 ## 5. What does NOT transfer: WSL2 + ROS2 + Gazebo
 

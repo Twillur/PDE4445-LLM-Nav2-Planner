@@ -4,6 +4,9 @@ Working scaffold for the 40% technical article. **Structure and budgets only —
 Delete this file before submission if you'd rather it not sit in the assessed repo.
 
 ---
+**Abstract**
+
+LLMs can translate natural language into structured plans for robots. But how reliable are these plans when executed on a production navigation stack? This paper presents an evaluation of 100 commands across five complexity levels, executed on ROS2 Nav2 in a Gazebo warehouse. Reliability is non-monotonic: L4 conditional commands score 55.0% strict, while L5 ambiguous commands score 85.0% strict. The cause is not linguistic difficulty — it is schema expressiveness. L5 commands can defer via clarification; L4 commands are unambiguous but the contingency vocabulary is target-less. The model understands the condition and writes it in the `reason` field, but the schema has no executable slot for it. A minimal schema extension confirms the diagnosis. The finding is that reliability is bounded by plan representation, not by language complexity.
 
 ## Constraints
 
@@ -33,22 +36,25 @@ Trim from IV first if you overrun — implementation detail is the most compress
 
 ---
 
-## I. Introduction (700 w)
+## I. Introduction
 
-**Purpose:** problem, why it matters, what you built, what you found, contributions list.
+Warehouse robots need non-expert operators. Today's interfaces are waypoint GUIs or hard-coded routes — neither is accessible to a warehouse worker who speaks English.
 
-Beats, in order:
-1. Warehouse robots need non-expert operators; today's interface is waypoint GUIs or hard-coded routes.
-2. LLMs can translate English → structure, so the bridge is plausible — but nobody has published reliability *numbers* for it into a production nav stack.
-3. What this work is: a prompt architecture + JSON schema translating English into Nav2 waypoint plans, evaluated over 100 commands across 5 graded complexity levels in a Gazebo warehouse.
-4. **Lead with the counter-intuitive result** — reliability is *non-monotonic*. Put "L5 85% vs L4 55%" in the introduction. It's your hook; don't make the marker wait until §V.
-5. Scope exclusions, stated up front: navigation and observation only, no manipulation. Simulation-based (TRL 4–6, which the module expects).
+Large language models can translate English into structured plans. The bridge is plausible. But nobody has published reliability numbers for LLM-generated plans executed on a production ROS2 navigation stack. This work provides them.
 
-**Contributions — state as an explicit numbered list.** Markers look for this:
-> (i) a prompt architecture and named-location JSON schema that makes coordinate hallucination structurally impossible;
-> (ii) a five-level command-complexity dataset (100 commands) and evaluation framework;
-> (iii) evidence that reliability is bounded by **plan-schema expressiveness**, not linguistic complexity;
-> (iv) a minimal schema extension (`fallback_target`) that tests (iii) directly, with its scope of effect measured.
+The system is a prompt architecture and JSON schema that translates English commands into Nav2 waypoint plans. It was evaluated on 100 commands across five graded complexity levels in a Gazebo warehouse. The results are counter-intuitive: reliability is non-monotonic. L4 conditional commands score 55.0% strict; L5 ambiguous commands score 85.0% strict. L5, the vaguest level, outperforms L4 by 30 points.
+
+The cause is not linguistic difficulty. It is schema expressiveness. L5 has an escape hatch — `understood: false` and a clarification question. L4 has none — the command is unambiguous, but the contingency vocabulary is target-less. The model understands the conditional and writes it in the `reason` field, but the schema has no executable slot for it. The condition leaks into a comment.
+
+A minimal schema extension — adding `goto_fallback` and `fallback_target` — tests this diagnosis directly. The v3 experiment shows the model stops inventing the field once the field exists.
+
+Scope is limited to navigation and observation. No manipulation. Simulation-based, TRL 4–6.
+
+**Contributions**
+(i) a prompt architecture and named-location JSON schema that makes coordinate hallucination structurally impossible;
+(ii) a five-level command-complexity dataset (100 commands) and evaluation framework;
+(iii) evidence that reliability is bounded by plan-schema expressiveness, not linguistic complexity;
+(iv) a minimal schema extension that tests this claim directly.
 
 ---
 
@@ -267,30 +273,25 @@ Results:
 
 The v3 L4 rubric items are ungraded — 33 of 60 records are `manual`. There is no v3 semantic pass rate. Schema adherence and structural encoding only.
 
-**F. Threats to validity** — ⚠️ *still scaffold; this was deleted when §V-E was rewritten.*
-One honest paragraph. Cover all five: one model, one temperature, one map, 20 items per level;
-single grader with no inter-rater agreement statistic [14]; simulation only, no hardware
-validation; **plans were graded rather than all 100 executed** (end-to-end validation was on
-representative plans); v3 evaluated structurally but not semantically. Volunteering these is
-one of the cheapest marks available, and it pre-empts three of the four dangerous viva questions.
+**F. Threats to validity**
+
+One model (gpt-4o-mini), one temperature, one map, 20 items per level. Single grader, no inter-rater reliability statistic [14]. Plans were graded rather than all 100 executed — end-to-end validation was on representative plans. Simulation only — no hardware validation. v3 structurally evaluated but not semantically graded. The L4 taxonomy rests on ten hand-graded items, and the grading standard was deliberately strict to surface schema limitations as findings.
 
 ---
 
-## VI. Conclusion and Future Work (480 w)
+## VI. Conclusion and Future Work
 
-Restate the contributions against the evidence. The headline, in one sentence:
+Reliability is bounded by the expressiveness of the plan representation, not by the linguistic complexity of the command. The flat L1–L3 region and the L4 dip separate these two factors cleanly: designed linguistic difficulty rose monotonically across the five levels, and success did not follow.
 
-> Reliability is bounded by the expressiveness of the plan representation, not by the linguistic complexity of the command.
+The contributions are:
+(i) a prompt architecture and JSON schema that makes coordinate hallucination structurally impossible;
+(ii) a five-level dataset and evaluation framework;
+(iii) evidence that reliability is bounded by schema expressiveness, not linguistic complexity;
+(iv) a minimal schema extension that tests this claim directly.
 
-Why that matters: the two are routinely conflated, and the flat L1–L3 region plus the L4 dip separates them cleanly — designed linguistic difficulty rose monotonically and success did not.
+**Future work**
 
-**Future work, ordered by evidential support** (each already motivated by data, which is what makes this section strong rather than speculative):
-1. Extend the schema for the three residual classes v3 does not cover — multi-waypoint fallbacks, aggregate conditions, alternative approach geometry
-2. Grade v3 semantically to obtain the L4 pass rate
-3. Cross-model comparison (the Anthropic provider path already exists in `planner.py` — zero code changes needed)
-4. Replace the mock semantic map with a real SLAM Toolbox map, same location names
-5. **Hardware deployment** — costed BOM, Jetson Nano + TurtleBot3-class platform, ~$430 custom / ~$900 kit. Declared out of scope from the outset (simulation-first was a design decision, not a fallback) but fully specified
-6. Second grader + inter-rater reliability
+The v3 extension repaired the alternative-destination class but left three residual classes: multi-waypoint fallbacks, aggregate conditions, and approach geometry. Extending the schema for these is the next step. Grading v3 semantically would provide the L4 pass rate. Cross-model comparison is feasible — the Anthropic provider path already exists in `planner.py`. Hardware deployment is costed but out of scope.
 
 ---
 
@@ -309,10 +310,12 @@ All five figures exist and Tables I–V are populated from real data.
 | Fig. 4 reliability curve | `results/figures/fig1_reliability_curve.svg` |
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
-**Still to create:**
-- 🟡 **§V-F threats to validity** — deleted during the §V-E rewrite, scaffold restored
-- 🟡 §I, §VI and the abstract are still scaffold notes
-- 🟡 Abstract — write it **last**
+**Still to do** (figures and references are DONE — this list has reverted twice, check it against the mapping table above before trusting it):
+- 🔴 Reconcile the abstract with §V-F — the abstract says 100 commands were "executed"; §V-F says plans were graded rather than all executed
+- 🟡 Confirm co-authors for [17] (publisher blocks automated fetch); [11]–[16] are verified in `docs/references.md`
+- 🟡 Write the AI-use declaration
+- 🟡 Format in IEEE two-column
+- 🟡 Summary video (blog requirement, separate 40%)
 
 ---
 

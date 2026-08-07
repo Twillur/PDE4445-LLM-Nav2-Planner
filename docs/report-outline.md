@@ -154,7 +154,7 @@ Schema adherence and semantic accuracy are reported separately, not collapsed in
 
 The marking standard was deliberately strict: a plan passes only if the rubric is satisfied **and** the executed behaviour matches the command intent. If the rubric is satisfied but the behaviour deviates, the item is marked **Partial** and the limitation is recorded. This strictness was chosen to surface schema limitations as findings rather than hide them.
 
-One limitation is declared honestly: a single grader, no second rater, no inter-rater reliability statistic.
+One limitation is declared honestly: a single grader, no second rater, no inter-rater reliability statistic [14].
 
 ---
 
@@ -252,16 +252,25 @@ The taxonomy confirms this. Retry the same target? The schema has `wait_retry` �
 
 The strongest evidence is the schema violations. Across all three v2 trials, there are exactly three out-of-enum `on_blocked` emissions — and all three are at L4. `wait` (L4-08), `navigate` (L4-17), and most tellingly `try_aisle_1_north` (L4-19) — a recovery destination where a recovery behaviour belongs. The model synthesised the missing field. It only breaks the schema where the schema cannot say what needs to be said.
 
-**E. Testing the explanation — schema v3.** Turns the diagnosis into an experiment.
-Method: v3 = v2 + exactly one change (`on_blocked: "goto_fallback"` + `fallback_target`), generated as a delta so it is the only variable. L4 re-run, 3 trials, same model and temperature.
-- **Schema adherence 55/60 → 60/60.** Every out-of-vocabulary emission disappears, including `try_aisle_1_north`. **The model stops inventing the field once the field exists** — that is the causal confirmation.
-- **Branch encoding 0/9 → 7/9 trials** on single-alternative-destination commands (v2 scores 0 *by construction*). L4-12 and L4-13 stable 3/3; L4-17 names the fallback every time but redundantly re-visits it on 2 of 3.
-- **Residual failures fall exactly outside the fix's designed scope** — multi-waypoint alternatives (L4-02), aggregate conditions (L4-10, L4-15), approach geometry (L4-20). A fix that repaired everything would be suspicious; one with a measured boundary is a result.
+**E. Testing the explanation — schema v3**
 
-🔴 **HARD LIMIT — do not overstate.** The v3 L4 rubric items are **ungraded** (33 of 60 records are `manual`). There is **no v3 semantic pass rate**. You may claim schema adherence and structural encoding. You may **not** write that v3 "fixes the 55%." Either grade those 33 records or scope the claim precisely.
+The diagnosis predicts that adding a target fallback to the schema should recover the alternative-destination cases. v3 tests this directly.
 
-**F. Threats to validity.** One honest paragraph — markers reward it:
-one model, one temperature, one map, 20 items/level; single grader, no inter-rater statistic; simulation only, no hardware validation; v3 structurally but not semantically evaluated.
+Method: v3 = v2 plus exactly one change — `on_blocked: "goto_fallback"` + `fallback_target` — generated as a delta so it is the only variable. L4 re-run, 3 trials, same model and temperature.
+
+Results:
+- Schema adherence: 55/60 → 60/60. Every out-of-vocabulary emission disappears, including `try_aisle_1_north`. The model stops inventing the field once the field exists — this is the causal confirmation.
+- Branch encoding: 0/9 → 7/9 trials on single-alternative-destination commands. L4-12 and L4-13 stable 3/3; L4-17 names the fallback every time but redundantly re-visits it on 2 of 3 trials.
+- Residual failures fall exactly outside the fix's designed scope — multi-waypoint alternatives (L4-02), aggregate conditions (L4-10, L4-15), approach geometry (L4-20). A fix that repaired everything would be suspicious; one with a measured boundary is a result.
+
+The v3 L4 rubric items are ungraded — 33 of 60 records are `manual`. There is no v3 semantic pass rate. Schema adherence and structural encoding only.
+
+**F. Threats to validity** — ⚠️ *still scaffold; this was deleted when §V-E was rewritten.*
+One honest paragraph. Cover all five: one model, one temperature, one map, 20 items per level;
+single grader with no inter-rater agreement statistic [14]; simulation only, no hardware
+validation; **plans were graded rather than all 100 executed** (end-to-end validation was on
+representative plans); v3 evaluated structurally but not semantically. Volunteering these is
+one of the cheapest marks available, and it pre-empts three of the four dangerous viva questions.
 
 ---
 
@@ -285,12 +294,7 @@ Why that matters: the two are routinely conflated, and the flat L1–L3 region p
 
 ## Assets: have vs. need
 
-**Ready to drop in:**
-- `results/figures/fig1_reliability_curve.svg` → Fig. 4
-- `results/figures/fig2_v1_vs_v2.svg` → Fig. 3
-- `results/figures/fig3_outcome_composition.svg` → Fig. 5
-- `assets/gazebo-turtlebot3-first-launch.png` → Fig. 2 (partial)
-- Tables I–V all populated above from real data
+All five figures exist and Tables I–V are populated from real data.
 
 **File → figure-number mapping** (the filenames do NOT match the report numbering — check every reference):
 
@@ -304,8 +308,9 @@ Why that matters: the two are routinely conflated, and the flat L1–L3 region p
 | Fig. 5 outcome composition | `results/figures/fig3_outcome_composition.svg` |
 
 **Still to create:**
+- 🟡 **§V-F threats to validity** — deleted during the §V-E rewrite, scaffold restored
+- 🟡 §I, §VI and the abstract are still scaffold notes
 - 🟡 Abstract — write it **last**
-- 🟡 §V-E and §V-F are still scaffold notes, not prose
 
 ---
 

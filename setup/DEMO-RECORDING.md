@@ -125,3 +125,35 @@ Roughly three minutes, in this order:
 
 Record narration separately and lay it over the footage. Talking while driving a
 demo produces worse versions of both.
+
+---
+
+## Known failure: map_server configures but never activates
+
+Symptom: Gazebo is up, `lifecycle_manager_navigation` reports "Managed nodes are
+active", but the robot never moves and the executor sits on
+`Waiting for Nav2 (ground_truth) to become active...` indefinitely.
+
+Check the launch log:
+
+```
+[global_costmap]: Can't update static costmap layer, no map received
+```
+
+`map_server` is managed by `lifecycle_manager_localization`, which is a
+*different* manager from the navigation one. The script waits for
+"Managed nodes are active" from the navigation manager, which can report ready
+while `map_server` is still stuck at "Creating" and never publishes `/map`.
+With no map the global costmap cannot plan, and `--localization ground_truth`
+keys executor readiness off `map_server`, so both sides wait forever.
+
+Observed on a second launch after several kill/relaunch cycles; the first launch
+of a session worked correctly. Suspected stale lifecycle or daemon state rather
+than configuration - the map file and paths were unchanged between runs.
+
+**Not a hardware fault.** The launch log contained no "process has died", no
+signal, no segfault and no core dump. Worth checking explicitly given the CPU
+cap caveat, but this was not it.
+
+If it happens: full teardown (`setup/_killsim.sh`), `ros2 daemon stop`, then a
+single clean launch. Verify `/map` has a publisher before running the executor.

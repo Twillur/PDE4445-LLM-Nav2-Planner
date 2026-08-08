@@ -9,6 +9,8 @@
 # delivers nothing, so Cyclone DDS pinned to loopback is mandatory, not a
 # preference.
 
+# Do NOT run `set -u` in a script that sources this: ROS2's setup.bash
+# references AMENT_TRACE_SETUP_FILES unguarded and the shell dies silently.
 WS_DEFAULT="/mnt/c/Users/willi/source/repos/PDE4445-LLM-Nav2-Planner/ros2_ws"
 WS="${NL_NAV2_WS:-$WS_DEFAULT}"
 

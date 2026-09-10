@@ -53,3 +53,35 @@ and driving the robot through a plan — see [`ros2_ws/README.md`](ros2_ws/READM
 
 Level 5 includes hallucination traps ("go to aisle 5" — there is no aisle 5) and
 capability traps ("clean up aisle 2" — the robot has no arm).
+
+## Results
+
+100 commands × 3 trials, `gpt-4o-mini` at temperature 0, prompt architecture v2.
+Schema and map validation are automatic; semantics were graded by hand where
+automation cannot judge.
+
+| Level | Strict | With partial credit |
+|---|---|---|
+| L1 Direct | 96.7% | 96.7% |
+| L2 Spatial | 95.0% | 95.0% |
+| L3 Multi-step | 95.0% | 95.0% |
+| **L4 Conditional** | **55.0%** | 70.0% |
+| **L5 Ambiguous** | **85.0%** | 92.5% |
+
+**Reliability is non-monotonic.** L5 — the vaguest level — beats L4 by 30 points.
+
+The cause is not linguistic difficulty, it is schema expressiveness. L5 has an
+escape hatch: the plan can return `understood: false` with a clarification
+question. L4 has none. The command is unambiguous, but the contingency
+vocabulary is target-less, so the model understands the condition, writes it
+into the `reason` field, and the condition leaks into a comment instead of
+becoming executable.
+
+A minimal schema extension — adding `goto_fallback` and `fallback_target` —
+tests that diagnosis directly: once the field exists, the model stops inventing
+it. The finding is that **reliability is bounded by plan representation, not by
+language complexity.**
+
+Write-up: [The Dip at Level 4](https://twillur.github.io/PDE4445-Robotics-Dissertation/2026/08/07/the-dip-at-level-4/)
+
+Scope is navigation and observation only — no manipulation. Simulation-based, TRL 4–6.

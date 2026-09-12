@@ -1,0 +1,47 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="William's MSc Robotics research: typed language, structured plans and verified warehouse navigation. Explore the evidence, simulation and engineering artifacts."><title>Reproduction and software · NL → Nav2</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head><body><a class="skip" href="#main">Skip to content</a><header class="topbar"><div class="wrap"><a class="brand" href="index.html">NL → NAV2 <span>/ research portfolio</span></a><nav aria-label="Main navigation"><a href="index.html#study">Study</a><a href="index.html#simulation">Simulation</a><a href="index.html#downloads">Downloads</a><a href="hardware.html">Hardware</a><a href="reproduce.html">Reproduce</a></nav></div></header><main id="main"><div class="wrap"><section class="subhero"><span class="eyebrow">Reproduction / software / interfaces</span><h1>Inspect, run,<br>then extend.</h1><p>Start with saved plans and software tests. Use the dated evidence directories to distinguish the original experiment from the corrected executor.</p></section><section class="section" id="stack"><h2>The software that actually runs.</h2><div class="table-scroll"><table><thead><tr><th>Layer</th><th>Used in this project</th><th>Role / evidence</th></tr></thead><tbody>
+<tr><td>Host</td><td>Windows 11 + WSL Ubuntu 22.04</td><td>ROS and simulation run inside WSL.</td></tr>
+<tr><td>Language planning</td><td>Python · gpt-4o-mini · temperature 0</td><td>One API call, JSON-object mode, named locations. <a href="../../src/planner.py">Planner source</a>.</td></tr>
+<tr><td>Data contract</td><td>JSON Schema · jsonschema</td><td>Historical evaluation schemas remain unchanged. A separate September runtime contract gates execution.</td></tr>
+<tr><td>Middleware</td><td>ROS2 Humble · Cyclone DDS</td><td>Loopback configuration for this WSL host. A distributed physical deployment needs a different network configuration.</td></tr>
+<tr><td>Simulation</td><td>Gazebo Classic 11 · TurtleBot3 Waffle</td><td>Scripted warehouse, simulated range sensor and ground-truth odometry.</td></tr>
+<tr><td>Global planning</td><td>NavFn · <code>use_astar: false</code></td><td><code>nav2_navfn_planner/NavfnPlanner</code> in the saved configuration.</td></tr>
+<tr><td>Path following</td><td>Regulated Pure Pursuit</td><td>Desired linear speed 0.26 m/s; 0.25 m / 0.25 rad goal tolerances.</td></tr>
+<tr><td>Costmaps</td><td>Static, obstacle / voxel, inflation layers</td><td>Configured scan observations on <code>/scan</code>; inflated obstacles guide navigation clearance.</td></tr>
+<tr><td>Recovery</td><td>Nav2 behaviour server and per-step executor policies</td><td>Configured spin/back-up/wait behaviours; explicit abort, skip, retry, perimeter and later fallback handling.</td></tr>
+<tr><td>Localisation in the recorded simulation</td><td>Map server + static map→odom transform</td><td>Ground truth. SLAM Toolbox was not used to obtain these runs.</td></tr>
+<tr><td>Figures and documents</td><td>Matplotlib · LaTeX/IEEEtran · BibTeX</td><td>Data-driven figures with PNG, SVG and PDF exports; eight-page report draft.</td></tr>
+</tbody></table></div><p class="small">Source of implementation details: <a href="../../ros2_ws/src/nl_nav2_executor/params/nav2_params.yaml">Nav2 parameters</a>, <a href="../../ros2_ws/src/nl_nav2_executor/launch/warehouse_sim.launch.py">simulation launch</a>, <a href="../../setup/sim-env.sh">environment script</a>. Listed plugins are configured components; this is not a claim that every behaviour was triggered in the demos.</p></section>
+<section class="section body-copy"><span class="eyebrow">01 / No API key required</span><h2>Run the software checks.</h2><pre><code># From the repository root, using an environment with pytest + jsonschema:
+python -m pytest ros2_ws/src/nl_nav2_executor/test -q
+
+# Deterministic replay of the saved v3 branch, with A unavailable:
+python ros2_ws/src/nl_nav2_executor/scripts/dry_run.py \
+  --plan docs/validation/execution-check-20260911T172852Z/v3-L4-12-trial0.json \
+  --blocked storage_zone_a</code></pre><p>The expected successful visit is <code>storage_zone_b</code>. Without <code>--blocked</code>, only A is visited. Blocking both A and B produces exit code 1. These are mock navigation checks; no robot moves.</p><pre><code># WSL: rebuild and verify installed ROS imports and runtime resources
+bash setup/verify-runtime-fixes.sh</code></pre></section>
+<section class="section body-copy"><span class="eyebrow">02 / In WSL Ubuntu 22.04</span><h2>Run the actual warehouse.</h2><pre><code># ROS2 Humble, Gazebo Classic 11, Nav2 and TurtleBot3 packages must be installed.
+source setup/sim-env.sh
+cd ros2_ws
+colcon build --packages-select nl_nav2_executor --symlink-install
+source install/setup.bash
+ros2 launch nl_nav2_executor warehouse_sim.launch.py</code></pre><p>In a second terminal, from the repository root:</p><pre><code>source setup/sim-env.sh
+source ros2_ws/install/setup.bash
+ros2 run nl_nav2_executor execute_plan \
+  --plan docs/validation/execution-check-20260911T172852Z/v2-L1-01-trial0.json \
+  --map map/warehouse_map.json</code></pre><p>Wait for both the map-server and navigation lifecycle managers to be active. The robot starts at the charging dock. Exit code 0 means completed execution; 1 means incomplete, aborted or deferred; 2 means rejected input. A fallback success is reported separately from reaching the primary destination.</p><div class="note">The current executor differs from the one used for the earlier 9/9 replays. See <a href="../validation/runtime-fixes-20260912/README.md">the correction record</a> and its preserved original files. Running old plans on new code is not an exact reproduction of old runtime behaviour.</div></section>
+<section class="section body-copy"><span class="eyebrow">03 / Optional live model call</span><h2>Type a new command.</h2><pre><code># Configure an API key privately in the environment or local .env.
+# The following command makes one billed API call.
+export PROMPT_VERSION=v2
+python src/run_pipeline.py "Go to the loading dock" \
+  --out /tmp/warehouse-plan.json</code></pre><p>The bridge validates the returned plan before writing an executable output. A clarification response does not trigger navigation. Select v3 explicitly for the fallback representation; the default planner prompt in the existing source remains v1 unless <code>PROMPT_VERSION</code> is set.</p></section>
+<section class="section body-copy"><span class="eyebrow">04 / Visual artifacts</span><h2>Rebuild the presentation material.</h2><pre><code># In a Python environment with Matplotlib:
+python setup/build-portfolio-figures.py
+python setup/build-portfolio-pages.py
+
+# Open docs/portfolio/index.html directly, or serve the repository locally:
+python -m http.server 8765 --bind 127.0.0.1
+# Then visit http://127.0.0.1:8765/docs/portfolio/
+
+# Genuine new Gazebo captures (WSL; requires Xvfb, ImageMagick, xdotool):
+bash setup/capture-portfolio.sh
+bash setup/capture-portfolio.sh detail</code></pre><p>Capture scripts create dated directories and stop only the process groups they launch. Raw frame sequences and ROS logs stay out of the presentation pack. Rebuilding the report uses <code>report/revised/build.ps1</code>; MiKTeX must be available.</p><a href="MEDIA.md">Media export and attribution notes →</a></section></div></main><footer><div class="wrap"><span>William · MSc Robotics · Middlesex University Dubai<br>PDE4445 · Simulation study · Updated 12 September 2026</span><span><a href="https://github.com/Twillur/PDE4445-LLM-Nav2-Planner">Source repository</a> · <a href="https://twillur.github.io/PDE4445-Robotics-Dissertation/">Project journal</a><br><a href="MEDIA.md">Media provenance</a> · <a href="../validation/README.md">Validation records</a></span></div></footer><script src="assets/route-data.js"></script><script src="app.js"></script></body></html>

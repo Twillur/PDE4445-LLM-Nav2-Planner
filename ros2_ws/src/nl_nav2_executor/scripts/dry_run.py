@@ -32,18 +32,21 @@ def main():
     ap.add_argument("--blocked", default="", help="comma-separated locations to block")
     args = ap.parse_args()
 
-    smap = SemanticMap.from_file(args.map)
-    plan = json.loads(Path(args.plan).read_text()) if args.plan else json.loads(sys.stdin.read())
-    blocked = {b for b in args.blocked.split(",") if b}
-
-    nav = MockNavigator(start=smap.point("charging_dock"), blocked=blocked)
-    result = run_plan(plan, smap, nav)
+    try:
+        smap = SemanticMap.from_file(args.map)
+        plan = json.loads(Path(args.plan).read_text(encoding="utf-8")) if args.plan else json.loads(sys.stdin.read())
+        blocked = {b for b in args.blocked.split(",") if b}
+        nav = MockNavigator(start=smap.point("charging_dock"), blocked=blocked)
+        result = run_plan(plan, smap, nav)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        print(f"Plan rejected before execution: {exc}", file=sys.stderr)
+        return 2
 
     print("\n".join(nav.logs))
     print("-" * 60)
     print(result.summary())
     print(f"visited: {nav.visited}")
-    return 0 if (result.understood and not result.aborted) else 1
+    return result.exit_code
 
 
 if __name__ == "__main__":

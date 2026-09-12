@@ -1,0 +1,39 @@
+\documentclass[a4paper,landscape]{article}
+\usepackage[margin=16mm]{geometry}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\pagestyle{empty}
+\definecolor{navblue}{HTML}{174D79}
+\definecolor{navpath}{HTML}{B76117}
+\newcommand{\routepanel}[3]{%
+\begin{minipage}[t]{.32\textwidth}\centering
+\textbf{#1}\par\smallskip
+\begin{tikzpicture}
+\begin{axis}[width=\linewidth,height=\linewidth,axis equal image,
+xmin=0,xmax=20,ymin=0,ymax=20,xtick={0,5,10,15,20},ytick={0,5,10,15,20},
+xlabel={East (m)},ylabel={North (m)},grid=major,grid style={gray!15},
+tick label style={font=\footnotesize},label style={font=\footnotesize},axis on top]
+\fill[gray!50] (axis cs:4.25,4) rectangle (axis cs:4.75,13);
+\fill[gray!50] (axis cs:7.25,4) rectangle (axis cs:7.75,13);
+\fill[gray!50] (axis cs:10.25,4) rectangle (axis cs:10.75,13);
+\fill[gray!50] (axis cs:13.25,4) rectangle (axis cs:13.75,13);
+\addplot[navpath,thick,no marks] table[x=x,y=y]{#2};
+\addplot[only marks,mark=*,navblue,mark size=2pt] coordinates {#3};
+\end{axis}\end{tikzpicture}
+\end{minipage}}
+\begin{document}
+\begin{center}
+{\LARGE Recorded Gazebo navigation checks}\par\medskip
+{12 September 2026 (Dubai) \quad | \quad TurtleBot3 Waffle, ROS2 Humble, Nav2}\par\bigskip
+\routepanel{Direct destination: 1 goal}{direct.dat}{(18,2)}\hfill
+\routepanel{East-wall sweep: 3 goals}{spatial.dat}{(19,1)(19,10)(19,19)}\hfill
+\routepanel{Two-aisle patrol: 5 goals}{multistep.dat}{(6,4)(6,16)(12,4)(12,16)(1,1)}
+\end{center}
+\noindent Orange: recorded odometry. Blue: requested destinations. Grey: warehouse shelves. Each run starts at the charging dock, $(1,1)$.
+\par\medskip
+\noindent The plots replay archived v2 plans (L1-01, L2-01, L3-01; trial 0) in a fresh headless world for each case. Displayed trajectories are sampled at approximately 0.5 simulated-second intervals from the raw ROS recordings. This is execution validation of saved plans, with one run per selected case; no new language-model calls or semantic grades were generated.
+\par\medskip
+\noindent Source: \texttt{gazebo-20260911T213643Z/}. The earlier attempt with a missing ground-plane search path and subsequent startup timeout remains in \texttt{gazebo-20260911T173623Z/}; it is not represented as a successful navigation trial.
+\end{document}

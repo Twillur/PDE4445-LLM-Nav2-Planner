@@ -1,0 +1,28 @@
+{
+  "understood": true,
+  "clarification_question": null,
+  "plan": [
+    {
+      "action": "navigate",
+      "target": "corner_se",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Start at the southeast corner."
+    },
+    {
+      "action": "navigate",
+      "target": "east_wall_mid",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Move to the midpoint of the east wall."
+    },
+    {
+      "action": "navigate",
+      "target": "corner_ne",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Finish at the northeast corner."
+    }
+  ],
+  "notes": null
+}

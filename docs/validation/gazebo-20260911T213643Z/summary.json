@@ -1,0 +1,188 @@
+[
+  {
+    "case": "v2-L1-01-trial0",
+    "expected_navigation_targets": [
+      "loading_dock"
+    ],
+    "reported_reached_targets": [
+      "loading_dock"
+    ],
+    "all_goals_reported_reached": true,
+    "goal_result_lines": [
+      [
+        "0",
+        "loading_dock",
+        "reached",
+        ""
+      ]
+    ],
+    "odometry_samples": 2307,
+    "executor_started": true,
+    "first_pose": {
+      "sim_time_s": 8.428,
+      "x": 0.9996770255413316,
+      "y": 1.0000168731864574,
+      "z": 0.008854228968707427
+    },
+    "last_pose": {
+      "sim_time_s": 91.444,
+      "x": 17.79325168781128,
+      "y": 1.9045975308113794,
+      "z": 0.009126012980948853
+    },
+    "z_range_m": [
+      0.00884889178378743,
+      0.009145636215025685
+    ],
+    "recorded_sim_duration_s": 83.016,
+    "raw_xy_path_length_m": 16.892135165059848,
+    "nearest_recorded_distance_to_each_target_m": {
+      "loading_dock": 0.22738319264041484
+    },
+    "odometry_physically_plausible": true,
+    "verified_navigation_success": true,
+    "position_cross_check_tolerance_m": 0.25
+  },
+  {
+    "case": "v2-L2-01-trial0",
+    "expected_navigation_targets": [
+      "corner_se",
+      "east_wall_mid",
+      "corner_ne"
+    ],
+    "reported_reached_targets": [
+      "corner_se",
+      "east_wall_mid",
+      "corner_ne"
+    ],
+    "all_goals_reported_reached": true,
+    "goal_result_lines": [
+      [
+        "0",
+        "corner_se",
+        "reached",
+        ""
+      ],
+      [
+        "1",
+        "east_wall_mid",
+        "reached",
+        ""
+      ],
+      [
+        "2",
+        "corner_ne",
+        "reached",
+        ""
+      ]
+    ],
+    "odometry_samples": 4236,
+    "executor_started": true,
+    "first_pose": {
+      "sim_time_s": 4.676,
+      "x": 0.999710432196199,
+      "y": 1.0000138972158075,
+      "z": 0.00886554024935322
+    },
+    "last_pose": {
+      "sim_time_s": 157.136,
+      "x": 19.00562622410748,
+      "y": 18.77229300483868,
+      "z": 0.008929602543339773
+    },
+    "z_range_m": [
+      0.00884845864465215,
+      0.00931932858291065
+    ],
+    "recorded_sim_duration_s": 152.46,
+    "raw_xy_path_length_m": 35.58160412111549,
+    "nearest_recorded_distance_to_each_target_m": {
+      "corner_se": 0.1987385608719578,
+      "east_wall_mid": 0.018077499317035107,
+      "corner_ne": 0.2272204046755037
+    },
+    "odometry_physically_plausible": true,
+    "verified_navigation_success": true,
+    "position_cross_check_tolerance_m": 0.25
+  },
+  {
+    "case": "v2-L3-01-trial0",
+    "expected_navigation_targets": [
+      "aisle_1_south",
+      "aisle_1_north",
+      "aisle_3_south",
+      "aisle_3_north",
+      "charging_dock"
+    ],
+    "reported_reached_targets": [
+      "aisle_1_south",
+      "aisle_1_north",
+      "aisle_3_south",
+      "aisle_3_north",
+      "charging_dock"
+    ],
+    "all_goals_reported_reached": true,
+    "goal_result_lines": [
+      [
+        "0",
+        "aisle_1_south",
+        "reached",
+        ""
+      ],
+      [
+        "1",
+        "aisle_1_north",
+        "reached",
+        ""
+      ],
+      [
+        "2",
+        "aisle_3_south",
+        "reached",
+        ""
+      ],
+      [
+        "3",
+        "aisle_3_north",
+        "reached",
+        ""
+      ],
+      [
+        "4",
+        "charging_dock",
+        "reached",
+        ""
+      ]
+    ],
+    "odometry_samples": 7535,
+    "executor_started": true,
+    "first_pose": {
+      "sim_time_s": 4.676,
+      "x": 0.999710432196199,
+      "y": 1.0000138972158075,
+      "z": 0.00886554024935322
+    },
+    "last_pose": {
+      "sim_time_s": 275.9,
+      "x": 1.1855717285951939,
+      "y": 1.1349557952232268,
+      "z": 0.009239576523436117
+    },
+    "z_range_m": [
+      0.00884845864465215,
+      0.009346551471900326
+    ],
+    "recorded_sim_duration_s": 271.224,
+    "raw_xy_path_length_m": 64.08668173047425,
+    "nearest_recorded_distance_to_each_target_m": {
+      "aisle_1_south": 0.17511353282001113,
+      "aisle_1_north": 0.2284428184297887,
+      "aisle_3_south": 0.2338716987811857,
+      "aisle_3_north": 0.22093327176160443,
+      "charging_dock": 0.00020774004287598237
+    },
+    "odometry_physically_plausible": true,
+    "verified_navigation_success": true,
+    "position_cross_check_tolerance_m": 0.25
+  }
+]

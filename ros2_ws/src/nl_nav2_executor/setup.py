@@ -9,6 +9,7 @@ setup(
     name=package_name,
     version="0.1.0",
     packages=find_packages(exclude=["test"]),
+    package_data={package_name: ["execution_plan.schema.json"]},
     data_files=[
         ("share/ament_index/resource_index/packages",
          ["resource/" + package_name]),
@@ -18,7 +19,7 @@ setup(
         (os.path.join("share", package_name, "worlds"), glob("worlds/*")),
         (os.path.join("share", package_name, "params"), glob("params/*")),
     ],
-    install_requires=["setuptools"],
+    install_requires=["setuptools", "jsonschema>=3.2"],
     zip_safe=True,
     maintainer="William",
     maintainer_email="williamkoju@gmail.com",

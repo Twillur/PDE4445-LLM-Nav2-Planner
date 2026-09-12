@@ -1,0 +1,5 @@
+component,vendor,listed_usd,planning_aed,source_url,checked_date,scope
+TurtleBot3 Waffle Pi · RPi4 4 GB,ROBOTIS,1681.40,6174.94,https://en.robotis.com/shop_en/item.php?it_id=901-0119-302,2026-09-12,Complete-platform candidate. The listed SKU was out of stock; confirm the current sensor revision and shipping lead time.
+Jetson Orin Nano Super bundle,Seeed Studio,450.30,1653.73,https://www.seeedstudio.com/NVIDIAr-Jetson-Orintm-Nano-Super-Developer-Kit-Bundle.html,2026-09-12,"Optional compute upgrade for future perception or local-model work. This is the captured supplier bundle price, not an old launch MSRP."
+RPLIDAR A1M8-R6,DFRobot,99.00,363.58,https://www.dfrobot.com/product-1125.html,2026-09-12,Standalone sensor candidate for a custom chassis. Do not add it to a complete TurtleBot kit that already includes a scanner.
+Raspberry Pi 5 · 8 GB,Adafruit,200.00,734.50,https://www.adafruit.com/product/5813,2026-09-12,Alternative computer for a future custom build. A Pi 5 is not a necessary extra purchase for the Pi-equipped TurtleBot kit.

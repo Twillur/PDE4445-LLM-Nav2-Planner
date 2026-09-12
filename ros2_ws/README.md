@@ -1,5 +1,7 @@
 # ros2_ws — Nav2 execution half
 
+Current setup, validation status and configured plugins: [visual reproduction guide](../docs/portfolio/reproduce.html). The executor was corrected on 12 September 2026; the historical simulation checks and new runtime tests are documented separately in [validation records](../docs/validation/README.md).
+
 Turns a validated LLM waypoint plan into robot motion. The planner (repo root)
 produces a JSON plan of **named** locations; this workspace resolves those names
 to metric poses and drives a TurtleBot3 through them in a Gazebo warehouse using
@@ -10,7 +12,8 @@ Nav2, honouring each step's `on_blocked` contingency.
 | Path | What |
 |---|---|
 | `nl_nav2_executor/semantic_map.py` | Load the semantic map; resolve names → poses; perimeter routing. Pure Python. |
-| `nl_nav2_executor/plan_runner.py` | The execution logic: step sequencing + `on_blocked` handling (abort / skip / reroute_perimeter / wait_retry). ROS-free, so it is unit-tested and reused by both the sim and the mock. |
+| `nl_nav2_executor/plan_runner.py` | Validates the whole plan, then handles sequencing and abort / skip / reroute_perimeter / wait_retry / goto_fallback. ROS-free and shared by the sim and mock. |
+| `nl_nav2_executor/plan_validation.py` | Shared runtime schema, cross-field and primary/fallback map checks; separate from archived evaluation scoring. |
 | `nl_nav2_executor/executor_node.py` | ROS2 node: wraps `nav2_simple_commander.BasicNavigator` and runs `plan_runner`. Entry point `execute_plan`. |
 | `nl_nav2_executor/mock_navigator.py` | In-memory navigator for tests / dry-runs (no ROS). |
 | `scripts/gen_warehouse_assets.py` | Regenerates the occupancy map + Gazebo world from one geometry description (keeps them aligned). |
@@ -22,7 +25,8 @@ Nav2, honouring each step's `on_blocked` contingency.
 ## Build
 
 ```bash
-# in WSL2 Ubuntu-22.04, ROS2 Humble sourced (see repo CLAUDE.md for the CycloneDDS env)
+# From the repository root in WSL2 Ubuntu-22.04:
+source setup/sim-env.sh
 cd ros2_ws
 colcon build --packages-select nl_nav2_executor --symlink-install
 source install/setup.bash
@@ -43,8 +47,9 @@ python ../src/run_pipeline.py "Patrol aisles 1 and 3, then return to base"
 ros2 run nl_nav2_executor execute_plan --plan ../results/last_plan.json
 ```
 
-Verified end-to-end (headless): the plan *aisle 1 south → north → packing
-station → home* reaches **4/4** goals, driving up the aisle between the shelves.
+The September integration checks reached **1/1, 3/3 and 5/5** goals with recorded odometry, using the pre-fix executor. A later filmed loading-dock run reached **1/1** with the corrected executor. See the linked records for source hashes and limitations; neither stage establishes obstacle-triggered fallback reliability.
+
+The current executor releases its own ROS client after a plan and leaves the shared Nav2 stack running. Invalid input returns before ROS initialisation. Exit codes: 0 complete; 1 incomplete, aborted or deferred; 2 input rejected. Reaching a fallback does not count as reaching its failed primary.
 
 **Localization modes** (`localization:=`):
 - `ground_truth` (default) — the Gazebo odom frame coincides with the map origin,

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "waffle-pi",
+    "source": "https://en.robotis.com/shop_en/item.php?it_id=901-0119-302",
+    "resolved_url": "https://en.robotis.com/shop_en/item.php?it_id=901-0119-302",
+    "captured_utc": "2026-09-12T09:59:35.569462+00:00",
+    "status": "captured",
+    "image": "waffle-pi.png",
+    "owner": "Original vendor; screenshot retained for attributed product comparison"
+  },
+  {
+    "id": "jetson-orin",
+    "source": "https://www.seeedstudio.com/NVIDIAr-Jetson-Orintm-Nano-Super-Developer-Kit-Bundle.html",
+    "resolved_url": "https://www.seeedstudio.com/NVIDIAr-Jetson-Orintm-Nano-Super-Developer-Kit-Bundle.html",
+    "captured_utc": "2026-09-12T09:59:23.528456+00:00",
+    "status": "captured",
+    "image": "jetson-orin.png",
+    "owner": "Original vendor; screenshot retained for attributed product comparison"
+  },
+  {
+    "id": "rplidar",
+    "source": "https://www.dfrobot.com/product-1125.html",
+    "resolved_url": "https://www.dfrobot.com/product-1125.html",
+    "captured_utc": "2026-09-12T10:11:28.958025+00:00",
+    "status": "captured",
+    "image": "rplidar.png",
+    "owner": "Original vendor; screenshot retained for attributed product comparison"
+  },
+  {
+    "id": "raspberry-pi",
+    "source": "https://www.adafruit.com/product/5813",
+    "resolved_url": "https://www.adafruit.com/product/5813",
+    "captured_utc": "2026-09-12T09:59:17.664088+00:00",
+    "status": "captured",
+    "image": "raspberry-pi.png",
+    "owner": "Original vendor; screenshot retained for attributed product comparison"
+  }
+]

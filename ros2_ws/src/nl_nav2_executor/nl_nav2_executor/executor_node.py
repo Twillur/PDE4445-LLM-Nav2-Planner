@@ -26,6 +26,7 @@ from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 from rclpy.parameter import Parameter
 
 from .plan_runner import run_plan
+from .plan_validation import PlanValidationError, validate_plan
 from .semantic_map import Point, SemanticMap
 
 DEFAULT_MAP = "/mnt/c/Users/willi/source/repos/PDE4445-LLM-Nav2-Planner/map/warehouse_map.json"
@@ -91,45 +92,58 @@ def main(argv=None):
                         help="Match the sim's localization mode; controls the Nav2 readiness wait.")
     args, ros_args = parser.parse_known_args(argv if argv is not None else sys.argv[1:])
 
+    # Reject invalid input before creating ROS nodes or changing robot state.
+    try:
+        smap = SemanticMap.from_file(args.map)
+        plan = _load_plan(args.plan)
+        validate_plan(plan, smap)
+        if not smap.has(args.start):
+            raise PlanValidationError(f"unknown start location '{args.start}'")
+        start = smap.point(args.start)
+        if not all(math.isfinite(v) for v in start):
+            raise PlanValidationError("start location must have finite coordinates")
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        print(f"Plan rejected before execution: {exc}", file=sys.stderr)
+        return 2
+
+    if not plan["understood"]:
+        print(f"NOT EXECUTED: {plan['clarification_question']}")
+        return 1
+
     rclpy.init(args=ros_args)
-    smap = SemanticMap.from_file(args.map)
-    plan = _load_plan(args.plan)
-    start = smap.point(args.start) if smap.has(args.start) else Point(0.0, 0.0)
+    navigator = None
+    try:
+        navigator = BasicNavigator()
+        # The whole sim runs on /clock; the navigator node must too.
+        navigator.set_parameters([Parameter("use_sim_time", Parameter.Type.BOOL, True)])
 
-    navigator = BasicNavigator()
-    # The whole sim runs on /clock; the navigator node must too, or stamps mismatch.
-    navigator.set_parameters([Parameter("use_sim_time", Parameter.Type.BOOL, True)])
+        if args.localization == "amcl":
+            init = PoseStamped()
+            init.header.frame_id = "map"
+            init.header.stamp = navigator.get_clock().now().to_msg()
+            init.pose.position.x = start.x
+            init.pose.position.y = start.y
+            init.pose.orientation.w = 1.0
+            navigator.setInitialPose(init)
+            navigator.get_logger().info("Waiting for Nav2 (amcl) to become active...")
+            navigator.waitUntilNav2Active()
+        else:
+            navigator.get_logger().info("Waiting for Nav2 (ground_truth) to become active...")
+            navigator.waitUntilNav2Active(localizer="map_server")
 
-    if args.localization == "amcl":
-        # Tell AMCL where we are, then wait for it to localise.
-        init = PoseStamped()
-        init.header.frame_id = "map"
-        init.header.stamp = navigator.get_clock().now().to_msg()
-        init.pose.position.x = start.x
-        init.pose.position.y = start.y
-        init.pose.orientation.w = 1.0
-        navigator.setInitialPose(init)
-        navigator.get_logger().info("Waiting for Nav2 (amcl) to become active...")
-        navigator.waitUntilNav2Active()
-    else:
-        # ground_truth: map->odom is a static identity tf; there is no amcl to
-        # wait on, so key readiness off map_server instead of /amcl_pose.
-        navigator.get_logger().info("Waiting for Nav2 (ground_truth) to become active...")
-        navigator.waitUntilNav2Active(localizer="map_server")
-
-    result = run_plan(plan, smap, Nav2Navigator(navigator, start))
-
-    navigator.get_logger().info("=" * 60)
-    navigator.get_logger().info(result.summary())
-    for s in result.steps:
-        navigator.get_logger().info(
-            f"  step {s.index}: {s.action} {s.target or ''} -> {s.outcome} {s.detail}")
-    navigator.get_logger().info("=" * 60)
-
-    navigator.lifecycleShutdown()
-    rclpy.shutdown()
-    # Non-zero exit if the plan was executed but a goal was ultimately not reached.
-    return 0 if (result.understood and not result.aborted) else 1
+        result = run_plan(plan, smap, Nav2Navigator(navigator, start))
+        navigator.get_logger().info("=" * 60)
+        navigator.get_logger().info(result.summary())
+        for s in result.steps:
+            navigator.get_logger().info(
+                f"  step {s.index}: {s.action} {s.target or ''} -> {s.outcome} {s.detail}")
+        navigator.get_logger().info("=" * 60)
+        return result.exit_code
+    finally:
+        # Release our client, leaving the shared Nav2 stack available for another plan.
+        if navigator is not None:
+            navigator.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == "__main__":

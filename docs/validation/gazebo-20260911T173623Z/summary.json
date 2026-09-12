@@ -1,0 +1,59 @@
+[
+  {
+    "case": "v2-L1-01-trial0",
+    "expected_navigation_targets": [
+      "loading_dock"
+    ],
+    "reported_reached_targets": [],
+    "all_goals_reported_reached": false,
+    "goal_result_lines": [
+      [
+        "0",
+        "loading_dock",
+        "failed",
+        "path blocked, no contingency"
+      ]
+    ],
+    "odometry_samples": 6135,
+    "executor_started": true,
+    "first_pose": {
+      "sim_time_s": 5.1,
+      "x": 1.0,
+      "y": 1.0,
+      "z": -110.54623040000071
+    },
+    "last_pose": {
+      "sim_time_s": 225.924,
+      "x": 1.000282123985519,
+      "y": 0.9999998899000266,
+      "z": -249329.77413056573
+    },
+    "z_range_m": [
+      -249329.77413056573,
+      -110.54623040000071
+    ],
+    "recorded_sim_duration_s": 220.824,
+    "raw_xy_path_length_m": 0.00029653977501157197,
+    "nearest_recorded_distance_to_each_target_m": {
+      "loading_dock": 17.029104735255057
+    },
+    "odometry_physically_plausible": false,
+    "verified_navigation_success": false,
+    "position_cross_check_tolerance_m": 0.25
+  },
+  {
+    "case": "v2-L2-01-trial0",
+    "expected_navigation_targets": [
+      "corner_se",
+      "east_wall_mid",
+      "corner_ne"
+    ],
+    "reported_reached_targets": [],
+    "all_goals_reported_reached": false,
+    "goal_result_lines": [],
+    "odometry_samples": 0,
+    "executor_started": false,
+    "verified_navigation_success": false,
+    "position_cross_check_tolerance_m": 0.25
+  }
+]

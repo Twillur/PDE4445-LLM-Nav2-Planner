@@ -1,0 +1,26 @@
+{
+  "local_html_references_checked": 118,
+  "browser_checks": [
+    {
+      "case": "desktop",
+      "passed": true,
+      "console_errors": []
+    },
+    {
+      "case": "mobile",
+      "passed": true,
+      "console_errors": []
+    },
+    {
+      "case": "hardware",
+      "passed": true,
+      "console_errors": []
+    },
+    {
+      "case": "reproduce",
+      "passed": true,
+      "console_errors": []
+    }
+  ],
+  "scope": "Curated static export served locally; no GitHub deployment performed."
+}

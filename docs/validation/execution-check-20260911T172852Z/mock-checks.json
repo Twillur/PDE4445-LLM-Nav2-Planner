@@ -1,0 +1,464 @@
+[
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L1-01",
+    "trial": 0,
+    "command": "Go to the loading dock",
+    "blocked": [],
+    "summary": "COMPLETED: 1/1 navigation goals reached",
+    "visited": [
+      "loading_dock"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "loading_dock",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> loading_dock",
+      "COMPLETED: 1/1 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "loading_dock",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Direct navigation to the named location."
+        }
+      ],
+      "notes": null
+    }
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L2-01",
+    "trial": 0,
+    "command": "Move along the east wall from south to north",
+    "blocked": [],
+    "summary": "COMPLETED: 3/3 navigation goals reached",
+    "visited": [
+      "corner_se",
+      "east_wall_mid",
+      "corner_ne"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "corner_se",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 1,
+        "action": "navigate",
+        "target": "east_wall_mid",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 2,
+        "action": "navigate",
+        "target": "corner_ne",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> corner_se",
+      "[1] navigate -> east_wall_mid",
+      "[2] navigate -> corner_ne",
+      "COMPLETED: 3/3 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "corner_se",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Start at the southeast corner."
+        },
+        {
+          "action": "navigate",
+          "target": "east_wall_mid",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Move to the midpoint of the east wall."
+        },
+        {
+          "action": "navigate",
+          "target": "corner_ne",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Finish at the northeast corner."
+        }
+      ],
+      "notes": null
+    }
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L3-01",
+    "trial": 0,
+    "command": "Patrol aisles 1 and 3, then return to the charging dock",
+    "blocked": [],
+    "summary": "COMPLETED: 5/5 navigation goals reached",
+    "visited": [
+      "aisle_1_south",
+      "aisle_1_north",
+      "aisle_3_south",
+      "aisle_3_north",
+      "charging_dock"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "aisle_1_south",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 1,
+        "action": "navigate",
+        "target": "aisle_1_north",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 2,
+        "action": "navigate",
+        "target": "aisle_3_south",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 3,
+        "action": "navigate",
+        "target": "aisle_3_north",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 4,
+        "action": "navigate",
+        "target": "charging_dock",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> aisle_1_south  (on_blocked=skip)",
+      "[1] navigate -> aisle_1_north  (on_blocked=skip)",
+      "[2] navigate -> aisle_3_south  (on_blocked=skip)",
+      "[3] navigate -> aisle_3_north  (on_blocked=skip)",
+      "[4] navigate -> charging_dock",
+      "COMPLETED: 5/5 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "aisle_1_south",
+          "on_blocked": "skip",
+          "duration_s": null,
+          "reason": "Enter aisle 1 from the south to begin the patrol."
+        },
+        {
+          "action": "navigate",
+          "target": "aisle_1_north",
+          "on_blocked": "skip",
+          "duration_s": null,
+          "reason": "Traverse to the north end to complete the patrol of aisle 1."
+        },
+        {
+          "action": "navigate",
+          "target": "aisle_3_south",
+          "on_blocked": "skip",
+          "duration_s": null,
+          "reason": "Enter aisle 3 from the south to begin the patrol."
+        },
+        {
+          "action": "navigate",
+          "target": "aisle_3_north",
+          "on_blocked": "skip",
+          "duration_s": null,
+          "reason": "Traverse to the north end to complete the patrol of aisle 3."
+        },
+        {
+          "action": "navigate",
+          "target": "charging_dock",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Return home as instructed."
+        }
+      ],
+      "notes": null
+    }
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L4-12",
+    "trial": 0,
+    "command": "Inspect storage zone A; if it's unreachable, inspect storage zone B instead",
+    "blocked": [],
+    "summary": "COMPLETED: 2/2 navigation goals reached",
+    "visited": [
+      "storage_zone_a",
+      "storage_zone_b"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "storage_zone_a",
+        "outcome": "reached",
+        "detail": ""
+      },
+      {
+        "index": 1,
+        "action": "navigate",
+        "target": "storage_zone_b",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> storage_zone_a  (on_blocked=reroute_perimeter)",
+      "[1] navigate -> storage_zone_b",
+      "COMPLETED: 2/2 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "storage_zone_a",
+          "on_blocked": "reroute_perimeter",
+          "duration_s": null,
+          "reason": "Attempt to navigate to storage zone A for inspection."
+        },
+        {
+          "action": "navigate",
+          "target": "storage_zone_b",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Navigate to storage zone B if storage zone A is unreachable."
+        }
+      ],
+      "notes": "Assuming 'inspect' means to navigate to the zones; the robot cannot perform any actual inspection."
+    },
+    "expected_successful_visits": [
+      "storage_zone_a"
+    ],
+    "exact_successful_visit_list_match": false
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L4-12",
+    "trial": 0,
+    "command": "Inspect storage zone A; if it's unreachable, inspect storage zone B instead",
+    "blocked": [
+      "storage_zone_a"
+    ],
+    "summary": "COMPLETED: 1/2 navigation goals reached",
+    "visited": [
+      "corner_sw",
+      "west_wall_mid",
+      "storage_zone_b"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "storage_zone_a",
+        "outcome": "failed",
+        "detail": "perimeter reroute blocked at storage_zone_a"
+      },
+      {
+        "index": 1,
+        "action": "navigate",
+        "target": "storage_zone_b",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> storage_zone_a  (on_blocked=reroute_perimeter)",
+      "  (blocked) could not reach storage_zone_a",
+      "[0] blocked -> reroute via perimeter: ['corner_sw', 'west_wall_mid', 'storage_zone_a']",
+      "  (blocked) could not reach storage_zone_a",
+      "[1] navigate -> storage_zone_b",
+      "COMPLETED: 1/2 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "storage_zone_a",
+          "on_blocked": "reroute_perimeter",
+          "duration_s": null,
+          "reason": "Attempt to navigate to storage zone A for inspection."
+        },
+        {
+          "action": "navigate",
+          "target": "storage_zone_b",
+          "on_blocked": null,
+          "duration_s": null,
+          "reason": "Navigate to storage zone B if storage zone A is unreachable."
+        }
+      ],
+      "notes": "Assuming 'inspect' means to navigate to the zones; the robot cannot perform any actual inspection."
+    },
+    "expected_successful_visits": [
+      "storage_zone_b"
+    ],
+    "exact_successful_visit_list_match": false
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v3",
+    "id": "L4-12",
+    "trial": 0,
+    "command": "Inspect storage zone A; if it's unreachable, inspect storage zone B instead",
+    "blocked": [],
+    "summary": "COMPLETED: 1/1 navigation goals reached",
+    "visited": [
+      "storage_zone_a"
+    ],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "storage_zone_a",
+        "outcome": "reached",
+        "detail": ""
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> storage_zone_a  (on_blocked=goto_fallback)",
+      "COMPLETED: 1/1 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "storage_zone_a",
+          "on_blocked": "goto_fallback",
+          "fallback_target": "storage_zone_b",
+          "duration_s": null,
+          "reason": "Inspect zone A; divert to zone B only if A cannot be reached."
+        }
+      ],
+      "notes": null
+    },
+    "expected_successful_visits": [
+      "storage_zone_a"
+    ],
+    "exact_successful_visit_list_match": true
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v3",
+    "id": "L4-12",
+    "trial": 0,
+    "command": "Inspect storage zone A; if it's unreachable, inspect storage zone B instead",
+    "blocked": [
+      "storage_zone_a"
+    ],
+    "summary": "COMPLETED: 0/1 navigation goals reached",
+    "visited": [],
+    "steps": [
+      {
+        "index": 0,
+        "action": "navigate",
+        "target": "storage_zone_a",
+        "outcome": "failed",
+        "detail": "path blocked, no contingency"
+      }
+    ],
+    "executed": true,
+    "aborted": false,
+    "logs": [
+      "[0] navigate -> storage_zone_a  (on_blocked=goto_fallback)",
+      "  (blocked) could not reach storage_zone_a",
+      "COMPLETED: 0/1 navigation goals reached"
+    ],
+    "source_plan": {
+      "understood": true,
+      "clarification_question": null,
+      "plan": [
+        {
+          "action": "navigate",
+          "target": "storage_zone_a",
+          "on_blocked": "goto_fallback",
+          "fallback_target": "storage_zone_b",
+          "duration_s": null,
+          "reason": "Inspect zone A; divert to zone B only if A cannot be reached."
+        }
+      ],
+      "notes": null
+    },
+    "expected_successful_visits": [
+      "storage_zone_b"
+    ],
+    "exact_successful_visit_list_match": false
+  },
+  {
+    "kind": "mock_executor_check_not_gazebo",
+    "version": "v2",
+    "id": "L5-18",
+    "trial": 0,
+    "command": "Go to aisle 5",
+    "blocked": [],
+    "summary": "NOT EXECUTED \u2014 clarification needed: This warehouse only has aisles 1, 2 and 3 \u2014 which aisle should I go to?",
+    "visited": [],
+    "steps": [],
+    "executed": false,
+    "aborted": false,
+    "logs": [
+      "Command not understood \u2014 asking: This warehouse only has aisles 1, 2 and 3 \u2014 which aisle should I go to?"
+    ],
+    "source_plan": {
+      "understood": false,
+      "clarification_question": "This warehouse only has aisles 1, 2 and 3 \u2014 which aisle should I go to?",
+      "plan": [],
+      "notes": null
+    }
+  }
+]

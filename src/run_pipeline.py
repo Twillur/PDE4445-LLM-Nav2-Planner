@@ -32,11 +32,17 @@ def load_dotenv(path=ROOT / ".env"):
         os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
 
-def main():
+def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("command", help="Natural-language navigation command")
     ap.add_argument("--out", default=str(ROOT / "results" / "last_plan.json"))
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
+
+    # Use the same execution gate as the dry-run and ROS executor. Do not import
+    # or modify the archived evaluation scorer to validate live commands.
+    sys.path.insert(0, str(ROOT / "ros2_ws" / "src" / "nl_nav2_executor"))
+    from nl_nav2_executor.plan_validation import PlanValidationError, validate_plan
+    from nl_nav2_executor.semantic_map import SemanticMap
 
     load_dotenv()
     if not os.environ.get("OPENAI_API_KEY") and os.environ.get("LLM_PROVIDER", "openai") == "openai":
@@ -53,8 +59,14 @@ def main():
     if plan is None:
         sys.exit(f"planner returned unparseable output:\n{r['raw']}")
 
+    try:
+        validate_plan(plan, SemanticMap.from_file(ROOT / "map" / "warehouse_map.json"))
+    except PlanValidationError as exc:
+        print(f"Plan rejected; output file not changed: {exc}", file=sys.stderr)
+        return 2
+
     out = Path(args.out)
-    out.parent.mkdir(exist_ok=True)
+    out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(plan, indent=2), encoding="utf-8")
 
     if not plan.get("understood", False):
@@ -63,6 +75,8 @@ def main():
         for i, step in enumerate(plan.get("plan", [])):
             if step["action"] == "navigate":
                 extra = f"  on_blocked={step['on_blocked']}" if step.get("on_blocked") else ""
+                if step.get("fallback_target"):
+                    extra += f"  fallback_target={step['fallback_target']}"
                 print(f"  [{i}] navigate -> {step['target']}{extra}")
             else:
                 print(f"  [{i}] wait {step.get('duration_s')}s")
@@ -70,11 +84,14 @@ def main():
             print(f"  notes: {plan['notes']}")
 
     print(f"\nplan written to {out}")
+    if not plan["understood"]:
+        return 1
     print("\nExecute it on the robot (with the sim running):")
     print(f"  ros2 run nl_nav2_executor execute_plan --plan {out}")
     print("Or dry-run the logic without Gazebo:")
     print(f"  python3 ros2_ws/src/nl_nav2_executor/scripts/dry_run.py --plan {out}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -5,8 +5,9 @@ any object implementing the `Navigator` protocol (see below), so the exact same
 contingency logic is exercised by fast unit tests (MockNavigator) and by the
 real Gazebo/Nav2 run (Nav2Navigator in executor_node.py).
 
-A plan is the JSON object produced by the LLM planner and validated against
-schema/waypoint_plan.schema.json:
+A plan is the JSON object produced by the LLM planner. Before any movement,
+the whole object is checked against the separate runtime execution contract.
+Historical evaluation schemas and scores are not changed by this gate:
 
     { "understood": bool,
       "clarification_question": str | null,
@@ -21,6 +22,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Protocol
 
+from .plan_validation import validate_plan
 from .semantic_map import Point, SemanticMap
 
 WAIT_RETRY_SECONDS = 5.0  # default pause for on_blocked='wait_retry' when unspecified
@@ -48,8 +50,9 @@ class StepResult:
     index: int
     action: str
     target: str | None
-    outcome: str            # reached | waited | skipped | rerouted | aborted | failed
+    outcome: str            # reached | waited | skipped | rerouted | fallback_reached | aborted | failed
     detail: str = ""
+    fallback_target: str | None = None
 
 
 @dataclass
@@ -64,18 +67,47 @@ class PlanResult:
     def reached_count(self) -> int:
         return sum(s.outcome in ("reached", "rerouted") for s in self.steps)
 
+    @property
+    def fallback_count(self) -> int:
+        return sum(s.outcome == "fallback_reached" for s in self.steps)
+
+    @property
+    def succeeded(self) -> bool:
+        """Every executed step completed, directly or via its explicit fallback.
+
+        A requested skip continues the plan but still leaves a destination
+        unreached, so it does not count as full completion.
+        """
+        return (self.understood and self.executed and not self.aborted
+                and bool(self.steps)
+                and all(s.outcome in ("reached", "rerouted", "fallback_reached", "waited")
+                        for s in self.steps))
+
+    @property
+    def exit_code(self) -> int:
+        return 0 if self.succeeded else 1
+
     def summary(self) -> str:
         if not self.understood:
             return f"NOT EXECUTED — clarification needed: {self.clarification_question}"
-        head = "ABORTED" if self.aborted else "COMPLETED"
+        head = "ABORTED" if self.aborted else ("COMPLETED" if self.succeeded else "INCOMPLETE")
         navs = [s for s in self.steps if s.action == "navigate"]
         ok = sum(s.outcome in ("reached", "rerouted") for s in navs)
-        return f"{head}: {ok}/{len(navs)} navigation goals reached"
+        summary = f"{head}: {ok}/{len(navs)} navigation goals reached"
+        if self.fallback_count:
+            summary += f"; {self.fallback_count} fallback destinations reached instead"
+        return summary
 
 
 def run_plan(plan: dict, smap: SemanticMap, nav: Navigator) -> PlanResult:
-    """Execute `plan` on `nav`, resolving names via `smap`. Never raises on a
-    blocked path — contingencies are handled per the step's on_blocked field."""
+    """Validate, then execute `plan`, resolving names via `smap`.
+
+    Invalid plans raise PlanValidationError before any step runs. A failed
+    navigation goal triggers the explicit contingency; this does not establish
+    that a physical obstacle was the cause of failure.
+    """
+    # Validate the whole plan before the first step, including unused fallbacks.
+    validate_plan(plan, smap)
     result = PlanResult(
         understood=bool(plan.get("understood", False)),
         clarification_question=plan.get("clarification_question"),
@@ -98,15 +130,7 @@ def run_plan(plan: dict, smap: SemanticMap, nav: Navigator) -> PlanResult:
             result.steps.append(StepResult(i, "wait", None, "waited", f"{secs:.0f}s"))
             continue
 
-        if action != "navigate":
-            result.steps.append(StepResult(i, str(action), None, "skipped", "unknown action"))
-            continue
-
-        target = step.get("target")
-        if not target or not smap.has(target):
-            # Should never happen: the planner is map-validated before execution.
-            result.steps.append(StepResult(i, "navigate", target, "failed", "unknown target"))
-            continue
+        target = step["target"]
 
         on_blocked = step.get("on_blocked")
         nav.log(f"[{i}] navigate -> {target}"
@@ -138,12 +162,22 @@ def _handle_blocked(i, target, on_blocked, step, smap: SemanticMap, nav: Navigat
         return StepResult(i, "navigate", target, "skipped", "path blocked")
 
     if on_blocked == "wait_retry":
-        secs = float(step.get("duration_s") or WAIT_RETRY_SECONDS)
+        duration = step.get("duration_s")
+        secs = WAIT_RETRY_SECONDS if duration is None else float(duration)
         nav.log(f"[{i}] blocked -> wait {secs:.0f}s and retry once")
         nav.wait(secs)
         if nav.navigate_to(target, smap.point(target)):
             return StepResult(i, "navigate", target, "reached", "reached on retry")
         return StepResult(i, "navigate", target, "failed", "still blocked after retry")
+
+    if on_blocked == "goto_fallback":
+        fallback = step["fallback_target"]
+        nav.log(f"[{i}] blocked at {target} -> try fallback {fallback} once")
+        if nav.navigate_to(fallback, smap.point(fallback)):
+            return StepResult(i, "navigate", target, "fallback_reached",
+                              f"primary blocked; reached fallback {fallback}", fallback)
+        return StepResult(i, "navigate", target, "failed",
+                          f"primary and fallback {fallback} both failed", fallback)
 
     if on_blocked == "reroute_perimeter":
         route = smap.perimeter_route(nav.current_point(), target)

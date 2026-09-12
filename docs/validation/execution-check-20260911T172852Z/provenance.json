@@ -1,0 +1,10 @@
+{
+  "timestamp_utc": "20260911T172852Z",
+  "execution_engine": "Existing ROS-free plan_runner and MockNavigator",
+  "new_llm_calls": 0,
+  "source_hashes": {
+    "ros2_ws\\src\\nl_nav2_executor\\nl_nav2_executor\\plan_runner.py": "5c797bb3c2fc0b0e8d132a01929ec345c00c864d1d42a9f588a25786673fd12b",
+    "ros2_ws\\src\\nl_nav2_executor\\nl_nav2_executor\\executor_node.py": "9fec1788188dc74000995df7b0c2f1663d4076cdfb17c1d329be56e5676c2d8f",
+    "map\\warehouse_map.json": "74fbb7d626fa90f4f7da1e61468a92f3ef9f86aef5b1c49ed908157355da0b65"
+  }
+}

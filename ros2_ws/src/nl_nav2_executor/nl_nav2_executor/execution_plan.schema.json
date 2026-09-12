@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Runtime execution contract (September 2026)",
+  "description": "Execution-only checks. This is not the archived evaluation schema and must not be used to relabel historical scores.",
+  "type": "object",
+  "required": ["understood", "plan"],
+  "additionalProperties": false,
+  "properties": {
+    "understood": {"type": "boolean"},
+    "clarification_question": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]},
+    "plan": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {"enum": ["navigate", "wait"]},
+          "target": {"type": ["string", "null"]},
+          "duration_s": {"type": ["number", "null"], "minimum": 0},
+          "on_blocked": {"enum": ["abort", "skip", "reroute_perimeter", "wait_retry", "goto_fallback", null]},
+          "fallback_target": {"type": ["string", "null"]},
+          "reason": {"type": ["string", "null"]}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"action": {"const": "navigate"}}},
+            "then": {"required": ["target"], "properties": {"target": {"type": "string", "minLength": 1}}},
+            "else": {
+              "required": ["duration_s"],
+              "properties": {
+                "duration_s": {"type": "number", "minimum": 0},
+                "target": {"type": "null"},
+                "on_blocked": {"type": "null"},
+                "fallback_target": {"type": "null"}
+              }
+            }
+          },
+          {
+            "if": {"required": ["on_blocked"], "properties": {"on_blocked": {"const": "goto_fallback"}}},
+            "then": {"required": ["fallback_target"], "properties": {"fallback_target": {"type": "string", "minLength": 1}}},
+            "else": {"properties": {"fallback_target": {"type": "null"}}}
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"understood": {"const": false}}},
+      "then": {
+        "required": ["clarification_question"],
+        "properties": {"plan": {"maxItems": 0}, "clarification_question": {"type": "string", "minLength": 1}}
+      },
+      "else": {"properties": {"plan": {"minItems": 1}, "clarification_question": {"type": "null"}}}
+    }
+  ]
+}

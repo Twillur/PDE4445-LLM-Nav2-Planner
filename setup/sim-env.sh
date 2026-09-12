@@ -11,7 +11,8 @@
 
 # Do NOT run `set -u` in a script that sources this: ROS2's setup.bash
 # references AMENT_TRACE_SETUP_FILES unguarded and the shell dies silently.
-WS_DEFAULT="/mnt/c/Users/willi/source/repos/PDE4445-LLM-Nav2-Planner/ros2_ws"
+NL_NAV2_SETUP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WS_DEFAULT="$(cd "$NL_NAV2_SETUP_DIR/.." && pwd)/ros2_ws"
 WS="${NL_NAV2_WS:-$WS_DEFAULT}"
 
 source /opt/ros/humble/setup.bash
@@ -23,10 +24,13 @@ else
 fi
 
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-export CYCLONEDDS_URI=file:///home/william/.cyclonedds-wsl.xml
+export CYCLONEDDS_URI="file://$NL_NAV2_SETUP_DIR/cyclonedds-wsl.xml"
 export TURTLEBOT3_MODEL=waffle
 export ROS_DOMAIN_ID=30
 export DISPLAY=:0
+# An existing model path can hide Gazebo's installed floor and sun assets.
+# Missing ground_plane leaves the robot falling while Nav2 still starts.
+export GAZEBO_MODEL_PATH="/usr/share/gazebo-11/models${GAZEBO_MODEL_PATH:+:$GAZEBO_MODEL_PATH}"
 
 # A stale daemon started under a different RMW makes `ros2 topic list` come back
 # empty while the sim is plainly running. Cheap to avoid.

@@ -1,0 +1,42 @@
+{
+  "understood": true,
+  "clarification_question": null,
+  "plan": [
+    {
+      "action": "navigate",
+      "target": "aisle_1_south",
+      "on_blocked": "skip",
+      "duration_s": null,
+      "reason": "Enter aisle 1 from the south to begin the patrol."
+    },
+    {
+      "action": "navigate",
+      "target": "aisle_1_north",
+      "on_blocked": "skip",
+      "duration_s": null,
+      "reason": "Traverse to the north end to complete the patrol of aisle 1."
+    },
+    {
+      "action": "navigate",
+      "target": "aisle_3_south",
+      "on_blocked": "skip",
+      "duration_s": null,
+      "reason": "Enter aisle 3 from the south to begin the patrol."
+    },
+    {
+      "action": "navigate",
+      "target": "aisle_3_north",
+      "on_blocked": "skip",
+      "duration_s": null,
+      "reason": "Traverse to the north end to complete the patrol of aisle 3."
+    },
+    {
+      "action": "navigate",
+      "target": "charging_dock",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Return home as instructed."
+    }
+  ],
+  "notes": null
+}

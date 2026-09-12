@@ -1,0 +1,8 @@
+# Keep full recordings locally; do not accidentally push bulky runtime artifacts.
+gazebo-*/ros-logs/
+gazebo-*/**/odometry/
+*.aux
+*.log
+portfolio-capture-*/frames/
+portfolio-capture-*/ros-logs/
+trajectories-preview.png

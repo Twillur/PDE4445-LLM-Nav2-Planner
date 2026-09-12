@@ -1,0 +1,35 @@
+Saved records v1/v2/v3: [300, 300, 60]
+v1 L1-L3 passes /60: [54, 48, 51]
+v1 stable scoring outcomes / stable full JSON objects: (99, 43)
+v2 L1-L3 passes /60: [58, 57, 57]
+v2 stable scoring outcomes / stable full JSON objects: (97, 50)
+v2 parse / schema / map passes and checks: 300/300; 295/300; 295/295
+v2 invalid field occurrences: {'wait': 6, 'navigate': 1, 'try_aisle_1_north': 1}
+v3 schema passes: 60/60
+v3 selected branch passes /3: {'L4-12': 3, 'L4-13': 3, 'L4-17': 1}
+L4 item pass/partial/fail: (11, 6, 3)
+L4 strict / half-credit weighted: (0.55, 0.7)
+L5 item pass/partial/fail: (17, 3, 0)
+L5 strict / half-credit weighted: (0.85, 0.925)
+v2 latency mean / median / p95 exclusive (s): (2.233503333333333, 2.0845000000000002, 3.63105)
+Two-sided Fisher p, pass vs non-pass: 0.08235877701951116
+Wilson 95% interval 11/20: (0.34208534245034233, 0.7418021417443759)
+Wilson 95% interval 17/20: (0.6395811352592431, 0.9476312541037835)
+Final PDF: 8 pages; no unresolved citations/references or overfull boxes
+Cited bibliography entries: 17
+Original manuscript, outline, source and evidence hashes: 36 files unchanged
+Existing executor tests: 7 passed in 0.02s during this session; not rerun after document-only edits
+Visual inspection: All 8 rendered pages inspected; default-world screenshot excluded
+External access: Claude artifact and public blog unavailable through web tool; local artifacts used
+Initial revision scope (11 September): No new model calls, manual grading, robot runs, evaluation-code changes, commits or pushes
+
+Simulation follow-up (12 September, Dubai time):
+Corrected run directory: docs/validation/gazebo-20260911T213643Z
+Selected archived v2 plans: L1-01 1/1, L2-01 3/3, L3-01 5/5 goals reached
+Odometry cross-check: all nine destinations within 0.25 m; physically plausible recorded height
+Initial environment failures retained: docs/validation/gazebo-20260911T173623Z
+Existing executor tests under WSL Python: 7 passed in 0.41s
+Setup changes: repository-relative Cyclone configuration, standard Gazebo model path, LF shell files
+Updated report: 8 pages, all visually inspected; separate three-panel trajectory PDF inspected
+Scope: Saved-plan simulation replays only; no new model calls, manual grades, core executor/evaluation changes, commits or pushes
+Unresolved: v3 semantic grading, executor fallback support, shared pre-execution schema/map validation

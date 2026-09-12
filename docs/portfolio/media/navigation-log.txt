@@ -1,0 +1,9 @@
+[INFO] [1789206468.569223932] [basic_navigator]: Waiting for Nav2 (ground_truth) to become active...
+[INFO] [1789206472.614742216] [basic_navigator]: Nav2 is ready for use!
+[INFO] [1789206472.691531239] [basic_navigator]: [0] navigate -> loading_dock
+[INFO] [1789206472.692445530] [basic_navigator]: Navigating to goal: 18.0 2.0...
+[INFO] [1789206539.802655116] [basic_navigator]: COMPLETED: 1/1 navigation goals reached
+[INFO] [1789206539.870795234] [basic_navigator]: ============================================================
+[INFO] [1789206539.950995942] [basic_navigator]: COMPLETED: 1/1 navigation goals reached
+[INFO] [1789206540.072557150] [basic_navigator]:   step 0: navigate loading_dock -> reached 
+[INFO] [1789206540.122034328] [basic_navigator]: ============================================================

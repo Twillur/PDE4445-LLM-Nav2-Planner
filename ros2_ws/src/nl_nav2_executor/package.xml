@@ -7,13 +7,14 @@
     Executes an LLM-generated natural-language waypoint plan on ROS2 Nav2:
     resolves named warehouse locations to map poses and drives a TurtleBot3
     through them in a Gazebo warehouse, honouring per-step on_blocked
-    contingencies (abort / skip / reroute_perimeter / wait_retry).
+    contingencies (abort / skip / reroute_perimeter / wait_retry / goto_fallback).
     Execution half of the PDE4445 dissertation pipeline.
   </description>
   <maintainer email="williamkoju@gmail.com">William</maintainer>
   <license>MIT</license>
 
   <exec_depend>rclpy</exec_depend>
+  <exec_depend>python3-jsonschema</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>nav2_simple_commander</exec_depend>
   <exec_depend>tf_transformations</exec_depend>

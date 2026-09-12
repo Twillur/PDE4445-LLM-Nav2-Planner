@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="817.2pt" height="375.028406pt" viewBox="0 0 817.2 375.028406" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-12T13:50:57.184073</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 375.028406 
+L 817.2 375.028406 
+L 817.2 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 33.624 159.662006 
+L 236.736 159.662006 
+Q 243.432 159.662006 243.432 153.009206 
+L 243.432 106.439606 
+Q 243.432 99.786806 236.736 99.786806 
+L 33.624 99.786806 
+Q 26.928 99.786806 26.928 106.439606 
+L 26.928 153.009206 
+Q 26.928 159.662006 33.624 159.662006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #d56b35"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 33.624 264.998006 
+L 236.736 264.998006 
+Q 243.432 264.998006 243.432 258.345206 
+L 243.432 211.775606 
+Q 243.432 205.122806 236.736 205.122806 
+L 33.624 205.122806 
+Q 26.928 205.122806 26.928 211.775606 
+L 26.928 258.345206 
+Q 26.928 264.998006 33.624 264.998006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #162b3b"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 301.464 159.662006 
+L 504.576 159.662006 
+Q 511.272 159.662006 511.272 153.009206 
+L 511.272 106.439606 
+Q 511.272 99.786806 504.576 99.786806 
+L 301.464 99.786806 
+Q 294.768 99.786806 294.768 106.439606 
+L 294.768 153.009206 
+Q 294.768 159.662006 301.464 159.662006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #087f8c"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 301.464 264.998006 
+L 504.576 264.998006 
+Q 511.272 264.998006 511.272 258.345206 
+L 511.272 211.775606 
+Q 511.272 205.122806 504.576 205.122806 
+L 301.464 205.122806 
+Q 294.768 205.122806 294.768 211.775606 
+L 294.768 258.345206 
+Q 294.768 264.998006 301.464 264.998006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #4777ba"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 580.464 159.662006 
+L 783.576 159.662006 
+Q 790.272 159.662006 790.272 153.009206 
+L 790.272 106.439606 
+Q 790.272 99.786806 783.576 99.786806 
+L 580.464 99.786806 
+Q 573.768 99.786806 573.768 106.439606 
+L 573.768 153.009206 
+Q 573.768 159.662006 580.464 159.662006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #162b3b"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 580.464 264.998006 
+L 783.576 264.998006 
+Q 790.272 264.998006 790.272 258.345206 
+L 790.272 211.775606 
+Q 790.272 205.122806 783.576 205.122806 
+L 580.464 205.122806 
+Q 573.768 205.122806 573.768 211.775606 
+L 573.768 258.345206 
+Q 573.768 264.998006 580.464 264.998006 
+z
+" clip-path="url(#paab8e9675c)" style="fill: #d56b35"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(57.629141 123.959719)">v2 · unconditional sequence</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(111.636563 142.625344)">A then B</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(69.175703 230.361344)">Condition in a comment</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(65.250078 247.961344)">has no control-flow effect</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(342.224375 123.959719)">v3 · primary succeeds</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(372.794922 141.559719)">visit A only</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(356.520938 229.295719)">v3 · primary fails</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(374.81875 246.726422)">try B once</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(636.283203 125.025344)">A and B both fail</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(632.769219 141.559719)">report incomplete</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(615.962422 230.361344)">Unknown fallback name</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(615.460547 246.895719)">reject before movement</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 135.18 159.445241 
+Q 135.18 182.391597 135.18 203.549099 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 137.38 199.149099 
+L 135.18 203.549099 
+L 132.98 199.149099 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 403.02 159.445241 
+Q 403.02 182.391597 403.02 203.549099 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 405.22 199.149099 
+L 403.02 203.549099 
+L 400.82 199.149099 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627384" x="403.02" y="174.076406" transform="rotate(-0 403.02 174.076406)">otherwise</text>
+   </g>
+   <g id="text_8">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162b3b" x="18" y="35.476406" transform="rotate(-0 18 35.476406)">The missing branch, made explicit</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #627384" transform="translate(18 336.484406)">Saved L4-12 example. v3 adds a fallback field plus prompt instructions.</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #627384" transform="translate(18 351.484406)">The new executor passes controlled software checks; obstacle-triggered Gazebo fallback validation and full v3 semantic grading remain outstanding.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="paab8e9675c">
+   <rect x="18" y="24.388406" width="781.2" height="332.64"/>
+  </clipPath>
+ </defs>
+</svg>

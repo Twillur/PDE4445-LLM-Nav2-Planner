@@ -1,0 +1,15 @@
+{
+  "understood": true,
+  "clarification_question": null,
+  "plan": [
+    {
+      "action": "navigate",
+      "target": "storage_zone_a",
+      "on_blocked": "goto_fallback",
+      "fallback_target": "storage_zone_b",
+      "duration_s": null,
+      "reason": "Inspect zone A; divert to zone B only if A cannot be reached."
+    }
+  ],
+  "notes": null
+}

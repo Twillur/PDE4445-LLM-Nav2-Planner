@@ -1,0 +1,1 @@
+Static robot detail capture; no navigation executed.

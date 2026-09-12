@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+\begin{axis}[width=\columnwidth,height=5cm,ymin=0,ymax=105,xmin=.65,xmax=5.35,
+xtick={1,2,3,4,5},xticklabels={L1,L2,L3,L4,L5},ytick={0,20,40,60,80,100},
+ylabel={Score (\%)},tick label style={font=\scriptsize},label style={font=\scriptsize},
+ymajorgrids=true,grid style={gray!20},axis line style={gray!60},
+legend style={font=\scriptsize,draw=none,at={(.5,-.2)},anchor=north,legend columns=2}]
+\addplot[navblue,thick,mark=*] coordinates {(1,96.6667)(2,95)(3,95)};
+\addlegendentry{Strict}
+\addplot[navorange,thick,dashed,mark=square*] coordinates {(1,96.6667)(2,95)(3,95)};
+\addlegendentry{Half credit for partial}
+\addplot[navblue,thick,mark=*,forget plot] coordinates {(4,55)(5,85)};
+\addplot[navorange,thick,dashed,mark=square*,forget plot] coordinates {(4,70)(5,92.5)};
+\draw[gray,densely dotted] (axis cs:3.5,0)--(axis cs:3.5,105);
+\node[font=\tiny,anchor=south] at (axis cs:2,4) {60 records/level};
+\node[font=\tiny,anchor=south] at (axis cs:4.5,4) {20 items/level};
+\end{axis}
+\end{tikzpicture}

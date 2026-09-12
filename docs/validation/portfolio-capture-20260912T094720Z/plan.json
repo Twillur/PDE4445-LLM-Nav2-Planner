@@ -1,0 +1,14 @@
+{
+  "understood": true,
+  "clarification_question": null,
+  "plan": [
+    {
+      "action": "navigate",
+      "target": "loading_dock",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Direct navigation to the named location."
+    }
+  ],
+  "notes": null
+}

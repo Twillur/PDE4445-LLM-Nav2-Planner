@@ -1,0 +1,21 @@
+{
+  "understood": true,
+  "clarification_question": null,
+  "plan": [
+    {
+      "action": "navigate",
+      "target": "storage_zone_a",
+      "on_blocked": "reroute_perimeter",
+      "duration_s": null,
+      "reason": "Attempt to navigate to storage zone A for inspection."
+    },
+    {
+      "action": "navigate",
+      "target": "storage_zone_b",
+      "on_blocked": null,
+      "duration_s": null,
+      "reason": "Navigate to storage zone B if storage zone A is unreachable."
+    }
+  ],
+  "notes": "Assuming 'inspect' means to navigate to the zones; the robot cannot perform any actual inspection."
+}

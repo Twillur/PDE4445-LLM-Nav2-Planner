@@ -1,0 +1,290 @@
+{
+  "scope": "Controlled software checks, not Gazebo, model reliability estimates, or semantic grades.",
+  "historical_limit": "The v2 L4-12 plan still visits B unconditionally. Runtime validation cannot repair a semantically wrong plan.",
+  "cases": [
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v2-L1-01-trial0.json",
+      "sha256": "9cb84f7b7eaca960ea24c722188e6d632ae89a47200938e52be4caf94c6020f5",
+      "blocked_by_mock": [],
+      "attempted": [
+        "loading_dock"
+      ],
+      "visited": [
+        "loading_dock"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "loading_dock",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 1/1 navigation goals reached"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v2-L2-01-trial0.json",
+      "sha256": "59f580778cb98a4834755edf5b91aefd634c9066871634e757d720c59a624962",
+      "blocked_by_mock": [],
+      "attempted": [
+        "corner_se",
+        "east_wall_mid",
+        "corner_ne"
+      ],
+      "visited": [
+        "corner_se",
+        "east_wall_mid",
+        "corner_ne"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "corner_se",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 1,
+            "action": "navigate",
+            "target": "east_wall_mid",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 2,
+            "action": "navigate",
+            "target": "corner_ne",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 3/3 navigation goals reached"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v2-L3-01-trial0.json",
+      "sha256": "e3fa23def8747a7dc35d1ca856816898be4433ba5de61d5b175d72f05d71600b",
+      "blocked_by_mock": [],
+      "attempted": [
+        "aisle_1_south",
+        "aisle_1_north",
+        "aisle_3_south",
+        "aisle_3_north",
+        "charging_dock"
+      ],
+      "visited": [
+        "aisle_1_south",
+        "aisle_1_north",
+        "aisle_3_south",
+        "aisle_3_north",
+        "charging_dock"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "aisle_1_south",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 1,
+            "action": "navigate",
+            "target": "aisle_1_north",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 2,
+            "action": "navigate",
+            "target": "aisle_3_south",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 3,
+            "action": "navigate",
+            "target": "aisle_3_north",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 4,
+            "action": "navigate",
+            "target": "charging_dock",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 5/5 navigation goals reached"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v3-L4-12-trial0.json",
+      "sha256": "b511944a170f8c29d4812177817a4775afd09b6b6cef191a8ba795bdc0ed1928",
+      "blocked_by_mock": [],
+      "attempted": [
+        "storage_zone_a"
+      ],
+      "visited": [
+        "storage_zone_a"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "storage_zone_a",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 1/1 navigation goals reached"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v3-L4-12-trial0.json",
+      "sha256": "b511944a170f8c29d4812177817a4775afd09b6b6cef191a8ba795bdc0ed1928",
+      "blocked_by_mock": [
+        "storage_zone_a"
+      ],
+      "attempted": [
+        "storage_zone_a",
+        "storage_zone_b"
+      ],
+      "visited": [
+        "storage_zone_b"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "storage_zone_a",
+            "outcome": "fallback_reached",
+            "detail": "primary blocked; reached fallback storage_zone_b",
+            "fallback_target": "storage_zone_b"
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 0/1 navigation goals reached; 1 fallback destinations reached instead"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v3-L4-12-trial0.json",
+      "sha256": "b511944a170f8c29d4812177817a4775afd09b6b6cef191a8ba795bdc0ed1928",
+      "blocked_by_mock": [
+        "storage_zone_a",
+        "storage_zone_b"
+      ],
+      "attempted": [
+        "storage_zone_a",
+        "storage_zone_b"
+      ],
+      "visited": [],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "storage_zone_a",
+            "outcome": "failed",
+            "detail": "primary and fallback storage_zone_b both failed",
+            "fallback_target": "storage_zone_b"
+          }
+        ]
+      },
+      "exit_code": 1,
+      "summary": "INCOMPLETE: 0/1 navigation goals reached"
+    },
+    {
+      "source": "docs/validation/execution-check-20260911T172852Z/v2-L4-12-trial0.json",
+      "sha256": "a3766e03526342349fdd8c5f2fe2e341aca965cb019ca29a118c323d557dc43f",
+      "blocked_by_mock": [],
+      "attempted": [
+        "storage_zone_a",
+        "storage_zone_b"
+      ],
+      "visited": [
+        "storage_zone_a",
+        "storage_zone_b"
+      ],
+      "result": {
+        "understood": true,
+        "clarification_question": null,
+        "executed": true,
+        "aborted": false,
+        "steps": [
+          {
+            "index": 0,
+            "action": "navigate",
+            "target": "storage_zone_a",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          },
+          {
+            "index": 1,
+            "action": "navigate",
+            "target": "storage_zone_b",
+            "outcome": "reached",
+            "detail": "",
+            "fallback_target": null
+          }
+        ]
+      },
+      "exit_code": 0,
+      "summary": "COMPLETED: 2/2 navigation goals reached"
+    },
+    {
+      "synthetic_mutation": "unknown fallback target",
+      "error": "step 0: unknown fallback_target 'invented_location'",
+      "attempted": [],
+      "rejected_before_motion": true
+    }
+  ]
+}

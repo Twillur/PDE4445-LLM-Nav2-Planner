@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="817.2pt" height="375.028406pt" viewBox="0 0 817.2 375.028406" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-12T13:50:57.405958</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.2, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 375.028406 
+L 817.2 375.028406 
+L 817.2 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 28.044 165.206006 
+L 147.456 165.206006 
+Q 154.152 165.206006 154.152 158.553206 
+L 154.152 111.983606 
+Q 154.152 105.330806 147.456 105.330806 
+L 28.044 105.330806 
+Q 21.348 105.330806 21.348 111.983606 
+L 21.348 158.553206 
+Q 21.348 165.206006 28.044 165.206006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #162b3b"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 189.864 165.206006 
+L 309.276 165.206006 
+Q 315.972 165.206006 315.972 158.553206 
+L 315.972 111.983606 
+Q 315.972 105.330806 309.276 105.330806 
+L 189.864 105.330806 
+Q 183.168 105.330806 183.168 111.983606 
+L 183.168 158.553206 
+Q 183.168 165.206006 189.864 165.206006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #087f8c"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 357.264 165.206006 
+L 504.576 165.206006 
+Q 511.272 165.206006 511.272 158.553206 
+L 511.272 111.983606 
+Q 511.272 105.330806 504.576 105.330806 
+L 357.264 105.330806 
+Q 350.568 105.330806 350.568 111.983606 
+L 350.568 158.553206 
+Q 350.568 165.206006 357.264 165.206006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #162b3b"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 580.464 165.206006 
+L 766.836 165.206006 
+Q 773.532 165.206006 773.532 158.553206 
+L 773.532 111.983606 
+Q 773.532 105.330806 766.836 105.330806 
+L 580.464 105.330806 
+Q 573.768 105.330806 573.768 111.983606 
+L 573.768 158.553206 
+Q 573.768 165.206006 580.464 165.206006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #4777ba"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 357.264 287.174006 
+L 504.576 287.174006 
+Q 511.272 287.174006 511.272 280.521206 
+L 511.272 233.951606 
+Q 511.272 227.298806 504.576 227.298806 
+L 357.264 227.298806 
+Q 350.568 227.298806 350.568 233.951606 
+L 350.568 280.521206 
+Q 350.568 287.174006 357.264 287.174006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #087f8c"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 580.464 287.174006 
+L 766.836 287.174006 
+Q 773.532 287.174006 773.532 280.521206 
+L 773.532 233.951606 
+Q 773.532 227.298806 766.836 227.298806 
+L 580.464 227.298806 
+Q 573.768 227.298806 573.768 233.951606 
+L 573.768 280.521206 
+Q 573.768 287.174006 580.464 287.174006 
+z
+" clip-path="url(#p0d93b19771)" style="fill: #d56b35"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(43.979453 129.503719)">Operator laptop</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(42.771172 147.103719)">typed command</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(204.535313 130.569344)">Cloud model API</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(209.2825 147.006609)">JSON response</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(367.407031 130.569344)">Onboard Linux + ROS2</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(385.205547 147.103719)">Pi / optional Orin</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(608.630547 129.503719)">OpenCR / motor control</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(605.245469 148.169344)">encoders + drive motors</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(361.835703 251.471719)">LiDAR + wheel odometry</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(378.35375 270.137344)">IMU for localisation</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(605.294453 251.471719)">Battery + protected rails</text>
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(608.655469 269.071719)">physical stop + mounts</text>
+   </g>
+   <g id="patch_8">
+    <path d="M 153.918501 135.268406 
+Q 168.65816 135.268406 181.608965 135.268406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 177.208965 133.068406 
+L 181.608965 135.268406 
+L 177.208965 137.468406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 315.73782 135.268406 
+Q 333.266801 135.268406 349.006929 135.268406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 344.606929 133.068406 
+L 349.006929 135.268406 
+L 344.606929 137.468406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 511.038501 135.268406 
+Q 542.518104 135.268406 572.208853 135.268406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 567.808853 133.068406 
+L 572.208853 135.268406 
+L 567.808853 137.468406 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627384" x="542.52" y="126.952406" transform="rotate(-0 542.52 126.952406)">USB / serial</text>
+   </g>
+   <g id="patch_11">
+    <path d="M 430.92 227.514557 
+Q 430.92 196.249857 430.92 166.774011 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 428.72 171.174011 
+L 430.92 166.774011 
+L 433.12 171.174011 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627384" x="430.92" y="187.936406" transform="rotate(-0 430.92 187.936406)">sensors</text>
+   </g>
+   <g id="patch_12">
+    <path d="M 670.86 227.514557 
+Q 670.86 196.249857 670.86 166.774011 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+    <path d="M 668.66 171.174011 
+L 670.86 166.774011 
+L 673.06 171.174011 
+" style="fill: none; stroke: #627384; stroke-width: 1.6; stroke-linecap: round"/>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #627384" x="670.86" y="187.936406" transform="rotate(-0 670.86 187.936406)">power</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 23px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162b3b" x="18" y="35.476406" transform="rotate(-0 18 35.476406)">A proposed physical robot</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #627384" transform="translate(18 336.484406)">Future hardware concept; nothing on this diagram has been purchased or validated as a complete assembly.</text>
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; fill: #627384" transform="translate(18 351.484406)">Keep cloud language planning initially. A Jetson is an optional compute upgrade for later perception or local-model experiments.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p0d93b19771">
+   <rect x="18" y="24.388406" width="781.2" height="332.64"/>
+  </clipPath>
+ </defs>
+</svg>

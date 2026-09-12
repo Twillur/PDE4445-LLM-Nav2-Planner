@@ -1,4 +1,5 @@
 """Check the curated site with a real browser, plus local link integrity."""
+import argparse
 import asyncio
 import functools
 import json
@@ -6,7 +7,7 @@ import threading
 from html.parser import HTMLParser
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urljoin, urlsplit
 
 from playwright.async_api import async_playwright, expect
 
@@ -65,14 +66,46 @@ class PortfolioPage:
 class QuietHandler(SimpleHTTPRequestHandler):
     def log_message(self,*args): pass
 
-async def main():
+async def check_live_links(request,base):
+    targets=set()
+    for name in ("index.html","hardware.html","reproduce.html"):
+        url=base+"/docs/portfolio/"+name
+        response=await request.get(url)
+        assert response.ok,(url,response.status)
+        parser=References(); parser.feed(await response.text())
+        for link in parser.links:
+            parts=urlsplit(link)
+            if parts.scheme or not parts.path: continue
+            target=urljoin(url,link).split("#",1)[0]
+            assert target.startswith(base+"/"),(url,link,"outside site")
+            targets.add(target)
+    semaphore=asyncio.Semaphore(8)
+    async def check(url):
+        async with semaphore:
+            response=await request.head(url)
+            assert response.ok,(url,response.status)
+    await asyncio.gather(*(check(url) for url in sorted(targets)))
+    return len(targets)
+
+async def main(live_base=None):
     OUTPUT.mkdir(parents=True,exist_ok=True)
-    link_count=check_links()
-    server=ThreadingHTTPServer(("127.0.0.1",0),functools.partial(QuietHandler,directory=str(SITE)))
-    thread=threading.Thread(target=server.serve_forever,daemon=True); thread.start()
-    base=f"http://127.0.0.1:{server.server_port}"
+    server=None
+    if live_base:
+        base=live_base.rstrip("/")
+        link_count=None
+    else:
+        link_count=check_links()
+        server=ThreadingHTTPServer(("127.0.0.1",0),functools.partial(QuietHandler,directory=str(SITE)))
+        thread=threading.Thread(target=server.serve_forever,daemon=True); thread.start()
+        base=f"http://127.0.0.1:{server.server_port}"
     try:
         async with async_playwright() as p:
+            if live_base:
+                request=await p.request.new_context()
+                try:
+                    link_count=await check_live_links(request,base)
+                finally:
+                    await request.dispose()
             browser=await p.chromium.launch(headless=True)
             async def check(name,width,height,path,interactions=False):
                 context=await browser.new_context(viewport={"width":width,"height":height},accept_downloads=True,reduced_motion="reduce")
@@ -91,7 +124,7 @@ async def main():
                     await page.evaluate("document.querySelectorAll('img').forEach(img=>img.loading='eager')")
                     await page.wait_for_function("Array.from(document.images).every(img=>img.complete && img.naturalWidth>0)")
                     await page.screenshot(path=str(OUTPUT/f"{name}.png"),full_page=True,animations="disabled")
-                    if name=="desktop":
+                    if name=="desktop" and not live_base:
                         await page.screenshot(path=str(ROOT/"docs/portfolio/media/portfolio-preview.png"),animations="disabled")
                     return {"case":name,"passed":True,"console_errors":errors}
                 finally:
@@ -104,9 +137,16 @@ async def main():
             )
             await browser.close()
         summary={"local_html_references_checked":link_count,"browser_checks":results,"scope":"Curated static export served locally; no GitHub deployment performed."}
-        (ROOT/"docs/portfolio/verification.json").write_text(json.dumps(summary,indent=2),encoding="utf-8")
+        if live_base:
+            summary={"live_unique_references_checked":link_count,"browser_checks":results,"scope":"Published GitHub Pages site","base_url":base}
+        destination=OUTPUT/"live-verification.json" if live_base else ROOT/"docs/portfolio/verification.json"
+        destination.write_text(json.dumps(summary,indent=2),encoding="utf-8")
         print(json.dumps(summary,indent=2))
     finally:
-        server.shutdown(); server.server_close()
+        if server:
+            server.shutdown(); server.server_close()
 
-asyncio.run(main())
+if __name__=="__main__":
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--base-url",help="Check an already deployed site instead of the local export")
+    asyncio.run(main(parser.parse_args().base_url))

@@ -4,7 +4,7 @@
 
 William · MSc Robotics · Middlesex University Dubai · PDE4445
 
-[Report PDF](report/revised/main.pdf) · [Visual portfolio](docs/portfolio/index.html) · [Media library](docs/portfolio/MEDIA.md) · [Evidence guide](docs/portfolio/EVIDENCE.md) · [Project journal](https://twillur.github.io/PDE4445-Robotics-Dissertation/)
+[Report PDF](report/revised/main.pdf) · [Visual portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) · [Media library](docs/portfolio/MEDIA.md) · [Evidence guide](docs/portfolio/EVIDENCE.md) · [Project journal](https://twillur.github.io/PDE4445-Robotics-Dissertation/)
 
 ![Actual Gazebo warehouse and TurtleBot3 Waffle](docs/portfolio/media/warehouse-overview.png)
 
@@ -33,7 +33,7 @@ The project measures **how reliably that translation holds as instructions chang
 | [![Current runtime architecture](docs/portfolio/assets/architecture.png)](docs/portfolio/assets/architecture.pdf) | [![Reliability with separate denominators](docs/portfolio/assets/reliability.png)](docs/portfolio/assets/reliability.pdf) |
 | [![All 20 named locations](docs/portfolio/assets/semantic-map.png)](docs/portfolio/assets/semantic-map.pdf) | [![Three recorded robot routes](docs/portfolio/assets/recorded-routes.png)](docs/portfolio/assets/recorded-routes.pdf) |
 
-Every figure is available as **PNG, SVG and PDF**. [Download the presentation pack](docs/portfolio/media/presentation-pack.zip), including figures, simulation clip, screenshots and report snapshot. The [interactive portfolio](docs/portfolio/index.html) adds route selection, playback and a filterable download gallery.
+Every figure is available as **PNG, SVG and PDF**. [Download the presentation pack](docs/portfolio/media/presentation-pack.zip), including figures, simulation clip, screenshots and report snapshot. The [interactive portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) adds route selection, playback and a filterable download gallery.
 
 To view it locally:
 
@@ -42,7 +42,7 @@ python -m http.server 8765 --bind 127.0.0.1
 # Open http://127.0.0.1:8765/docs/portfolio/
 ~~~
 
-GitHub's file browser displays HTML source; the local server renders the portfolio. A manually triggered Pages workflow is prepared for later publication.
+The [public portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) is hosted on GitHub Pages. To publish a later revision, push the reviewed changes and manually run **Publish research portfolio (manual)** in the repository's Actions tab.
 
 ## Five instruction categories
 

@@ -46,4 +46,4 @@ Suggested slide sequence: typed-command question → architecture → warehouse 
 
 Open `docs/portfolio/index.html` directly, or serve the repository root with `python -m http.server 8765 --bind 127.0.0.1` and visit `/docs/portfolio/`. Use [reproduction instructions](reproduce.html) for the robot software.
 
-The repository's manually triggered Pages workflow is prepared for later publication. No GitHub push, Pages configuration or deployment was performed as part of preparing these files. The existing dissertation journal is a separate repository and was not changed.
+The [public portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) was deployed through the repository's manually triggered Pages workflow on 12 September 2026. To publish later revisions, push the reviewed changes and run **Publish research portfolio (manual)** in Actions. The existing dissertation journal is a separate repository and was not changed.

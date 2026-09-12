@@ -38,7 +38,7 @@ Listed costs are recorded in [hardware-costs.csv](hardware-costs.csv), with sour
 
 ## Report and bundle
 
-The eight-page [report PDF](../../report/revised/main.pdf) is a draft snapshot. It predates the later runtime corrections; include [review notes](../../report/revised/REVIEW_NOTES.md) when sharing it. `media/presentation-pack.zip` collects the eight figure families, original simulation screenshots, video, report snapshot and these notes. Vendor-page screenshots remain separately attributed in the repository.
+The eight-page report is under assessment and is not published in this repository; it will be added after the module result is released. Figures, screenshots and the video are downloadable individually from the portfolio gallery. Vendor-page screenshots remain separately attributed in the repository.
 
 Suggested slide sequence: typed-command question → architecture → warehouse map → reliability with denominators → fallback failure mechanism → recorded routes and simulation clip → limitations and next validation step. Proposed hardware belongs after the completed study, as future work.
 

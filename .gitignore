@@ -17,3 +17,9 @@ results/demo-footage/
 # Local portfolio export and browser verification artifacts
 _site/
 docs/portfolio/test-output/
+
+# The report stays local while it is under assessment
+report/
+
+# The presentation bundle embeds the report snapshot
+docs/portfolio/media/presentation-pack.zip

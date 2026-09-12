@@ -11,7 +11,8 @@ def bundle():
     target=PORTFOLIO/"media/presentation-pack.zip"
     files=list((PORTFOLIO/"assets").glob("*.png"))+list((PORTFOLIO/"assets").glob("*.svg"))+list((PORTFOLIO/"assets").glob("*.pdf"))
     files += [PORTFOLIO/"media"/name for name in ["warehouse-overview.png","warehouse-goal.png","robot-detail.png","warehouse-navigation.mp4","warehouse-navigation.vtt","navigation-log.txt"]]
-    files += [PORTFOLIO/"MEDIA.md",PORTFOLIO/"EVIDENCE.md",ROOT/"report/revised/main.pdf",ROOT/"report/revised/REVIEW_NOTES.md"]
+    # The report stays out of the shareable bundle while it is under assessment.
+    files += [PORTFOLIO/"MEDIA.md",PORTFOLIO/"EVIDENCE.md"]
     with zipfile.ZipFile(target,"w",compression=zipfile.ZIP_DEFLATED) as archive:
         for file in files: archive.write(file,file.relative_to(ROOT).as_posix())
     print(f"Presentation pack: {len(files)} files, {target.stat().st_size/1e6:.2f} MB")
@@ -20,7 +21,7 @@ def site():
     output=ROOT/"_site"
     # A fresh destination prevents stale files from an older export leaking in.
     if output.exists(): raise SystemExit("_site already exists; inspect it before creating a fresh export.")
-    directories=["docs/portfolio","docs/validation","report/revised","src","schema","dataset","map","prompts","ros2_ws/src/nl_nav2_executor","setup"]
+    directories=["docs/portfolio","docs/validation","src","schema","dataset","map","prompts","ros2_ws/src/nl_nav2_executor","setup"]
     excluded={"frames","ros-logs","odometry","__pycache__","test-output"}
     suffixes={".html",".css",".js",".json",".jsonl",".csv",".md",".txt",".svg",".png",".jpg",".pdf",".mp4",".vtt",".zip",".py",".sh",".ps1",".tex",".bib",".dat",".yaml",".xml",".world",".pgm"}
     for directory in directories:

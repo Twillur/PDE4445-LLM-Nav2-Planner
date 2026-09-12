@@ -4,7 +4,7 @@
 
 William · MSc Robotics · Middlesex University Dubai · PDE4445
 
-[Report PDF](report/revised/main.pdf) · [Visual portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) · [Media library](docs/portfolio/MEDIA.md) · [Evidence guide](docs/portfolio/EVIDENCE.md) · [Project journal](https://twillur.github.io/PDE4445-Robotics-Dissertation/)
+[Visual portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) · [Media library](docs/portfolio/MEDIA.md) · [Evidence guide](docs/portfolio/EVIDENCE.md) · [Project journal](https://twillur.github.io/PDE4445-Robotics-Dissertation/)
 
 ![Actual Gazebo warehouse and TurtleBot3 Waffle](docs/portfolio/media/warehouse-overview.png)
 
@@ -33,7 +33,7 @@ The project measures **how reliably that translation holds as instructions chang
 | [![Current runtime architecture](docs/portfolio/assets/architecture.png)](docs/portfolio/assets/architecture.pdf) | [![Reliability with separate denominators](docs/portfolio/assets/reliability.png)](docs/portfolio/assets/reliability.pdf) |
 | [![All 20 named locations](docs/portfolio/assets/semantic-map.png)](docs/portfolio/assets/semantic-map.pdf) | [![Three recorded robot routes](docs/portfolio/assets/recorded-routes.png)](docs/portfolio/assets/recorded-routes.pdf) |
 
-Every figure is available as **PNG, SVG and PDF**. [Download the presentation pack](docs/portfolio/media/presentation-pack.zip), including figures, simulation clip, screenshots and report snapshot. The [interactive portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) adds route selection, playback and a filterable download gallery.
+Every figure is available as **PNG, SVG and PDF**. The [interactive portfolio](https://twillur.github.io/PDE4445-LLM-Nav2-Planner/) adds route selection, playback and a filterable download gallery.
 
 To view it locally:
 
@@ -122,13 +122,12 @@ The [hardware study](docs/portfolio/hardware.html) includes four attributed supp
 |---|---|
 | [docs/portfolio/](docs/portfolio/) | Visual portfolio, media, hardware study and reproduction guide |
 | [docs/validation/](docs/validation/) | Dated checks, source hashes, trajectories and pre-fix runtime snapshots |
-| [report/revised/](report/revised/) | Eight-page IEEE-format report draft, LaTeX, bibliography and review notes |
 | [dataset/](dataset/) · [results/](results/) | Commands, archived outputs and grading artifacts |
 | [prompts/](prompts/) · [schema/](schema/) | Historical prompt and evaluation-contract versions |
 | [src/](src/) | Planner, evaluation runner and current typed-command bridge |
 | [ROS package](ros2_ws/src/nl_nav2_executor/) | Executor, runtime contract, Nav2 configuration, world and tests |
 | [setup/](setup/) | Environment, verification, capture and reproducible figure/page tools |
 
-**Report status:** the PDF includes the original evaluation and three September Gazebo replays. It predates the later runtime corrections; read the [author review notes](report/revised/REVIEW_NOTES.md) before sharing it as the current implementation. Keep the [media provenance](docs/portfolio/MEDIA.md) with reused figures and vendor images.
+**Report status:** the eight-page report is under assessment and is not published here. It will be added after the module result is released. Keep the [media provenance](docs/portfolio/MEDIA.md) with reused figures and vendor images.
 
 Formal title: *Natural Language Task Planning for Autonomous Ground Robot Navigation via Large Language Models.*

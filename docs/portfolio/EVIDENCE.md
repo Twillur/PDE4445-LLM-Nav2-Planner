@@ -37,4 +37,4 @@ The 27 manually graded outputs are not the entirety of L4/L5. There were 28 rubr
 | Runtime corrections | Shared gate, fallback handler and corrected exit status; 62 tests in Windows/WSL | [Controlled software checks](../validation/runtime-fixes-20260912/runtime-checks.json), not obstacle-triggered Gazebo fallback validation |
 | Portfolio capture | Updated runtime reaches loading dock, 1/1 according to Nav2; 130 frames | [A genuine recorded simulation demonstration](media/navigation-log.txt), not a new odometry-cross-checked reliability study |
 
-The initial failed simulation attempts are retained in [validation records](../validation/README.md). The report draft predates the last runtime corrections. Its implementation statements require the author updates listed in [review notes](../../report/revised/REVIEW_NOTES.md).
+The initial failed simulation attempts are retained in [validation records](../validation/README.md). The report draft predates the last runtime corrections, so its implementation statements need updating before reuse.

@@ -8,7 +8,7 @@ This folder records additional checks requested after the report rewrite. It doe
 
 All three corrected-environment runs completed: **1/1 + 3/3 + 5/5 = 9/9 requested navigation goals**. The stored odometry corroborates all destinations within the configured 0.25 m tolerance. Recorded height remains approximately 0.009 m in every run. The existing seven executor tests also passed under WSL Python (7 passed in 0.41 s).
 
-See the [derived run summary](gazebo-20260911T213643Z/summary.json) and [trajectory comparison](trajectories.pdf). The [report PDF](../../report/revised/main.pdf) includes these follow-up checks and retains their limitations.
+See the [derived run summary](gazebo-20260911T213643Z/summary.json) and [trajectory comparison](trajectories.pdf). The report includes these follow-up checks and retains their limitations; it is under assessment and not published here.
 
 ## What was checked
 

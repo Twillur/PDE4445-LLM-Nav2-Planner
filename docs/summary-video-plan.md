@@ -78,7 +78,7 @@ Your own line from the blog is the strongest thing you can say here:
 executed. Single grader. v3 evaluated structurally, and semantically only if you
 finish `results/v3_grading_sheet.html` first.
 Ending on limitations reads as confidence, not weakness — and it pre-empts three
-of the four questions in `docs/viva-question-bank.md`.
+of the likely examiner questions.
 
 ---
 

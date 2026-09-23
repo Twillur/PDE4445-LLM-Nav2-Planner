@@ -74,8 +74,8 @@ code, and it contains the regrade story.
 
 **Why this post is worth writing:** most students describe what they found. A post
 saying *here is where I got it wrong, here is the trace that showed me, here is
-what it cost* reads as research rather than reporting. It is also the single best
-preparation for the grading questions in `docs/viva-question-bank.md`.
+what it cost* reads as research rather than reporting. It is also useful
+preparation for questions about the grading.
 
 **Assets:** screenshots of `results/grading_sheet.html` and
 `results/justification_sheet.html`
